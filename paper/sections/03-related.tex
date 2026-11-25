@@ -112,27 +112,31 @@ applied to test suites. We therefore introduce \emph{specification drift} explic
 present it as a received construct. This is a terminological contribution at best, and we do not
 overstate it.
 
-\subsection{Traceability in the Information Systems literature}
+\subsection{Traceability in the Information Systems literature}\label{sec:traceability}
 
-Because the instrument includes a traceability measure --- the fraction of identifiable business rules
-that at least one scenario references --- it is grounded in the IS literature on requirements
-traceability rather than invented for the occasion. Traceability between requirements and downstream
-artefacts is a long-standing IS concern, motivated by the need to demonstrate that a system satisfies
-the requirements it was built against; a systematic review of pre-requirements-specification
-traceability characterises its motivations and the persistent difficulty of establishing it in
-practice \citep{mucha2024prerequirements}. That difficulty is not confined to plan-driven settings:
-Brazilian studies of agile practice report that requirements traceability remains problematic when
-requirements are expressed as user stories and acceptance criteria rather than as numbered
-specifications \citep{trindade2016rastreabilidade}, and that independently evolving systems in a
-software ecosystem complicate tracing further \citep{goncalves2022rastreabilidade}.
+This subsection is \emph{motivating background}, not a report of a measurement. Requirements
+traceability between a requirement and the artefacts that implement and verify it is a long-standing
+IS concern, motivated by the need to demonstrate that a system satisfies the requirements it was built
+against; a systematic review of pre-requirements-specification traceability characterises its
+motivations and the persistent difficulty of establishing it in practice
+\citep{mucha2024prerequirements}. That difficulty is not confined to plan-driven settings: Brazilian
+studies of agile practice report that requirements traceability remains problematic when requirements
+are expressed as user stories and acceptance criteria rather than as numbered specifications
+\citep{trindade2016rastreabilidade}, and that independently evolving systems in a software ecosystem
+complicate tracing further \citep{goncalves2022rastreabilidade}.
 
-This body of work is why we treat traceability coverage as an \emph{indicator of organisational
-legibility} rather than as a completeness metric. A scenario that references no identifiable rule may
-still be a good test; what it cannot do is connect the system's behaviour to a stated obligation. The
-IS framing also explains why the business-and-IT alignment tradition treats such connections as
-processes to be maintained rather than states to be achieved \citep{henderson1993strategic}: a
-traceability link that is established once and never revisited decays exactly as the rest of the
-specification does.
+Two consequences follow for this paper, and we separate them carefully because the distinction was
+blurred in an earlier revision. First, traceability is the reason the construct matters
+organisationally: a scenario that references no identifiable business rule may still be a good test,
+but it cannot connect the system's behaviour to a stated obligation, and the IS literature explains why
+such connections are processes to be maintained rather than states to be achieved
+\citep{henderson1993strategic}. Second, \textbf{this paper does not measure traceability coverage.} An
+earlier version of the protocol defined such a measure --- the fraction of identifiable business rules
+that at least one scenario references --- but identifying business rules reliably requires human coding
+of repository documentation, and no such coding was performed here. The measure is therefore defined in
+the protocol and left unimplemented; no traceability figure appears anywhere in this paper, and none
+should be inferred from its presence in the protocol. We note it as an explicit extension rather than
+presenting a number we did not collect.
 
 \subsection{What is new, precisely}
 

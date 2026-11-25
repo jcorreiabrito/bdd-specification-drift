@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "FULL mode: BDD union NON_BDD, which by definition is everything the project runs. Must be executed over the SAME mutant set as the other two modes so that the three status maps can be joined by mutant id.",
+  "testRunner": "command",
+  "commandRunner": {
+    "command": "node --test test/unit.test.js && npx --no-install cucumber-js"
+  },
+  "mutate": [
+    "src/pricing.js",
+    "src/legacy-pricing.js"
+  ],
+  "coverageAnalysis": "off",
+  "reporters": [
+    "clear-text",
+    "json"
+  ],
+  "jsonReporter": {
+    "fileName": "reports/mutation.full.json"
+  },
+  "thresholds": {
+    "high": 100,
+    "low": 0
+  },
+  "timeoutMS": 60000,
+  "concurrency": 2
+}

@@ -64,23 +64,54 @@ jobs:
         working-directory: pilot/smoke-js
         run: npx --no-install cucumber-js
 
-      - name: Mutation analysis must run and produce a report
+      - name: Non-BDD unit tests must pass
         working-directory: pilot/smoke-js
-        run: npx --no-install stryker run stryker.conf.json
+        run: node --test test/unit.test.js
 
-      - name: Assert the report exists and has the expected mutant count
+      - name: BDD-mode mutation analysis must run and produce a report
+        working-directory: pilot/smoke-js
+        run: npx --no-install stryker run stryker.bdd.json
+
+      - name: Assert the NO_COVERAGE control is real
         working-directory: pilot/smoke-js
         run: |
-          test -f reports/mutation.json || (echo "::error::no mutation report produced" && exit 1)
+          test -f reports/mutation.bdd.json || (echo "::error::no mutation report produced" && exit 1)
           python3 - <<'PY'
           import json, sys
-          d = json.load(open("reports/mutation.json"))
-          n = sum(len(v.get("mutants", [])) for v in d.get("files", {}).values())
-          print(f"mutants generated: {n}")
-          # The harness is fixed; a different count means the toolchain drifted.
-          if n != 43:
-              sys.exit(f"::error::expected 43 mutants, got {n} - toolchain drift?")
+          d = json.load(open("reports/mutation.bdd.json"))
+          counts = {}
+          for f in d.get("files", {}).values():
+              for m in f.get("mutants", []):
+                  counts[m.get("status")] = counts.get(m.get("status"), 0) + 1
+          total = sum(counts.values())
+          print("mutant status counts:", counts, "total:", total)
+          # A fixed mutant count is brittle; what must hold is the control that the first
+          # submission lacked: an unexercised domain module must produce uncovered mutants,
+          # otherwise the harness cannot be shown to separate executed from never-executed.
+          if total < 43:
+              sys.exit(f"::error::expected at least 43 mutants, got {total} - toolchain drift?")
+          if counts.get("NoCoverage", 0) <= 0:
+              sys.exit("::error::NO_COVERAGE control failed: expected uncovered mutants from "
+                       "the deliberately unexercised domain module")
+          if counts.get("Killed", 0) <= 0:
+              sys.exit("::error::no mutants killed; the BDD suite is not driving the analysis")
           PY
+
+  metric-tests:
+    name: Differential-kill metric regression tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run the differential-kill unit tests
+        # These exist because the first submission shipped an inverted headline metric.
+        # Four configurations (decorative BDD, fully redundant BDD, uniquely valuable BDD,
+        # BDD-only) plus the degenerate cases must hold, or the paper's headline number is
+        # meaningless no matter how well it builds.
+        run: python -m unittest discover -s tests -v
 
   guard:
     name: Confidentiality firewall

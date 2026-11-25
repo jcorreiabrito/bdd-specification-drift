@@ -124,40 +124,111 @@ def main() -> int:
         Ntimeout=str(bstates.get("timeout", 0)),
     )
 
-    # ---------------- tool feasibility (smoke harnesses)
-    js = {}
-    jp = os.path.join(ROOT, "results", "pilot", "smoke-js-mutation.json")
+    # ---------------- tool feasibility: three-mode harnesses (Phase 3.1)
+    # Source of truth is data/metrics/feasibility.json, produced by
+    # pipelines/analysis/feasibility_report.py from the raw per-mutant statuses.
+    feas_path = os.path.join(ROOT, "data", "metrics", "feasibility.json")
+    feas = {}
+    if os.path.exists(feas_path):
+        feas = json.load(open(feas_path, encoding="utf-8"))
+
+    def pct3(x):
+        return f"{100.0 * x:.2f}" if isinstance(x, (int, float)) else "??"
+
+    def dec3(x):
+        return f"{x:.3f}" if isinstance(x, (int, float)) else "---"
+
+    for tag, mtag in (("js", "Js"), ("java", "Java")):
+        blk = feas.get(tag) or {}
+        d = blk.get("differential") or {}
+        sc = blk.get("status_counts", {}).get("bdd", {})
+        macros[f"{mtag}Mutants"] = str(blk.get("mutants", {}).get("bdd", "??"))
+        macros[f"{mtag}Killed"] = str(sc.get("KILLED", "??"))
+        macros[f"{mtag}NoCov"] = str(blk.get("no_coverage_control_observed", "??"))
+        macros[f"{mtag}MsAll"] = pct3(blk.get("bdd_MS_all"))
+        macros[f"{mtag}MsCov"] = pct3(blk.get("bdd_MS_cov"))
+        macros[f"{mtag}Score"] = pct3(blk.get("bdd_MS_cov"))
+        macros[f"{mtag}S"] = str(d.get("s_size", "??"))
+        macros[f"{mtag}DkBdd"] = dec3(d.get("dk_bdd_uplift"))
+        macros[f"{mtag}DkNon"] = dec3(d.get("dk_nonbdd_uplift"))
+        macros[f"{mtag}BddUnique"] = dec3(d.get("bdd_unique_share"))
+        macros[f"{mtag}BddTotal"] = dec3(d.get("bdd_total_share"))
+        macros[f"{mtag}Overlap"] = dec3(d.get("overlap"))
+
+    java_aligned = (feas.get("java") or {}).get("mutants", {}).get("bdd")
+    java_def = ((feas.get("java") or {}).get("default_for_divergence") or {}).get("mutants")
+    jv = {}
+    jp = os.path.join(ROOT, "data", "metrics", "feasibility-java.json")
     if os.path.exists(jp):
-        d = json.load(open(jp, encoding="utf-8"))
-        st = Counter()
-        for f, v in (d.get("files") or {}).items():
-            for m in v.get("mutants", []):
-                st[m.get("status")] += 1
-        js = {"mutants": sum(st.values()), "killed": st.get("Killed", 0)}
-    java = {}
-    xp = os.path.join(ROOT, "results", "pilot", "smoke-java-mutations.xml")
-    if os.path.exists(xp):
-        root = ET.parse(xp).getroot()
-        ms = list(root.iter("mutation"))
-        java = {"mutants": len(ms), "killed": sum(1 for m in ms if m.get("detected") == "true")}
-
-    def score(d):
-        return f"{100.0 * d['killed'] / d['mutants']:.2f}" if d.get("mutants") else "??"
-
-    macros.update(
-        JsMutants=str(js.get("mutants", "??")), JsKilled=str(js.get("killed", "??")),
-        JsScore=score(js) if js else "??",
-        JavaMutants=str(java.get("mutants", "??")), JavaKilled=str(java.get("killed", "??")),
-        JavaScore=score(java) if java else "??",
-    )
-    if js.get("mutants") and java.get("mutants"):
-        macros["MutantRatio"] = f"{js['mutants'] / java['mutants']:.1f}"
-    else:
+        try:
+            jv = json.load(open(jp, encoding="utf-8"))
+        except Exception:
+            jv = {}
+    java_def = (jv.get("default") or {}).get("modes", {}).get("full", "??")
+    macros["JavaDefaultMutants"] = str(java_def)
+    macros["JavaAlignedMutants"] = str(java_aligned if java_aligned is not None else "??")
+    try:
+        macros["MutantRatio"] = f"{int(macros['JsMutants']) / int(macros['JavaMutants']):.1f}"
+    except (ValueError, ZeroDivisionError):
         macros["MutantRatio"] = "??"
 
     # Tool versions (pinned; read from the run log if present).
     macros.update(StrykerVer="10.1.1", CukeRunnerVer="10.1.1", CucumberJsVer="12.2.0",
                   PitVer="1.30.2", PitPluginVer="1.2.3", CucumberJvmVer="8.1.0")
+
+    # ---------------- seeded-drift validation campaign (Phase 3.2)
+    sd_path = os.path.join(ROOT, "data", "metrics", "seeded_drift.json")
+    sd = {}
+    if os.path.exists(sd_path):
+        sd = json.load(open(sd_path, encoding="utf-8"))
+    if sd:
+        base = (sd.get("baseline_mutation") or {}).get("MS_cov")
+        macros["DriftBaseMsCov"] = f"{100.0 * base:.2f}" if isinstance(base, (int, float)) else "??"
+        macros["DriftTargets"] = str(sd.get("sensitivity_targets", "??"))
+        macros["DriftDetected"] = str(sd.get("detected", "??"))
+        macros["DriftInvalid"] = str(sd.get("invalid_injections", "??"))
+        for r in sd.get("results", []):
+            tag = r.get("injection", "")
+            if tag.startswith("I1") and r.get("indicator_deltas"):
+                d = r["indicator_deltas"].get("D1_skip_ratio")
+                if isinstance(d, (int, float)):
+                    macros["DriftIoneDelta"] = f"{d:.3f}"
+            if tag.startswith("I3") and r.get("indicator_deltas"):
+                d = r["indicator_deltas"].get("D4_redundancy_cluster_ratio")
+                if isinstance(d, (int, float)):
+                    macros["DriftIthreeDelta"] = f"{d:.3f}"
+            if tag.startswith("I2") and r.get("mutation"):
+                ms = r["mutation"].get("MS_cov")
+                if isinstance(ms, (int, float)):
+                    macros["DriftItwoMsCov"] = f"{100.0 * ms:.2f}"
+            if tag.startswith("I4") and r.get("mutation"):
+                ms = r["mutation"].get("MS_cov")
+                if isinstance(ms, (int, float)):
+                    macros["DriftIfourMsCov"] = f"{100.0 * ms:.2f}"
+
+    # ---------------- static D1-D7 census over all eligible repositories (Phase 3.3)
+    cen_path = os.path.join(ROOT, "data", "metrics", "census.json")
+    if os.path.exists(cen_path):
+        cen = json.load(open(cen_path, encoding="utf-8"))
+        macros["CensusMeasured"] = str(cen.get("measured", "??"))
+        macros["CensusEligible"] = str(cen.get("eligible_repositories", "??"))
+        macros["CensusFailures"] = str(cen.get("extraction_failures", "??"))
+        macros["CensusLowConf"] = str(cen.get("D2_low_confidence", "??"))
+        short = {"D1_skip_ratio": "Done", "D2_assertion_weakness_ratio": "Dtwo",
+                 "D3_stale_spec_ratio": "Dthree", "D4_redundancy_cluster_ratio": "Dfour",
+                 "D5_glue_duplication_ratio": "Dfive",
+                 "D6_literal_bearing_stepdef_ratio": "Dsix",
+                 "D7_mirror_stepdef_ratio": "Dseven"}
+        for ind, tag in short.items():
+            st = (cen.get("indicators") or {}).get(ind) or {}
+            if st.get("n"):
+                macros[f"Census{tag}N"] = str(st["n"])
+                macros[f"Census{tag}Median"] = f"{st['median']:.3f}"
+                macros[f"Census{tag}Qone"] = f"{st['q1']:.3f}"
+                macros[f"Census{tag}Qthree"] = f"{st['q3']:.3f}"
+            else:
+                macros[f"Census{tag}N"] = "0"
+                macros[f"Census{tag}Median"] = "---"
 
     # ---------------- measured corpus (RQ2)
     repo_level = read_csv(os.path.join(ROOT, "data", "metrics", "repo_level.csv"))

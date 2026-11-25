@@ -166,3 +166,81 @@ instance of the oracle-weakness phenomenon the study targets.
   manuscript as `\Nbuildtested`. If this entry and the generated macro ever disagree, **the
   macro is right and this entry is stale**. The zero-green result was re-verified after the
   shard completed and is unchanged.
+
+---
+
+## R006 — three-mode differential-kill feasibility, Java (2026-11-25)
+
+**Command** `python pipelines/mutation/feasibility_java.py --operators aligned`
+**Toolchain** PIT 1.30.2 + pitest-junit5-plugin 1.2.3, Cucumber-JVM 8.1.0, JDK 22, Maven 3.9.9
+
+Three execution modes over one mutant set (`bdd` = `smoke.RunCucumberTest`,
+`nonbdd` = `smoke.UnitPricingTest`, `full` = `*`). Aligned decision-logic operators:
+CONDITIONALS_BOUNDARY, NEGATE_CONDITIONALS, MATH, INCREMENTS, INVERT_NEGS, PRIMITIVE_RETURNS,
+EMPTY_RETURNS, TRUE_RETURNS, FALSE_RETURNS.
+
+- 40 mutants per mode; BDD-only: 13 killed, 5 survived, **22 NO_COVERAGE**
+- comparison set `S = executed(BDD) ∩ executed(NON_BDD)` = **15**
+- `DK_bdd_uplift` = **0.000** (exact), `DK_nonbdd_uplift` = 0.200, Overlap = 0.800,
+  `BDD_unique_share` = 0.000, `BDD_total_share` = 0.800
+- `containment_ok` = True, `mode_integrity_ok` = True
+- **Interpretation**: the specification layer kills most of what it touches but adds *no* unique
+  detection on this suite. Under the retired inverted metric the same run would have been reported as
+  a BDD uplift of +0.200, which is the opposite conclusion.
+
+## R007 — three-mode differential-kill feasibility, JavaScript/TypeScript (2026-11-25)
+
+**Commands** `npx stryker run stryker.bdd.json` / `stryker.nonbdd.json` / `stryker.full.json`
+**Toolchain** Stryker 10.1.1, @stryker-mutator/cucumber-runner 10.1.1, @cucumber/cucumber 12.2.0, Node 24
+
+- 96 mutants per mode; BDD-only: 31 killed, 12 survived, **53 NO_COVERAGE**
+- `MS_all` = 32.29 %, `MS_cov` = 72.09 %
+- `S` = 43, `DK_bdd_uplift` = 0.070 (**upper bound**), `DK_nonbdd_uplift` = 0.093,
+  `BDD_unique_share` = 0.086, `BDD_total_share` = 0.886
+- **Bound, disclosed**: Stryker's `command` runner cannot report per-test coverage, so
+  `executed(NON_BDD)` collapses to "all mutants" and `S` to the BDD-covered set. Both effects push
+  the BDD uplift upward; the Java figure is the exact one.
+
+## R008 — `NO_COVERAGE` control (2026-11-25)
+
+Both suites now contain a domain module that no test references
+(`src/legacy-pricing.js`, `LegacyPricing.java`). Observed uncovered-mutant counts: **53** (JS) and
+**22** (Java), both non-zero. This is the control the first submission lacked: a zero count cannot
+demonstrate that a tool separates *executed and survived* from *never executed*, whereas a non-zero
+count does. `MS_all` and `MS_cov` differ by more than a factor of two on the same runs.
+
+## R009 — seeded-drift validation campaign (2026-11-25)
+
+**Command** `python pipelines/validation/seeded_drift.py`
+**Design** one injection at a time into the working JS suite, re-measure D1–D7 and the BDD-only
+mutation score, revert via `git checkout`, plus a negative control. An injection is accepted only if
+the unmutated suite still passes.
+
+| injection | target | observed | mutation score |
+|---|---|---|---|
+| I1 skip tags | D1 | +0.167 detected | unchanged |
+| I2 weakened assertion | D2 | **no movement** | 72.09 % → **20.93 %** |
+| I3 duplicated scenario | D4 | +0.019 detected | unchanged |
+| I4 mirror step | D7 | **no movement** | 72.09 % → **32.56 %** |
+| I5 wrong literal | D6 | invalid (suite fails) | n/a |
+| C1 negative control | — | unchanged | unchanged |
+
+**Result: 2 of 4 sensitivity targets detected.** The two misses are the substantively important
+ones: an oracle that can never fail and an oracle that re-derives the expected value both leave the
+static indicators flat while destroying more than half the suite's killing power. This is reported in
+the paper as evidence that the static indicators are *not* substitutes for mutation-based measurement.
+
+## R010 — operator alignment divergence (2026-11-25)
+
+`python pipelines/mutation/feasibility_java.py --operators default --mode full` → **41** mutants,
+versus **40** with the aligned decision-logic set. On this suite alignment removes a single mutant;
+the cross-tool contrast (PIT 40 vs Stryker 96) is far larger, which is why scores are never pooled
+across ecosystems.
+
+## R011 — static D1–D7 census, zero builds (2026-11-25)
+
+**Command** `python pipelines/metrics/census.py --skip-d3`
+**Design** one subprocess per repository with a hard timeout, so a pathological working copy cannot
+block the census. D3 is disabled and reported as *undefined*: it needs `git blame`, most working
+copies carry no VCS history, and on the minority that do the blame calls dominated run time. Results
+are generated into `data/metrics/census.json`; no indicator is imputed.

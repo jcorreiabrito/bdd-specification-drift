@@ -103,3 +103,10 @@ data/processed/venue/
 # JVM/npm/python tool state (large, re-creatable)
 .m2repo/
 tools/jvm
+# Stryker / PIT working directories and reports
+pilot/smoke-js/.stryker-tmp/
+pilot/smoke-js/reports/
+pilot/smoke-java/target/
+
+# transient harness logs
+*.out.txt

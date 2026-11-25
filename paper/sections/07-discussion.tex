@@ -4,13 +4,17 @@
 \subsection{What the instrument buys an organisation}
 
 The protocol converts an unfalsifiable assurance (``our scenarios describe the business rules'') into
-two checkable quantities: the share of covered domain mutants the specification layer kills on its
-own, and the share of the full suite's kill that the layer is responsible for. The second is the one
-that most organisations have never computed, and it is the one that answers the question a manager
-actually asks --- \emph{is the Gherkin layer earning its maintenance cost, or are the unit tests
-carrying the suite while the scenarios provide documentation?} A high overall mutation score with a
-near-zero differential is a common and previously invisible configuration: the suite is strong, and
-the specification layer is decorative.
+three checkable quantities: the share of covered domain mutants the specification layer kills on its
+own ($\mscov(\bdd)$); the unique uplift it contributes beyond the repository's other tests ($\dk$);
+and the split between kills only it detects ($\bddunique$) and kills it also shares with those
+tests ($\bddtotal$). The last two are the ones most organisations have never computed, and they
+answer the question a manager actually asks --- \emph{is the Gherkin layer earning its maintenance
+cost, or are the unit tests carrying the suite while the scenarios provide documentation?} A strong
+overall mutation score together with $\dk \approx 0$ and $\bddunique \approx 0$ is a common and
+previously invisible configuration: the suite is strong, and the specification layer is decorative.
+The mirror-image configuration is equally worth naming: a layer with a healthy absolute score whose
+$\bddunique$ is low is not broken, it is \emph{redundant}, and its maintenance cost buys no
+detection that the rest of the suite does not already provide.
 
 The coverage-conditioning rule matters here for a reason that is managerial as much as statistical. A
 team told that its mutation score is 45\,\% will reasonably conclude that its tests are weak. If in
@@ -66,10 +70,11 @@ population.
 \subsection{Implications for practice}
 
 \begin{enumerate}
-\item \textbf{Measure the differential, not the total.} A suite-level mutation score cannot tell you
-      whether the specification layer is doing any work. Compute the BDD-only score and the full-suite
-      score on the same mutant set; the difference is the number worth reporting to a steering
-      committee.
+\item \textbf{Measure the unique uplift, not the total.} A suite-level mutation score cannot tell you
+      whether the specification layer is doing any work. Run the three modes on one mutant set and
+      report $\dk$, the share of mutants that only the specification layer kills. Comparing the
+      BDD-only score with the full-suite score, as an earlier version of this protocol did, measures
+      the opposite thing: it credits the specification layer with kills the unit tests already made.
 \item \textbf{Treat ``not covered'' and ``not checked'' as different defects.} They have different
       remedies and different owners. The protocol's mandatory coverage conditioning exists to keep them
       apart.
@@ -98,3 +103,21 @@ established construct; we define it here as a specialisation of architectural dr
 it should acquire its own empirical grounding; if it is not, the underlying phenomenon --- a
 specification artefact retaining its appearance while losing its discriminating power --- is still
 real and still measurable, and the name matters less than the measurement.
+
+\subsection{The organisational evaluation this study did not perform}
+
+Design Science separates the artefact's \emph{technical} evaluation from its evaluation
+\emph{in use}, and this paper delivers the first while only bounding the second. We measured the
+deployment conditions at population scale, and we validated the indicators against known ground truth
+on a suite we control; what we did not do is place the protocol in an organisation and observe a
+decision being taken with it. That omission matters more for an Information Systems audience than for a
+software-engineering one, because the IS contribution of such an instrument is not that it computes but
+that it changes what a team attends to.
+
+We therefore state the boundary rather than blur it. The claim this paper supports is that the
+instrument is \emph{feasible}, that its indicators respond to injected drift (Section~\ref{sec:results}),
+and that the public population cannot supply the evidence a single organisational case could. The claim
+it does not support is that applying the protocol improves a team's specification practice. A
+practitioner walkthrough --- one team, one repository, the protocol applied under observation, the
+resulting decision recorded --- would test that second claim, and it is the natural next study rather
+than a limitation we can argue away.

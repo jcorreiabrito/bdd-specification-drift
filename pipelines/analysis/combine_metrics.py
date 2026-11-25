@@ -1,24 +1,34 @@
 #!/usr/bin/env python
 """Combine per-mutant statuses into the repository-level analysis table.
 
-Implements docs/method.md section 7.1 exactly:
+Per-mode scores follow the protocol:
 
-    MS_all(mode)   = (K+T) / (K+S+T+NC)
-    MS_cov(mode)   = (K+T) / (K+S+T)
-    mutant_coverage= (K+S+T) / (K+S+T+NC)
-    S              = mutants covered by the BDD run (status != NO_COVERAGE)
-    DK_norm        = MS_cov_full(S) - MS_cov_bdd(S)
-    DK_count       = |K_full(S) \\ K_bdd(S)| / |S|
-    BDD_kill_share = |K_bdd(S)| / |K_full(S)|
+    MS_all(mode)    = (K+T) / (K+S+T+NC)
+    MS_cov(mode)    = (K+T) / (K+S+T)
+    mutant_coverage = (K+S+T) / (K+S+T+NC)
 
-TIMEOUT counts as detected in the primary formula; a sensitivity that removes it is
-also computed. INVALID is excluded from every denominator and its count reported.
+Differential kill uses THREE execution modes (BDD, NON_BDD, FULL) and is delegated to
+`pipelines/analysis/differential.py`, which is unit-tested. The comparison set is
 
-Containment check: every mutant in S must also be executed by the full run. With a
-command/whole-suite runner the full mode reports no coverage information, so we
-verify containment structurally (a mutant in S was covered by a subset of the full
-suite, therefore covered by the full suite) and flag any mutant that the full run
-marks NO_COVERAGE — that would violate the protocol's mode-integrity assertion.
+    S = executed(BDD) INTERSECT executed(NON_BDD)
+
+so that all three modes are simultaneously defined on S and FULL kill decomposes
+exactly as K_FULL = K_BDD union K_NON_BDD. On S:
+
+    DK_bdd_uplift    = MS_cov(FULL,S) - MS_cov(NON_BDD,S) = |K_BDD \\ K_NON_BDD| / |S|
+    DK_nonbdd_uplift = MS_cov(FULL,S) - MS_cov(BDD,S)     = |K_NON_BDD \\ K_BDD| / |S|
+    Overlap          = |K_BDD & K_NON_BDD| / |K_FULL|
+    BDD_unique_share = |K_BDD \\ K_NON_BDD| / |K_FULL|
+    BDD_total_share  = |K_BDD| / |K_FULL|
+
+An earlier version defined `DK_norm = MS_cov(FULL) - MS_cov(BDD)` and called it the
+uplift *of* BDD. That is the uplift of the non-BDD tests: it is large when BDD is
+decorative and zero when BDD is the only thing detecting a fault. It is retained only as
+`DK_inverted_legacy` so the correction is auditable in the output table.
+
+TIMEOUT counts as detected; INVALID is excluded from every denominator and counted.
+Coverage containment and FULL-kill decomposability are asserted per repository and
+flagged, never assumed silently.
 
 Outputs:
     data/metrics/repo_level.csv     one row per repository (the analysis unit)
@@ -29,7 +39,11 @@ import csv
 import glob
 import json
 import os
-from collections import Counter, defaultdict
+import sys
+from collections import Counter
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from differential import compute_differential  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 MUT = os.path.join(ROOT, "data", "mutants")
@@ -87,13 +101,13 @@ def main() -> int:
         repo = first["repo"] if first else base.replace("__", "/", 1)
 
         bdd = load_mode(base, "bdd")
+        nonbdd = load_mode(base, "nonbdd")
         full = load_mode(base, "full")
         if not bdd:
             continue
         bc = Counter(bdd.values())
         bdd_scores = scores(bc)
 
-        S = {mid for mid, st in bdd.items() if st != "NO_COVERAGE"}
         row = {
             "repo": repo,
             "language": first.get("language", "") if first else "",
@@ -101,30 +115,22 @@ def main() -> int:
             **{f"bdd_{k}": v for k, v in bdd_scores.items()},
         }
 
+        if nonbdd:
+            row["n_mutants_nonbdd"] = len(nonbdd)
+            row["nonbdd_MS_cov"] = scores(Counter(nonbdd.values()))["MS_cov"]
+            row["nonbdd_mutant_coverage"] = scores(Counter(nonbdd.values()))["mutant_coverage"]
+
         if full:
-            fc = Counter(full.values())
-            full_scores = scores(fc)
-            row.update({f"full_{k}": v for k, v in full_scores.items()})
-            overlap = S & set(full)
-            row["S_size"] = len(overlap)
-            row["S_share_of_bdd"] = (len(overlap) / len(S)) if S else None
-            contained = all(full.get(m) != "NO_COVERAGE" for m in overlap)
-            row["mode_integrity_ok"] = int(contained)
-            if overlap:
-                k_bdd = {m for m in overlap if bdd[m] in ("KILLED", "TIMEOUT")}
-                k_full = {m for m in overlap if full.get(m) in ("KILLED", "TIMEOUT")}
-                ms_cov_bdd_S = len(k_bdd) / len(overlap)
-                ms_cov_full_S = len(k_full) / len(overlap)
-                row["MS_cov_bdd_S"] = ms_cov_bdd_S
-                row["MS_cov_full_S"] = ms_cov_full_S
-                row["DK_norm"] = ms_cov_full_S - ms_cov_bdd_S
-                row["DK_count"] = len(k_full - k_bdd) / len(overlap)
-                row["BDD_kill_share"] = (len(k_bdd) / len(k_full)) if k_full else None
-            else:
-                row.update(MS_cov_bdd_S=None, MS_cov_full_S=None, DK_norm=None,
-                           DK_count=None, BDD_kill_share=None)
+            row.update({f"full_{k}": v for k, v in scores(Counter(full.values())).items()})
+
+        if nonbdd:
+            d = compute_differential(bdd, nonbdd, full if full else None)
+            row.update({f"dk_{k}": v for k, v in d.as_dict().items()})
+            # The inverted legacy quantity, kept only for auditability of the correction.
+            if d.ms_cov_full is not None and d.ms_cov_bdd is not None:
+                row["DK_inverted_legacy"] = d.ms_cov_full - d.ms_cov_bdd
         else:
-            row["full_available"] = 0
+            row["dk_note"] = "nonbdd mode unavailable: three-mode decomposition not computable"
 
         st = static.get(repo, {})
         for k in ("D1_skip_ratio", "D2_assertion_weakness_ratio", "D2_confidence",
@@ -153,8 +159,12 @@ def main() -> int:
 
     print(json.dumps({
         "repos": len(rows),
-        "with_full_suite": sum(1 for r in rows if r.get("full_available") != 0),
-        "mode_integrity_failures": sum(1 for r in rows if r.get("mode_integrity_ok") == 0),
+        "with_three_modes": sum(1 for r in rows if r.get("dk_s_size") is not None),
+        "with_full_suite": sum(1 for r in rows if r.get("full_MS_cov") is not None),
+        "empty_comparison_set": sum(1 for r in rows if r.get("dk_s_size") == 0),
+        "containment_failures": sum(1 for r in rows if r.get("dk_containment_ok") is False),
+        "mode_integrity_failures": sum(
+            1 for r in rows if r.get("dk_mode_integrity_ok") is False),
         "out": OUT,
     }, indent=2))
     return 0

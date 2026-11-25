@@ -81,9 +81,11 @@ cannot be quietly abandoned when results are inconvenient.
 tests, review culture and stable domains. Attributing a high mutation score to the Gherkin layer would
 be a category error.
 
-\textbf{Mitigation.} The differential $\dk$ is computed on a common mutant set and reported alongside
-the absolute score; $\mathit{BDDshare}$ quantifies how much of the full suite's kill the specification
-layer accounts for. The design is observational and \textbf{does not establish that BDD causes better
+\textbf{Mitigation.} The BDD unique uplift $\dk$ is computed on a common mutant set and reported
+alongside the absolute score. Two shares are reported together and never separately:
+$\bddunique$, the fraction of the full suite's kills that only the specification layer detects, and
+$\bddtotal$, the fraction it detects at all, including kills it shares with the other tests. The gap
+between them is precisely the redundant part of the specification layer. The design is observational and \textbf{does not establish that BDD causes better
 or worse oracles}. We state this in the introduction, here, and in the conclusion, because it is the
 single easiest claim for a reader to over-infer.
 
@@ -131,7 +133,7 @@ Without them, the indicators' sensitivity and specificity are unknown, and D2 an
 unvalidated heuristics.
 
 \textbf{Disclosure.} We state this wherever the indicators are used, and the practitioner protocol
-(\texttt{docs/PROTOCOL.md}) carries an explicit evaluation-state table telling users that seeded-drift
+(released in the Supplementary Material) carries an explicit evaluation-state table telling users that seeded-drift
 validation was \textbf{not} performed and that no detection rate exists. The manuscript does not claim
 that the indicators were validated. This is the most serious limitation of the artefact: a measurement
 instrument whose accuracy has not been established can still support the \emph{decision to investigate},
@@ -151,6 +153,8 @@ missing, the eligible set is biased toward smaller codebases.
 ``other'', so a reader can see the magnitude and the mechanism. We did not raise the cap and retry,
 because the fetch path is what a replication would also have to use; a replication with more generous
 limits should report a different, and probably larger, eligible set.
+
+\subsection{Construct novelty of specification drift}
 
 \textbf{Mechanism.} ``Specification drift'' is not an established term, and if a reader interprets it
 as a received construct the paper will appear to claim more prior consensus than exists.

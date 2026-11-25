@@ -1,7 +1,7 @@
 \section{Method}
 \label{sec:method}
 
-The method was specified in advance in a versioned protocol document (\texttt{docs/method.md}), written
+The method was specified in advance in a versioned protocol document released with this paper, written
 and committed before any corpus measurement in order to constrain analytic freedom. \textbf{It was not
 externally registered and not frozen}: no registration service was used, no hash-frozen copy was
 lodged, and the document continued to be edited as the pilot exposed problems. We therefore describe
@@ -13,8 +13,8 @@ and those departures are the reader's business. The most consequential are: the 
 sampled frame became a full enumeration of the frame; the eligibility criteria were revised after the
 pilot, replacing the protocol's framework-exclusion and domain-layer tests with an observable
 application-shape test; the seeded-drift campaign and the inter-rater reliability study were not
-carried out; and the pre-registered stop-at-$n$ rule was superseded by the available population. Each
-departure is recorded with a reason and a timestamp in \texttt{docs/DEVIATIONS.md} and summarised in
+carried out; and the protocol's stop-at-$n$ rule was superseded by the available population. Each
+departure is recorded with a reason and a timestamp in the versioned deviation log in the replication package and summarised in
 Section~\ref{sec:threats}; the replication package contains the protocol document as written, so a
 reader can check the differences rather than take our word for them.
 
@@ -73,7 +73,7 @@ mechanically decidable on a source archive without executing the project, and th
 satisfy them while still being reporting agents or step libraries with no business rules. They were
 therefore replaced by an observable shape test --- at least ten non-test source files and a BDD runner
 declared in a manifest --- which is checkable without a build. Because this is a change to a stated
-criterion after data collection had begun, it is logged in \texttt{docs/DEVIATIONS.md} and named in
+criterion after data collection had begun, it is logged in the versioned deviation log and named in
 Section~\ref{sec:threats} as a threat rather than presented as a refinement.
 
 \subsection{Funnel and attrition}
@@ -86,6 +86,7 @@ Every candidate is recorded in exactly one funnel state with a categorised reaso
 \texttt{no\_\allowbreak bdd\_\allowbreak execution} \quad|\quad \texttt{build\_fails} \quad|\quad \texttt{timeout}
 \end{quote}
 
+\begin{sloppypar}
 with exclusion reasons drawn from a fixed vocabulary: \texttt{no\_feature\_files},
 \texttt{too\_few\_scenarios}, \texttt{no\_step\_definitions}, \texttt{no\_build\_config},
 \texttt{language\_out\_of\_scope}, \texttt{licence\_\allowbreak not\_\allowbreak permissive},
@@ -93,6 +94,7 @@ with exclusion reasons drawn from a fixed vocabulary: \texttt{no\_feature\_files
 \texttt{dependency\_rot}, \texttt{tool\_incompatibility}, \texttt{missing\_service\_dependency},
 \texttt{needs\_browser}, \texttt{needs\_database}, \texttt{compile\_error}, \texttt{timeout},
 \texttt{other}.
+\end{sloppypar}
 
 One distinction is load-bearing and is enforced in the harness rather than left to the analyst.
 \texttt{no\_\allowbreak bdd\_\allowbreak execution} denotes a repository whose tests pass but where no evidence exists that
@@ -136,21 +138,57 @@ does exercise. Only $\mscov$ speaks to the discriminating power of the suite ove
 behaviour it covers.
 \end{quote}
 
-\textbf{Differential kill.} Let $\mathcal{S}$ be the mutants executed in \emph{both} modes. Formally
-the protocol asserts $\mathit{executed}(\bdd) \subseteq \mathit{executed}(\full)$, so
-$\mathcal{S}$ is the BDD-covered set and every mutant in it is also executed by the full suite. On
-that set we report
+\textbf{Three execution modes.} Attributing detection to the specification layer requires
+separating that layer from everything else, so mutation analysis is run in three modes over the same
+mutants: $\bdd$ (the Cucumber scenarios only), $\nonbdd$ (all other tests, with Cucumber runners
+excluded), and $\full = \bdd \cup \nonbdd$. Coverage containment is an invariant the harness
+\emph{asserts} per repository rather than assumes:
+$\mathit{executed}(\bdd) \subseteq \mathit{executed}(\full)$ and
+$\mathit{executed}(\nonbdd) \subseteq \mathit{executed}(\full)$.
+
+The comparison set is their intersection,
+\begin{equation}
+\mathcal{S} = \mathit{executed}(\bdd) \;\cap\; \mathit{executed}(\nonbdd),
+\end{equation}
+which is the largest set on which all three modes are simultaneously defined and on which the full
+suite's kill decomposes exactly as
+$K_{\full}(\mathcal{S}) = K_{\bdd}(\mathcal{S}) \cup K_{\nonbdd}(\mathcal{S})$.
+Restricting to the intersection is what makes the identities below exact rather than approximate.
 
 \begin{align}
-\dk &= \mscov(\full,\mathcal{S}) - \mscov(\bdd,\mathcal{S}) \label{eq:dk}\\
-\mathit{DK}_{\mathit{count}} &= \frac{|K_{\full}(\mathcal{S}) \setminus K_{\bdd}(\mathcal{S})|}{|\mathcal{S}|} \label{eq:dkcount}\\
-\mathit{BDDshare} &= \frac{|K_{\bdd}(\mathcal{S})|}{|K_{\full}(\mathcal{S})|} \label{eq:dkshare}
+\dkbdd &= \frac{|K_{\bdd}(\mathcal{S}) \setminus K_{\nonbdd}(\mathcal{S})|}{|\mathcal{S}|}
+        \label{eq:dk}\\
+\dknon &= \frac{|K_{\nonbdd}(\mathcal{S}) \setminus K_{\bdd}(\mathcal{S})|}{|\mathcal{S}|}
+        \label{eq:dknon}\\
+\mathit{Overlap} &= \frac{|K_{\bdd}(\mathcal{S}) \cap K_{\nonbdd}(\mathcal{S})|}{|K_{\full}(\mathcal{S})|}
+        \label{eq:overlap}\\
+\bddunique &= \frac{|K_{\bdd}(\mathcal{S}) \setminus K_{\nonbdd}(\mathcal{S})|}{|K_{\full}(\mathcal{S})|}
+        \label{eq:bddunique}\\
+\bddtotal &= \frac{|K_{\bdd}(\mathcal{S})|}{|K_{\full}(\mathcal{S})|}
+        \label{eq:dkshare}
 \end{align}
 
-$\dk$ answers \emph{what the specification layer adds beyond the repository's other tests};
-$\mathit{BDDshare}$ answers \emph{how much of the full suite's oracle is the specification layer}.
-Both are reported, with $\dk$ as the headline because it is a difference of scores on an identical
-mutant set.
+Because the full suite's kill is exactly the union of the other two on $\mathcal{S}$, each uplift is
+also the difference of the two coverage-conditioned scores on that set:
+$\dkbdd = \mscov(\full,\mathcal{S}) - \mscov(\nonbdd,\mathcal{S})$ and
+$\dknon = \mscov(\full,\mathcal{S}) - \mscov(\bdd,\mathcal{S})$. The set-difference form is displayed
+because it is the one that makes the attribution visible.
+
+$\dkbdd$ is the headline: the share of the comparison set that \emph{only} the specification layer
+kills, that is, what BDD adds beyond the non-BDD tests. $\dknon$ is the symmetric quantity for the
+rest of the suite. The two shares must always be reported together. A layer that merely repeats what
+unit tests already prove has $\bddtotal = 1$ and $\bddunique = 0$, so reporting the total alone would
+describe a decorative specification layer as fully responsible for the suite's oracle. A share is
+reported as undefined, never as zero, when $|K_{\full}(\mathcal{S})| = 0$.
+
+\textbf{A correction, stated explicitly.} An earlier version of this protocol defined a single
+quantity $\mscov(\full,\mathcal{S}) - \mscov(\bdd,\mathcal{S})$ and described it as what the
+specification layer \emph{adds} beyond the other tests. That is the uplift of the \emph{non-BDD}
+tests: it is largest precisely when BDD kills nothing, and it is zero when BDD is the only thing
+detecting a fault. The three-mode decomposition above replaces it. The inverted quantity is retained
+in the released results only as a named diagnostic, so that the correction is auditable, and the
+metric module that computes all of these is covered by regression tests for the four
+configurations that expose the inversion.
 
 \subsection{Drift indicators}
 

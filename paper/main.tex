@@ -72,7 +72,16 @@
 % Shorthands used throughout the manuscript.
 \newcommand{\mscov}{\ensuremath{\mathit{MS}_{\mathrm{cov}}}}
 \newcommand{\msall}{\ensuremath{\mathit{MS}_{\mathrm{all}}}}
-\newcommand{\dk}{\ensuremath{\mathit{DK}_{\mathrm{norm}}}}
+\newcommand{\nonbdd}{\textsc{non-bdd}}
+% Differential-kill symbols. \dk is the HEADLINE quantity and now means the BDD unique
+% uplift, DK_bdd = MS_cov(FULL,S) - MS_cov(NON_BDD,S). An earlier revision defined it as
+% MS_cov(FULL,S) - MS_cov(BDD,S), which is the uplift of the non-BDD tests and is large
+% precisely when BDD is decorative; that definition is corrected in section 5.
+\newcommand{\dkbdd}{\ensuremath{\mathit{DK}_{\mathrm{bdd}}}}
+\newcommand{\dknon}{\ensuremath{\mathit{DK}_{\mathrm{non}}}}
+\newcommand{\dk}{\dkbdd}
+\newcommand{\bddunique}{\ensuremath{\mathit{BDD}_{\mathrm{unique}}}}
+\newcommand{\bddtotal}{\ensuremath{\mathit{BDD}_{\mathrm{total}}}}
 \newcommand{\bdd}{\textsc{bdd}}
 \newcommand{\full}{\textsc{full}}
 \newcommand{\tool}[1]{\textsf{#1}}

@@ -1,0 +1,103 @@
+{
+  "js": {
+    "tool": "Stryker 10.1.1 + @stryker-mutator/cucumber-runner 10.1.1, @cucumber/cucumber 12.2.0",
+    "mutants": {
+      "bdd": 96,
+      "nonbdd": 96,
+      "full": 96
+    },
+    "status_counts": {
+      "bdd": {
+        "NO_COVERAGE": 53,
+        "KILLED": 31,
+        "SURVIVED": 12
+      },
+      "nonbdd": {
+        "SURVIVED": 64,
+        "KILLED": 32
+      },
+      "full": {
+        "SURVIVED": 61,
+        "KILLED": 35
+      }
+    },
+    "bdd_MS_all": 0.3229166666666667,
+    "bdd_MS_cov": 0.7209302325581395,
+    "no_coverage_control_observed": 53,
+    "differential": {
+      "n_bdd": 96,
+      "n_nonbdd": 96,
+      "n_full": 96,
+      "s_size": 43,
+      "killed_bdd": 31,
+      "killed_nonbdd": 32,
+      "killed_full": 35,
+      "killed_bdd_only": 3,
+      "killed_nonbdd_only": 4,
+      "killed_both": 28,
+      "ms_cov_bdd": 0.7209302325581395,
+      "ms_cov_nonbdd": 0.7441860465116279,
+      "ms_cov_full": 0.813953488372093,
+      "dk_bdd_uplift": 0.06976744186046512,
+      "dk_nonbdd_uplift": 0.09302325581395349,
+      "overlap": 0.8,
+      "bdd_unique_share": 0.08571428571428572,
+      "bdd_total_share": 0.8857142857142857,
+      "containment_ok": true,
+      "mode_integrity_ok": true,
+      "note": ""
+    },
+    "bound": "upper bound: Stryker command runner cannot report NON_BDD coverage, so S collapses to executed(BDD) and the non-BDD kill set is a lower bound"
+  },
+  "java": {
+    "tool": "PIT 1.30.2 + pitest-junit5-plugin 1.2.3, Cucumber-JVM 8.1.0",
+    "mutants": {
+      "bdd": 40,
+      "nonbdd": 40,
+      "full": 40
+    },
+    "status_counts": {
+      "bdd": {
+        "NO_COVERAGE": 22,
+        "SURVIVED": 5,
+        "KILLED": 13
+      },
+      "nonbdd": {
+        "NO_COVERAGE": 25,
+        "KILLED": 15
+      },
+      "full": {
+        "NO_COVERAGE": 22,
+        "KILLED": 16,
+        "SURVIVED": 2
+      }
+    },
+    "bdd_MS_all": 0.325,
+    "bdd_MS_cov": 0.7222222222222222,
+    "no_coverage_control_observed": 22,
+    "differential": {
+      "n_bdd": 40,
+      "n_nonbdd": 40,
+      "n_full": 40,
+      "s_size": 15,
+      "killed_bdd": 12,
+      "killed_nonbdd": 15,
+      "killed_full": 15,
+      "killed_bdd_only": 0,
+      "killed_nonbdd_only": 3,
+      "killed_both": 12,
+      "ms_cov_bdd": 0.8,
+      "ms_cov_nonbdd": 1.0,
+      "ms_cov_full": 1.0,
+      "dk_bdd_uplift": 0.0,
+      "dk_nonbdd_uplift": 0.2,
+      "overlap": 0.8,
+      "bdd_unique_share": 0.0,
+      "bdd_total_share": 0.8,
+      "containment_ok": true,
+      "mode_integrity_ok": true,
+      "note": ""
+    },
+    "bound": "exact: PIT reports coverage in every mode, so S is the true intersection"
+  }
+}

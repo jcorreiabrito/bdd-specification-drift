@@ -166,3 +166,50 @@ See `CITATION.cff`.
 
 MIT — see `LICENSE`. The official iSys template files are redistributed only as the venue's own
 submission template.
+
+## Three-mode measurement, validation and verification
+
+The first version of this study measured mutation kill in two modes (`BDD`, `FULL`) and defined a
+differential metric that was **mathematically inverted**: it reported the uplift of the *non-BDD*
+tests as though it were the uplift of the specification layer, so a decorative BDD layer scored
+highest. The corrected pipeline runs three modes over one mutant set and is guarded by regression
+tests.
+
+```powershell
+# Metric definitions + regression tests (decorative / redundant / valuable / BDD-only)
+python pipelines/analysis/differential.py            # self-test, exit 0 = identities hold
+python -m unittest discover -s tests -v              # same, under unittest
+
+# Three-mode feasibility, Java (PIT reports coverage in every mode -> exact)
+python pipelines/mutation/feasibility_java.py --operators aligned
+python pipelines/mutation/feasibility_java.py --operators default --mode full   # divergence
+
+# Three-mode feasibility, JS/TS (Stryker; NON_BDD coverage unavailable -> upper bound)
+cd pilot/smoke-js
+npx stryker run stryker.bdd.json
+npx stryker run stryker.nonbdd.json
+npx stryker run stryker.full.json
+
+# Join both ecosystems into one report
+python pipelines/analysis/feasibility_report.py
+
+# Seeded-drift campaign: inject known drift, re-measure, revert (needs a clean tree)
+python pipelines/validation/seeded_drift.py
+
+# Zero-build static census over all eligible repositories (isolated per repo, timeout-guarded)
+python pipelines/metrics/census.py --skip-d3 --timeout 45
+
+# Human-rater coding package (kappa is never fabricated)
+python scripts/export_coding_sheets.py
+python scripts/compute_irr.py --a <raterA.csv> --b <raterB.csv> --label-column business_rule_relevant
+
+# Pre-submission verification gate: one command, one exit code
+python tools/verify-submission.py
+```
+
+### What is deliberately absent
+
+`scripts/compute_irr.py` exists and is tested, but **no kappa is reported** anywhere in the paper.
+Inter-rater reliability is a property of two independent humans; a model coding both sheets measures
+self-consistency, not agreement. `docs/coding/RUBRIC.md` carries the rubric and
+`docs/AUTHOR-INPUT-NEEDED.md` lists every remaining human-only action.

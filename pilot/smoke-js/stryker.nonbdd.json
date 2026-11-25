@@ -1,0 +1,26 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "NON_BDD mode: every test that is NOT a Cucumber scenario. The command runner is used because a unit-test runner does not expose per-test coverage to Stryker; coverage analysis is therefore off, which is sound here because the comparison set S is defined by the BDD run's coverage, not by this one. Stryker's command runner treats a non-zero exit as 'mutant killed', which is exactly the semantics we need.",
+  "testRunner": "command",
+  "commandRunner": {
+    "command": "node --test test/unit.test.js"
+  },
+  "mutate": [
+    "src/pricing.js",
+    "src/legacy-pricing.js"
+  ],
+  "coverageAnalysis": "off",
+  "reporters": [
+    "clear-text",
+    "json"
+  ],
+  "jsonReporter": {
+    "fileName": "reports/mutation.nonbdd.json"
+  },
+  "thresholds": {
+    "high": 100,
+    "low": 0
+  },
+  "timeoutMS": 30000,
+  "concurrency": 2
+}

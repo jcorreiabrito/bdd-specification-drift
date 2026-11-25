@@ -2,13 +2,13 @@
 \label{sec:results}
 
 Every number in this section is produced by a command recorded in the replication package's run log
-and, in the manuscript, by the generated file \texttt{paper/numbers.tex}. No value is typed by hand.
+and, in the manuscript, by a generated table of macros built from the released result files. No value is typed by hand.
 
 \subsection{The frame}
 
 The enumeration produced \Nframe{} unique repositories from \Ntopicpages{} topic pages spanning
 \topicslugs{} topic slugs and \langfilters{} language filters, with the SHA-256 of the concatenated
-page payload recorded (\texttt{data/frame/FRAME.md}). The frame is a snapshot: re-running the
+page payload recorded in the released frame manifest. The frame is a snapshot: re-running the
 enumeration later would produce a different membership, which is why the snapshot timestamp and hash
 are part of the replication package.
 
@@ -112,44 +112,158 @@ limitation of our execution budget, not a finding.
 \subsection{Tool feasibility and instrument validation}
 
 Before any corpus measurement we established, empirically, that mutation analysis can be driven by the
-BDD runner itself. Table~\ref{tab:feasibility} reports the two harness demonstrations.
+BDD runner itself and that the three-mode decomposition of
+Section~\ref{sec:method} is computable. Table~\ref{tab:feasibility} reports the harness
+demonstrations. Each suite now contains a deliberately unexercised domain module, so the
+\texttt{NO\_COVERAGE} column is a measured control rather than an assumption.
 
 \begin{table*}[t]
 \centering
-\caption{Tool-feasibility demonstrations. Both were run on purpose-built suites whose domain logic is
-known, so that the reported score is interpretable; they establish that the harness works, not what
-public suites score. The JavaScript path uses Stryker's official Cucumber runner, \texttt{@stryker-mutator/cucumber-runner}.}
+\caption{Three-mode mutation measurement on the purpose-built feasibility suites. Both suites
+contain a domain module that no test references, which is what makes the \texttt{NO\_COVERAGE} column
+a real control: a non-zero count demonstrates that the tool distinguishes \emph{executed and
+survived} from \emph{never executed}, and that $\msall$ and $\mscov$ are therefore separate
+quantities. $S$ is the comparison set of Section~\ref{sec:method}. The Java figures are exact because
+PIT reports coverage in every mode; the JavaScript \dk{} is an \emph{upper bound}, because Stryker's
+command runner cannot report per-test coverage for the non-BDD mode, so $S$ collapses to the
+BDD-covered set and the non-BDD kill set is a lower bound. Toolchains are pinned: Stryker \StrykerVer{} with cucumber-runner \CukeRunnerVer{} and Cucumber \CucumberJsVer{} for JS/TS; PIT \PitVer{} with pitest-junit5-plugin \PitPluginVer{} and Cucumber-JVM \CucumberJvmVer{} for Java.}
 \label{tab:feasibility}
-\begin{tblr}{width=\textwidth,colspec={X[0.9,l]X[2.1,l]rrr},rowsep=1pt}
+\begin{tblr}{width=\textwidth,colspec={X[2.6,l]X[0.9,r]X[0.9,r]},rowsep=1pt}
 \toprule
-\textbf{Ecosystem} & \textbf{Pinned toolchain} & \textbf{Mutants} & \textbf{Killed} & \textbf{$\mscov$} \\
+\textbf{Quantity} & \textbf{JS/TS} & \textbf{Java} \\
 \midrule
-JavaScript/TypeScript & Stryker \StrykerVer{} + cucumber-runner \CukeRunnerVer{}, Cucumber \CucumberJsVer{} & \JsMutants & \JsKilled & \JsScore\,\% \\
-Java & PIT \PitVer{} + \texttt{pitest-junit5-plugin} \PitPluginVer{}, Cucumber-JVM \CucumberJvmVer{} & \JavaMutants & \JavaKilled & \JavaScore\,\% \\
+Mutants, aligned decision-logic operators & \JsMutants & \JavaMutants \\
+Mutants, tool defaults & \JsMutants & \JavaDefaultMutants \\
+BDD-only: killed & \JsKilled & \JavaKilled \\
+BDD-only: \texttt{NO\_COVERAGE} & \JsNoCov & \JavaNoCov \\
+BDD-only $\msall$ (\%) & \JsMsAll & \JavaMsAll \\
+BDD-only $\mscov$ (\%) & \JsMsCov & \JavaMsCov \\
+\midrule
+Comparison set $|S|$ & \JsS & \JavaS \\
+$\dkbdd$ (BDD unique uplift) & \JsDkBdd{} (upper bound) & \JavaDkBdd{} (exact) \\
+$\dknon$ (non-BDD unique uplift) & \JsDkNon & \JavaDkNon \\
+Overlap & \JsOverlap & \JavaOverlap \\
+$\bddunique$ & \JsBddUnique & \JavaBddUnique \\
+$\bddtotal$ & \JsBddTotal & \JavaBddTotal \\
 \bottomrule
 \end{tblr}
 \end{table*}
 
-Both runs reported zero mutants in the \texttt{NO\_COVERAGE} category. That zero is a consequence of
-the purpose-built suites, which exercise every line of the module under mutation, and it does
-\emph{not} by itself demonstrate that the harness can separate execution from non-execution: a single
-empty bin distinguishes nothing. What demonstrates the capability is that both tools expose
-\texttt{NoCoverage} as a distinct per-mutant status, which the raw reports record, and that the
-harness maps it to its own \texttt{NO\_COVERAGE} category before either score of
-Equations~\eqref{eq:msall}--\eqref{eq:mscov} is computed. A replication that adds an unexercised
-control module would settle the point empirically, and we recommend it. In both ecosystems the tool
-also attributed each mutant to the individual Cucumber scenarios that killed it, which is what makes
-the differential of Equation~\eqref{eq:dk} computable.
+\textbf{The \texttt{NO\_COVERAGE} control.} The BDD-only runs leave \JsNoCov{} of \JsMutants{}
+JavaScript mutants and \JavaNoCov{} of \JavaMutants{} Java mutants unexecuted. Both counts are
+non-zero, so the tools demonstrably separate execution from non-execution, and
+$\msall$ (\JsMsAll\,\% and \JavaMsAll\,\%) differs from $\mscov$ (\JsMsCov\,\% and
+\JavaMsCov\,\%) on the same runs by more than a factor of two. A run reporting a single pooled score
+would therefore have understated the discriminating power of these suites by half.
 
-The most instructive single number from this stage is a negative one. For the same domain logic, PIT
-generated \JavaMutants{} mutants while Stryker generated \JsMutants{} --- a ratio of roughly
-\MutantRatio{}. This comparison is \emph{confounded by design}, and we state it as such: the two runs
-used their tools' default operator sets (recorded in the run log) rather than a common aligned set, so
-the difference reflects operator configuration as well as tool behaviour. It is nonetheless consistent
-with the cross-tool incomparability reported by \citet{Kintis2018HowEffectiveTools}, and
-it is a sufficient reason for the method's refusal to pool scores across ecosystems. A controlled
-comparison would pin both tools to the same aligned operator set, which the study protocol specifies
-for the corpus stage but which the feasibility probes did not require.
+\textbf{What the decomposition reveals, and why the correction mattered.} On the Java suite the
+specification layer kills \JavaKilled{} of the \JavaS{} mutants in $S$, a healthy $\mscov$ of
+\JavaMsCov\,\%. Its unique uplift is nevertheless $\dkbdd = \JavaDkBdd$: every mutant it kills, the
+unit tests also kill. The two mutants that only the unit tests kill are boundary cases the scenarios
+never probe, giving $\dknon = \JavaDkNon$. Under the earlier, inverted definition
+$\mscov(\full,\mathcal{S})-\mscov(\bdd,\mathcal{S})$ this repository would have been reported as
+having a BDD uplift of $+\JavaDkNon$ --- the exact opposite conclusion, since the number is produced
+entirely by the unit tests. This is a small, fully known suite, so the result is illustrative rather
+than general; but it is precisely the configuration the metric has to get right, and the inverted
+version got it wrong on the first suite we tried it on.
+
+The JavaScript suite behaves differently: $\dkbdd = \JsDkBdd$ and $\bddunique = \JsBddUnique$, so a
+small number of mutants are killed only by the scenarios. We do not over-read this, because the
+figure is an upper bound as explained in the caption.
+
+\textbf{Operator alignment.} Aligning both tools to a decision-logic operator set changes the Java
+mutant count from \JavaDefaultMutants{} (tool defaults) to \JavaMutants{} (aligned), a difference of
+one mutant on this suite. The cross-tool contrast is much larger: PIT generates \JavaMutants{}
+mutants where Stryker generates \JsMutants{} for comparably sized domain logic, a ratio of roughly
+\MutantRatio{}. That is consistent with the cross-tool incomparability reported by
+\citet{Kintis2018HowEffectiveTools}, and it is why the analysis refuses to pool scores across
+ecosystems. Aligning operators makes the comparison \emph{controlled}; it does not make the two
+scales interchangeable.
+
+\subsection{Known-ground-truth validation: seeded drift}\label{sec:seeded}
+
+Feasibility is not sensitivity. To test whether the seven indicators respond to drift that is
+actually present, we injected one controlled drift mutation at a time into the working JavaScript
+feasibility suite, re-measured every indicator and the BDD-only mutation score, and reverted the tree
+between injections. The baseline BDD-only $\mscov$ is \DriftBaseMsCov\,\%. An injection was accepted
+only if the unmutated suite still passed afterwards, so a broken experiment can never be mistaken for
+an insensitive indicator; \DriftInvalid{} of the six injections failed that check and is reported
+rather than analysed.
+
+Of the \DriftTargets{} sensitivity targets, \DriftDetected{} behaved as designed. Tagging scenarios as
+skipped raised $\mathit{D1}$ by \DriftIoneDelta{} with \emph{no} change in mutation score, which is
+correct: the skipped scenarios were killing nothing. Duplicating a scenario raised
+$\mathit{D4}$ by \DriftIthreeDelta{}, again with no change in the score, since a duplicate detects
+nothing new. The negative control, which only reformatted the suite and added comments, moved nothing
+at all --- the test that an indicator cannot pass merely by always answering ``drift''.
+
+The two misses are the interesting ones, and they are both about the oracle rather than the text.
+Replacing an assertion with a comparison of the computed value against itself, so that it can never
+fail, left $\mathit{D2}$ \emph{unchanged} while the mutation score collapsed from
+\DriftBaseMsCov\,\% to \DriftItwoMsCov\,\%. Rewriting the expected value so that it is re-derived from
+the production calculation --- a mirror step, the exact D7 construct --- left $\mathit{D7}$
+\emph{unchanged} while the score fell to \DriftIfourMsCov\,\%. In both cases the indicator that is
+supposed to detect the flaw did not move, and the mutation score lost more than half its value.
+
+We draw the honest conclusion rather than the flattering one. The static indicators are not
+interchangeable substitutes for mutation-based measurement, and this study does not use them as such:
+$\mathit{D2}$ and $\mathit{D7}$ enter the analysis as covariates and early-warning signals, and the
+mutation-derived quantities remain the outcome. The campaign also bounds what can be claimed for the
+indicator validity in general: two of four targets detected on one suite is a demonstration that the
+instrument can detect seeded drift, not an estimate of its sensitivity, and a sensitivity estimate
+would need many more injections across several suites. Finally, the wrong-literal injection shows a
+ceiling the indicators cannot cross: $\mathit{D6}$ counts whether a literal is present, not whether it
+is \emph{correct}, so a suite with a confidently wrong literal looks identical to one with a right one
+until the test is executed.
+
+\subsection{The eligible population, described}\label{sec:census}
+
+RQ1 also carries a descriptive obligation that requires no builds at all: the distribution of the seven
+indicators across every statically eligible repository. Omitting it, as the first version of this paper
+did, left the measurement half-evaluated even though the data were free. We measured
+\CensusMeasured{} of the \CensusEligible{} eligible repositories; the remaining seven are large
+monorepos that exceeded a fixed per-repository time budget and are recorded as timeouts rather than
+silently dropped. Table~\ref{tab:census} reports the distributions.
+
+\begin{table}[!htbp]
+\centering
+\footnotesize
+\caption{Static indicator census over the statically eligible population. $n$ is the number of
+repositories for which the indicator is defined; a repository where an indicator is undefined is
+excluded from that row and counted, never imputed as zero. D3 is undefined throughout because it
+requires version-control history and the working copies carried none.}
+\label{tab:census}
+\begin{tblr}{width=\columnwidth,colspec={lrrr},rowsep=1pt}
+\toprule
+\textbf{Indicator} & \textbf{$n$} & \textbf{median} & \textbf{IQR} \\
+\midrule
+D1 skip ratio & \CensusDoneN & \CensusDoneMedian & [\CensusDoneQone, \CensusDoneQthree] \\
+D2 assertion weakness & \CensusDtwoN & \CensusDtwoMedian & [\CensusDtwoQone, \CensusDtwoQthree] \\
+D3 stale specification & \CensusDthreeN & \CensusDthreeMedian & --- \\
+D4 redundancy clusters & \CensusDfourN & \CensusDfourMedian & [\CensusDfourQone, \CensusDfourQthree] \\
+D5 glue duplication & \CensusDfiveN & \CensusDfiveMedian & [\CensusDfiveQone, \CensusDfiveQthree] \\
+D6 literal-bearing steps & \CensusDsixN & \CensusDsixMedian & [\CensusDsixQone, \CensusDsixQthree] \\
+D7 mirror steps & \CensusDsevenN & \CensusDsevenMedian & [\CensusDsevenQone, \CensusDsevenQthree] \\
+\bottomrule
+\end{tblr}
+\end{table}
+
+Three features of Table~\ref{tab:census} matter for the argument. First, D1 has essentially no
+variance: the median suite marks almost no scenario skipped (median \CensusDoneMedian, upper quartile
+\CensusDoneQthree), so as a discriminator in \emph{this} population the indicator is close to useless,
+whatever its diagnostic value in a team where skipping is common. Second, D2 spreads widely --- median
+\CensusDtwoMedian{} with an upper quartile of \CensusDtwoQthree{} --- so a quarter of these suites have
+more than half of their step definitions classified as weak or non-asserting by the heuristic.
+Third, D6 is saturated at \CensusDsixMedian: essentially every step definition carries a literal, which
+is consistent with the ceiling the seeded-drift campaign found for D6 independently.
+
+Two readings must be resisted. A D7 median of \CensusDsevenMedian{} does \emph{not} establish that
+mirror steps are absent from public suites: the seeded-drift campaign showed that D7 failed to detect a
+mirror step built by hand, so a zero here is weak evidence of absence rather than evidence of a weak
+threat. And none of these distributions is an association: \CensusDtwoN{} repositories have D2 defined,
+and \CensusLowConf{} of them are flagged low-confidence by the extractor itself, so the census
+describes the population and nothing more. No correlation with oracle strength is estimated, because
+no repository reached the mutation stage.
 
 \subsection{Oracle strength (RQ2)}
 

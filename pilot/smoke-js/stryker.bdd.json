@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "BDD mode: the Cucumber scenarios only. coverageAnalysis=perTest is required so that Stryker reports NO_COVERAGE for mutants the scenarios never execute -- that status is what separates MS_all from MS_cov, and what makes the differential-kill comparison set S computable. Versions pinned: Stryker 10.1.1, cucumber-runner 10.1.1, @cucumber/cucumber 12.2.0.",
+  "testRunner": "cucumber",
+  "cucumber": {
+    "features": ["features/**/*.feature"]
+  },
+  "mutate": ["src/pricing.js", "src/legacy-pricing.js"],
+  "coverageAnalysis": "perTest",
+  "reporters": ["clear-text", "json"],
+  "jsonReporter": {
+    "fileName": "reports/mutation.bdd.json"
+  },
+  "thresholds": { "high": 100, "low": 0 },
+  "timeoutMS": 30000,
+  "concurrency": 2
+}

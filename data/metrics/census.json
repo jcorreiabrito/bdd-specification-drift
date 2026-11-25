@@ -1,0 +1,86 @@
+{
+  "eligible_repositories": 94,
+  "measured": 87,
+  "newly_measured_this_run": 87,
+  "status_counts": {
+    "ok": 87,
+    "timeout": 7
+  },
+  "no_working_copy": 0,
+  "timeouts": [
+    "meganemura/nukadoko",
+    "webdriverio/webdriverio",
+    "iadr-dev/greenlight",
+    "Decathlon/ara",
+    "VadimToptunov/Mobiscout",
+    "cucumber/cucumber-jvm",
+    "allure-framework/allure-java"
+  ],
+  "d3_status": "disabled (no VCS history for most working copies)",
+  "indicators": {
+    "D1_skip_ratio": {
+      "n": 87,
+      "undefined": 0,
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0027,
+      "min": 0.0,
+      "max": 0.1598
+    },
+    "D2_assertion_weakness_ratio": {
+      "n": 71,
+      "undefined": 16,
+      "median": 0.3077,
+      "q1": 0.0656,
+      "q3": 0.5641,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "D3_stale_spec_ratio": {
+      "n": 0,
+      "undefined": 87
+    },
+    "D4_redundancy_cluster_ratio": {
+      "n": 85,
+      "undefined": 2,
+      "median": 0.2812,
+      "q1": 0.0952,
+      "q3": 0.5644,
+      "min": 0.0,
+      "max": 0.969
+    },
+    "D5_glue_duplication_ratio": {
+      "n": 85,
+      "undefined": 2,
+      "median": 0.375,
+      "q1": 0.1818,
+      "q3": 0.5219,
+      "min": 0.0327,
+      "max": 0.8119
+    },
+    "D6_literal_bearing_stepdef_ratio": {
+      "n": 71,
+      "undefined": 16,
+      "median": 0.9953,
+      "q1": 0.9353,
+      "q3": 1.0,
+      "min": 0.3624,
+      "max": 1.0
+    },
+    "D7_mirror_stepdef_ratio": {
+      "n": 71,
+      "undefined": 16,
+      "median": 0.0,
+      "q1": 0.0,
+      "q3": 0.0,
+      "min": 0.0,
+      "max": 0.0119
+    }
+  },
+  "D2_low_confidence": 54,
+  "domain_tier_counts": {
+    "T3": 46,
+    "T1+T2": 37,
+    "none": 4
+  }
+}

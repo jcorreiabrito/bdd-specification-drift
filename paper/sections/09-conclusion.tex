@@ -23,7 +23,7 @@ binding constraint is not statistical but infrastructural.
       direct local instance of cross-tool incomparability: the same domain logic yielded 19 mutants
       under PIT and 43 under Stryker. Any study that pools such numbers is measuring its tools, not
       its subject.
-\item \textbf{Where an association could not be estimated, we say so.} The pre-registered confirmatory
+\item \textbf{Where an association could not be estimated, we say so.} The pre-specified confirmatory
       family is void under the protocol's own drop rule, because no repository was measurable
       end-to-end. We report that as \emph{not estimated}, which is a different statement from
       \emph{no association}, and we do not substitute a null result for an absent one.
@@ -47,13 +47,12 @@ encounters.
 
 \subsection{Limitations we could not remove}
 
-Three limitations are structural rather than incidental, and we restate them so they are not lost in
-the detail above. No independent human raters were available, so the judgement-coded indicators carry
-no inter-rater reliability statistic and the mutant-relevance proxy is argued on design grounds rather
-than measured. No build isolation was available, so the corpus is environment-dependent and a
-different host would likely yield a different $n$. And the longitudinal component cannot establish
-erosion from two snapshots; our strongest available statement is a change between snapshots on a
-common mutant set.
+Three limitations are structural, and they are argued in full in Section~\ref{sec:threats}; we recall
+them here only so the reader carries them past the results. No independent human raters, so the
+judgement-coded indicators carry no reliability statistic. No build isolation, so the corpus is
+environment-dependent and another host would likely yield a different $n$. And two snapshots, which
+bound the longitudinal claim to a measured \emph{change} between snapshots rather than a rate of
+erosion.
 
 \subsection{Future work}
 

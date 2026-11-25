@@ -395,6 +395,12 @@ def compute(repo_slug: str, repo_dir: str) -> tuple[dict, list[dict]]:
     # ---- D3 stale specs (git blame per scenario)
     stale = 0
     d3_ok = bool(all_scen)
+    # `d3_ok` must mean "history was actually readable", not merely "scenarios parsed".
+    # Without this counter a failed or absent git history leaves `stale` at 0 and D3 is
+    # silently reported as 0.0 -- i.e. "no stale scenarios" -- for every repository without
+    # VCS data. That is an imputation of zero where the truthful value is undefined, and it
+    # would have made the D1-D7 census claim a measured result it never took.
+    blamed_ok = 0
     if d3_ok:
         commits_cache: dict[str, int] = {}
         for f in features:
@@ -410,6 +416,7 @@ def compute(repo_slug: str, repo_dir: str) -> tuple[dict, list[dict]]:
                 dates = re.findall(r"^committer-time (\d+)$", out, re.M)
                 if not dates:
                     continue
+                blamed_ok += 1
                 t_s = datetime.fromtimestamp(max(int(x) for x in dates), tz=timezone.utc)
                 age = (now - t_s).days
                 if age < 180:
@@ -420,7 +427,7 @@ def compute(repo_slug: str, repo_dir: str) -> tuple[dict, list[dict]]:
                     commits_cache[rel] = out2.count("\n")
                 if commits_cache[rel] >= 5:
                     stale += 1
-    d3 = stale / len(active) if active and d3_ok else None
+    d3 = (stale / len(active)) if (active and d3_ok and blamed_ok > 0) else None
 
     row = {
         "repo": repo_slug,

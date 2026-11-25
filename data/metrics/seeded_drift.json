@@ -1,0 +1,201 @@
+{
+  "suite": "feasibility-js",
+  "baseline_static": {
+    "D1_skip_ratio": 0.0,
+    "D2_assertion_weakness_ratio": 0.5,
+    "D4_redundancy_cluster_ratio": 0.75,
+    "D5_glue_duplication_ratio": 0.125,
+    "D6_literal_bearing_stepdef_ratio": 1.0,
+    "D7_mirror_stepdef_ratio": 0.0
+  },
+  "baseline_mutation": {
+    "mutants": 96,
+    "killed": 31,
+    "survived": 12,
+    "no_coverage": 53,
+    "MS_all": 0.3229,
+    "MS_cov": 0.7209,
+    "status_counts": {
+      "NoCoverage": 53,
+      "Killed": 31,
+      "Survived": 12
+    }
+  },
+  "results": [
+    {
+      "injection": "I1_skip_tags",
+      "applied": true,
+      "valid": true,
+      "target_indicator": "D1_skip_ratio",
+      "expected": "up",
+      "observed": "moved_in_expected_direction",
+      "indicator_deltas": {
+        "D1_skip_ratio": 0.1667,
+        "D2_assertion_weakness_ratio": 0.0,
+        "D4_redundancy_cluster_ratio": -0.05,
+        "D5_glue_duplication_ratio": 0.025,
+        "D6_literal_bearing_stepdef_ratio": 0.0,
+        "D7_mirror_stepdef_ratio": 0.0
+      },
+      "mutation": {
+        "mutants": 96,
+        "killed": 31,
+        "survived": 12,
+        "no_coverage": 53,
+        "MS_all": 0.3229,
+        "MS_cov": 0.7209,
+        "status_counts": {
+          "NoCoverage": 53,
+          "Killed": 31,
+          "Survived": 12
+        }
+      },
+      "MS_cov_delta": 0.0
+    },
+    {
+      "injection": "I2_weakened_assertion",
+      "applied": true,
+      "valid": true,
+      "target_indicator": "D2_assertion_weakness_ratio",
+      "expected": "up",
+      "observed": "no_movement",
+      "indicator_deltas": {
+        "D1_skip_ratio": 0.0,
+        "D2_assertion_weakness_ratio": 0.0,
+        "D4_redundancy_cluster_ratio": 0.0,
+        "D5_glue_duplication_ratio": 0.0,
+        "D6_literal_bearing_stepdef_ratio": 0.0,
+        "D7_mirror_stepdef_ratio": 0.0
+      },
+      "mutation": {
+        "mutants": 96,
+        "killed": 9,
+        "survived": 34,
+        "no_coverage": 53,
+        "MS_all": 0.0938,
+        "MS_cov": 0.2093,
+        "status_counts": {
+          "NoCoverage": 53,
+          "Survived": 34,
+          "Killed": 9
+        }
+      },
+      "MS_cov_delta": -0.5116
+    },
+    {
+      "injection": "I3_duplicate_scenario",
+      "applied": true,
+      "valid": true,
+      "target_indicator": "D4_redundancy_cluster_ratio",
+      "expected": "up",
+      "observed": "moved_in_expected_direction",
+      "indicator_deltas": {
+        "D1_skip_ratio": 0.0,
+        "D2_assertion_weakness_ratio": 0.0,
+        "D4_redundancy_cluster_ratio": 0.0192,
+        "D5_glue_duplication_ratio": -0.0096,
+        "D6_literal_bearing_stepdef_ratio": 0.0,
+        "D7_mirror_stepdef_ratio": 0.0
+      },
+      "mutation": {
+        "mutants": 96,
+        "killed": 31,
+        "survived": 12,
+        "no_coverage": 53,
+        "MS_all": 0.3229,
+        "MS_cov": 0.7209,
+        "status_counts": {
+          "NoCoverage": 53,
+          "Killed": 31,
+          "Survived": 12
+        }
+      },
+      "MS_cov_delta": 0.0
+    },
+    {
+      "injection": "I4_mirror_step",
+      "applied": true,
+      "valid": true,
+      "target_indicator": "D7_mirror_stepdef_ratio",
+      "expected": "up",
+      "observed": "no_movement",
+      "indicator_deltas": {
+        "D1_skip_ratio": 0.0,
+        "D2_assertion_weakness_ratio": 0.0,
+        "D4_redundancy_cluster_ratio": 0.0,
+        "D5_glue_duplication_ratio": 0.0,
+        "D6_literal_bearing_stepdef_ratio": 0.0,
+        "D7_mirror_stepdef_ratio": 0.0
+      },
+      "mutation": {
+        "mutants": 96,
+        "killed": 14,
+        "survived": 29,
+        "no_coverage": 53,
+        "MS_all": 0.1458,
+        "MS_cov": 0.3256,
+        "status_counts": {
+          "NoCoverage": 53,
+          "Survived": 29,
+          "Killed": 14
+        }
+      },
+      "MS_cov_delta": -0.3953
+    },
+    {
+      "injection": "I5_hardcoded_expected",
+      "applied": true,
+      "valid": false,
+      "reason": "injection made the unmutated suite fail: 0m00.016s (executing steps: 0m00.001s)",
+      "indicator_deltas": {
+        "D1_skip_ratio": 0.0,
+        "D2_assertion_weakness_ratio": 0.0,
+        "D4_redundancy_cluster_ratio": 0.0,
+        "D5_glue_duplication_ratio": 0.0,
+        "D6_literal_bearing_stepdef_ratio": 0.0,
+        "D7_mirror_stepdef_ratio": 0.0
+      }
+    },
+    {
+      "injection": "C1_negative_control",
+      "applied": true,
+      "valid": true,
+      "target_indicator": null,
+      "expected": "unchanged",
+      "observed": "unchanged",
+      "indicator_deltas": {
+        "D1_skip_ratio": 0.0,
+        "D2_assertion_weakness_ratio": 0.0,
+        "D4_redundancy_cluster_ratio": 0.0,
+        "D5_glue_duplication_ratio": 0.0,
+        "D6_literal_bearing_stepdef_ratio": 0.0,
+        "D7_mirror_stepdef_ratio": 0.0
+      },
+      "mutation": {
+        "mutants": 96,
+        "killed": 31,
+        "survived": 12,
+        "no_coverage": 53,
+        "MS_all": 0.3229,
+        "MS_cov": 0.7209,
+        "status_counts": {
+          "NoCoverage": 53,
+          "Killed": 31,
+          "Survived": 12
+        }
+      },
+      "MS_cov_delta": 0.0
+    }
+  ],
+  "valid_injections": 5,
+  "invalid_injections": 1,
+  "sensitivity_targets": 4,
+  "detected": 2,
+  "detection_rate": 0.5,
+  "false_negatives": [
+    "I2_weakened_assertion",
+    "I4_mirror_step"
+  ],
+  "saturated_indicators": [],
+  "negative_control_clean": true
+}

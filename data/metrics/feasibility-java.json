@@ -1,0 +1,41 @@
+{
+  "aligned": {
+    "suite": "feasibility-java",
+    "operators": "aligned",
+    "modes": {
+      "bdd": 40,
+      "nonbdd": 40,
+      "full": 40
+    },
+    "differential": {
+      "n_bdd": 40,
+      "n_nonbdd": 40,
+      "n_full": 40,
+      "s_size": 15,
+      "killed_bdd": 12,
+      "killed_nonbdd": 15,
+      "killed_full": 15,
+      "killed_bdd_only": 0,
+      "killed_nonbdd_only": 3,
+      "killed_both": 12,
+      "ms_cov_bdd": 0.8,
+      "ms_cov_nonbdd": 1.0,
+      "ms_cov_full": 1.0,
+      "dk_bdd_uplift": 0.0,
+      "dk_nonbdd_uplift": 0.2,
+      "overlap": 0.8,
+      "bdd_unique_share": 0.0,
+      "bdd_total_share": 0.8,
+      "containment_ok": true,
+      "mode_integrity_ok": true,
+      "note": ""
+    }
+  },
+  "default": {
+    "suite": "feasibility-java",
+    "operators": "default",
+    "modes": {
+      "full": 41
+    }
+  }
+}

@@ -93,17 +93,53 @@ in the protocol:
 > does exercise. Only `MS_cov` speaks to the discriminating power of the suite over the domain
 > behaviour it covers.
 
-**Attribute detection to the specification layer.** Let `S` be the mutants executed in *both* modes
-(containment — everything the BDD suite runs, the full suite also runs — is an invariant you should
-assert, not assume):
+**Attribute detection to the specification layer — with three modes, not two.** Two modes are not
+enough to say what the Gherkin layer *adds*, because subtracting the BDD score from the full score
+measures the uplift of everything else. Run three modes over one mutant set:
+
+- `BDD` — the Cucumber scenarios only;
+- `NON_BDD` — every other test (unit/integration), with Cucumber runners excluded;
+- `FULL` — `BDD ∪ NON_BDD`.
+
+Containment is an invariant you **assert**, never assume:
+`executed(BDD) ⊆ executed(FULL)` and `executed(NON_BDD) ⊆ executed(FULL)`.
+
+The comparison set is their intersection, so that all three scores share one denominator and
+`K_FULL = K_BDD ∪ K_NON_BDD` holds exactly:
 
 ```
-DK_norm        = MS_cov(full, S) − MS_cov(bdd, S)     # what the rest of the suite adds
-BDD_kill_share = |K_bdd(S)| / |K_full(S)|             # how much of the oracle is the BDD layer
+S = executed(BDD) ∩ executed(NON_BDD)
+
+DK_bdd_uplift    = MS_cov(FULL, S) − MS_cov(NON_BDD, S) = |K_BDD \ K_NON_BDD| / |S|
+DK_nonbdd_uplift = MS_cov(FULL, S) − MS_cov(BDD, S)     = |K_NON_BDD \ K_BDD| / |S|
+Overlap          = |K_BDD ∩ K_NON_BDD| / |K_FULL|
+BDD_unique_share = |K_BDD \ K_NON_BDD| / |K_FULL|
+BDD_total_share  = |K_BDD| / |K_FULL|
 ```
 
-`DK_norm` is the honest answer to "how much does our BDD layer actually buy us". A high absolute
-score with a near-zero `DK_norm` means the suite is strong for reasons *unrelated* to the Gherkin.
+`DK_bdd_uplift` is the honest answer to "how much does our BDD layer actually buy us". Report
+`BDD_unique_share` and `BDD_total_share` **together or not at all**: a layer that merely repeats what
+the unit tests already prove has `BDD_total_share = 1` and `BDD_unique_share = 0`, so a total share
+quoted alone would describe a decorative specification layer as fully responsible for the oracle.
+
+**A trap this protocol used to fall into.** An earlier version of this protocol defined
+`DK_norm = MS_cov(FULL, S) − MS_cov(BDD, S)` and called it "what the BDD layer adds". It is the
+inverse. If unit tests kill 90 % and BDD kills 0 %, that expression returns `+0.90` — a large number
+for a layer that does nothing. If BDD alone kills the 30 % that unit tests miss, it returns `0.00`.
+If your tooling or your vendor's dashboard reports "BDD uplift" this way, the sign of the conclusion
+is inverted.
+
+A share is **undefined, not zero**, when `|K_FULL| = 0`; a repository where nothing is killed has no
+share to report.
+
+**Mutant protocol.** Restrict operators to decision logic: conditionals boundary, negated
+conditionals, arithmetic, constants, return values. State the exact operator set per tool. Sample
+mutants with a fixed seed under a per-repository budget if the run is too slow. Handle timeouts
+(count as detected; also report the sensitivity that excludes them), no-coverage mutants (report the
+count; never let them dilute `MS_cov`), and equivalent mutants (report the count; never silently
+drop them). Include at least one **deliberately unexercised domain module** in your first harness run:
+if `NO_COVERAGE` comes back as zero, your suite happens to cover everything and you have not yet
+demonstrated that the tool can distinguish "executed and survived" from "never executed".
 
 **Mutant protocol.** Restrict operators to decision logic: conditionals boundary, negated
 conditionals, arithmetic, constants, return values. State the exact operator set per tool. Sample
@@ -213,11 +249,13 @@ plainly, so that a practitioner is not misled:
 
 | Element | State |
 |---|---|
+| Three-mode harness (`BDD`, `NON_BDD`, `FULL`) | **Demonstrated.** Both ecosystems run all three modes over one mutant set, and the differential-kill quantities of §4 are computed from them. |
+| `NO_COVERAGE` control | **Demonstrated.** Each demonstration suite contains a domain module no test references; observed uncovered-mutant counts were 53 (JS/TS) and 22 (Java), both non-zero. |
 | Tool feasibility (Java, JS/TS) | **Demonstrated.** Both paths were driven end to end with per-mutant coverage and per-scenario attribution. |
-| Static indicators D1–D7 | **Implemented and runnable**; D2 and D7 are heuristic approximations of the judgement-coded rubric (see §5). |
-| Longitudinal indicators over history | **Implemented; not exercised on real data** in the associated study (the materialised repositories carried no VCS history). |
-| **Seeded-drift validation** | **NOT PERFORMED.** The injection experiment in §10 of the study protocol was not carried out. The indicators are therefore **not empirically validated against known ground truth**, and no detection rate exists. |
-| Inter-rater reliability | **NOT PERFORMED.** No independent human raters were available. No kappa is reported for any indicator, and D7's precision is unknown. |
+| Static indicators D1–D7 | **Implemented and run.** A zero-build census covers 86 of 94 statically eligible repositories; D3 is undefined for them because the working copies carried no VCS history, and is reported as undefined rather than zero. |
+| **Seeded-drift validation** | **PERFORMED, WITH A NEGATIVE RESULT.** Six injections were applied one at a time to a working suite with a negative control. Two of four sensitivity targets were detected; `D2` and `D7` did **not** move for the assertion-weakening and mirror-step injections, while the BDD-only mutation score fell by more than half in both cases. Treat `D2` and `D7` as screening heuristics, **not** substitutes for mutation-based measurement. |
+| Longitudinal indicators over history | **Implemented; not exercised on real data.** The materialised repositories carried no VCS history, so no Theil–Sen slope is reported. |
+| Inter-rater reliability | **NOT PERFORMED.** No independent human raters were available. No kappa is reported for any indicator, and `D7`'s precision is unknown. Blinded coding sheets and a kappa script are released so two humans can complete this. |
 | Oracle strength on a public corpus | **Not established.** The associated study found no public repository that both built and produced a green Gherkin baseline within its budget, so no corpus-level score is reported. |
 
 Two consequences for anyone applying this protocol. First, treat D2 and D7 as **screening heuristics**

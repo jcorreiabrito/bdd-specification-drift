@@ -81,7 +81,7 @@ relatives: architectural drift and erosion \citep{PerryWolf1992,Rosik2010ArchDri
 \subsection{Contributions}
 
 \begin{enumerate}
-\item \textbf{An instrument.} A five-step protocol (\texttt{docs/PROTOCOL.md}) that a team can apply
+\item \textbf{An instrument.} A five-step protocol, released as the practitioner protocol in the Supplementary Material, that a team can apply
       to its own suite: delimit the domain layer, measure oracle strength in BDD-only and full-suite
       modes with mandatory coverage conditioning, compute seven drift indicators, test for
       accumulation over history, and interpret under explicit rules that forbid the most common
@@ -102,13 +102,12 @@ relatives: architectural drift and erosion \citep{PerryWolf1992,Rosik2010ArchDri
 
 \subsection{What this paper does not claim}
 
-We do not claim that BDD is ineffective, nor that public BDD suites are of poor quality. We do not
-establish that BDD causes better or worse oracles: the design is observational and observational
-designs cannot support that claim. We do not measure defects or field failures; mutation score is a
-\emph{proxy} for the ability to detect a change in business-rule behaviour, not a count of real bugs.
-And we do not report inter-rater reliability for the two judgement-coded indicators, because no
-independent human rater was available; we say so explicitly rather than reporting a number we could
-not honestly produce (Section~\ref{sec:threats}).
+Three claims are out of scope, stated once here so that the rest of the paper can be read against
+them. We do not claim that BDD is ineffective, nor that public suites are of poor quality. The design
+is observational, so it cannot establish that BDD causes better or worse oracles. And mutation score is
+a \emph{proxy} for the ability to detect a change in business-rule behaviour, not a count of field
+defects. Each is revisited only where it bears on a specific result, in
+Section~\ref{sec:threats}.
 
 \subsection{Organisation}
 
