@@ -126,7 +126,7 @@ survived} from \emph{never executed}, and that $\msall$ and $\mscov$ are therefo
 quantities. $S$ is the comparison set of Section~\ref{sec:method}. The Java figures are exact because
 PIT reports coverage in every mode; the JavaScript \dk{} is an \emph{upper bound}, because Stryker's
 command runner cannot report per-test coverage for the non-BDD mode, so $S$ collapses to the
-BDD-covered set and the non-BDD kill set is a lower bound. Toolchains are pinned: Stryker \StrykerVer{} with cucumber-runner \CukeRunnerVer{} and Cucumber \CucumberJsVer{} for JS/TS; PIT \PitVer{} with pitest-junit5-plugin \PitPluginVer{} and Cucumber-JVM \CucumberJvmVer{} for Java.}
+BDD-covered set and the non-BDD kill set is a lower bound. Toolchains are pinned: Stryker \StrykerVer{} with cucumber-runner \CukeRunnerVer{} and Cucumber \CucumberJsVer{} for JS/TS; PIT \PitVer{} with pitest-junit5-plugin \PitPluginVer{} and Cucumber-JVM \CucumberJvmVer{} for Java. Operator alignment was applied to PIT only: the JavaScript harness uses Stryker's default operators throughout, so its two mutant-count rows coincide by construction rather than by coincidence.}
 \label{tab:feasibility}
 \begin{tblr}{width=\textwidth,colspec={X[2.6,l]X[0.9,r]X[0.9,r]},rowsep=1pt}
 \toprule
