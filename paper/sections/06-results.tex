@@ -18,7 +18,7 @@ Table~\ref{tab:funnel} reports the screening funnel. Of \Nscreened{} repositorie
 \Neligible{} satisfied all eight eligibility criteria, a yield of \YieldPct\,\% (95\,\% Wilson interval
 \YieldLo--\YieldHi\,\%).
 
-\begin{table}[htbp]
+\begin{table*}[t]
 \centering
 \caption{Static screening funnel. Every screened repository is counted exactly once. Reasons are
 ordered so that the recorded reason is the most fundamental blocker.}
@@ -28,20 +28,20 @@ ordered so that the recorded reason is the most fundamental blocker.}
 \textbf{Stage / reason} & \textbf{n} & \textbf{share} \\
 \midrule
 Repositories screened            & \Nscreened  & 100.0\,\% \\
-\quad Excluded: too few scenarios & \RtooFew   & \PtooFew \\
-\quad Excluded: no feature files  & \RnoFeat   & \PnoFeat \\
-\quad Excluded: no step definitions & \RnoSteps & \PnoSteps \\
-\quad Excluded: no BDD runner dependency & \RnoRunner & \PnoRunner \\
-\quad Excluded: no application shape & \RnoShape & \PnoShape \\
-\quad Excluded: licence not permissive & \Rlicence & \Plicence \\
-\quad Excluded: language out of scope & \Rlang & \Plang \\
-\quad Excluded: no build config & \RnoBuild & \PnoBuild \\
-\quad Excluded: other / fetch failure & \Rother & \Pother \\
+\quad Excluded: too few scenarios & \RtooFew   & \PtooFew\,\% \\
+\quad Excluded: no feature files  & \RnoFeat   & \PnoFeat\,\% \\
+\quad Excluded: no step definitions & \RnoSteps & \PnoSteps\,\% \\
+\quad Excluded: no BDD runner dependency & \RnoRunner & \PnoRunner\,\% \\
+\quad Excluded: no application shape & \RnoShape & \PnoShape\,\% \\
+\quad Excluded: licence not permissive & \Rlicence & \Plicence\,\% \\
+\quad Excluded: language out of scope & \Rlang & \Plang\,\% \\
+\quad Excluded: no build config & \RnoBuild & \PnoBuild\,\% \\
+\quad Excluded: other / fetch failure & \Rother & \Pother\,\% \\
 \midrule
 \textbf{Eligible}                 & \Neligible & \YieldPct\,\% \\
 \bottomrule
 \end{tblr}
-\end{table}
+\end{table*}
 
 The dominant exclusions are substantive rather than technical. ``Too few scenarios'' is the single
 largest category, which indicates that most topic-tagged repositories are small demonstrations or
@@ -62,13 +62,13 @@ Static eligibility is necessary but not sufficient: a repository must also build
 its Gherkin. Table~\ref{tab:build} reports the outcome of the build and execution screen over the
 \Nbuildtested{} eligible repositories that were attempted.
 
-\begin{table}[htbp]
+\begin{table*}[t]
 \centering
 \caption{Build and execution screen. \texttt{no\_bdd\_execution} denotes a repository whose tests pass
 while nothing indicates that the Gherkin layer ran; it is not counted as a build failure, and it is
 critically not counted as a pass.}
 \label{tab:build}
-\begin{tblr}{width=\textwidth,colspec={X[2.4]rX[1.6]},rowsep=1pt}
+\begin{tblr}{width=\textwidth,colspec={X[2.4,l]rX[1.6,l]},rowsep=1pt}
 \toprule
 \textbf{Outcome} & \textbf{n} & \textbf{Representative reasons} \\
 \midrule
@@ -83,7 +83,7 @@ critically not counted as a pass.}
 \textbf{Attempted} & \Nbuildtested & of \Neligible{} eligible \\
 \bottomrule
 \end{tblr}
-\end{table}
+\end{table*}
 
 Three observations follow directly from this table and are important for the interpretation of the
 whole study.
@@ -114,21 +114,21 @@ limitation of our execution budget, not a finding.
 Before any corpus measurement we established, empirically, that mutation analysis can be driven by the
 BDD runner itself. Table~\ref{tab:feasibility} reports the two harness demonstrations.
 
-\begin{table}[htbp]
+\begin{table*}[t]
 \centering
 \caption{Tool-feasibility demonstrations. Both were run on purpose-built suites whose domain logic is
 known, so that the reported score is interpretable; they establish that the harness works, not what
-public suites score.}
+public suites score. The JavaScript path uses Stryker's official Cucumber runner, \texttt{@stryker-mutator/cucumber-runner}.}
 \label{tab:feasibility}
-\begin{tblr}{width=\textwidth,colspec={X[1.0]X[1.8]rrr},rowsep=1pt}
+\begin{tblr}{width=\textwidth,colspec={X[0.9]X[2.1]rrr},rowsep=1pt}
 \toprule
 \textbf{Ecosystem} & \textbf{Pinned toolchain} & \textbf{Mutants} & \textbf{Killed} & \textbf{$\mscov$} \\
 \midrule
-JavaScript/TypeScript & Stryker \StrykerVer{} + \texttt{@stryker-mutator/cucumber-runner} \CukeRunnerVer{}, Cucumber \CucumberJsVer{} & \JsMutants & \JsKilled & \JsScore\,\% \\
+JavaScript/TypeScript & Stryker \StrykerVer{} + cucumber-runner \CukeRunnerVer{}, Cucumber \CucumberJsVer{} & \JsMutants & \JsKilled & \JsScore\,\% \\
 Java & PIT \PitVer{} + \texttt{pitest-junit5-plugin} \PitPluginVer{}, Cucumber-JVM \CucumberJvmVer{} & \JavaMutants & \JavaKilled & \JavaScore\,\% \\
 \bottomrule
 \end{tblr}
-\end{table}
+\end{table*}
 
 Both runs reported zero mutants in the \texttt{NO\_COVERAGE} category. That zero is a consequence of
 the purpose-built suites, which exercise every line of the module under mutation, and it does
@@ -173,9 +173,9 @@ whether drift accumulates over repository history.
 
 The protocol contains its own rule for this situation. The protocol's drop rule DR1 removes a stratum
 with fewer than eight repositories measurable end-to-end. Here \Nmeasured{} repositories were
-measurable, so **both strata fall below the threshold and DR1 applies to each**: the confirmatory
-family (D1 and D2 against $\mscov(\bdd)$, Holm-corrected) is therefore **void by the protocol's own
-rule**, not merely underpowered. We invoke DR1 rather than reporting a null result, because a null
+measurable, so \textbf{both strata fall below the threshold and DR1 applies to each}: the confirmatory
+family (D1 and D2 against $\mscov(\bdd)$, Holm-corrected) is therefore \textbf{void by the protocol's own
+rule}, not merely underpowered. We invoke DR1 rather than reporting a null result, because a null
 would imply that an association had been estimated and found absent, and no estimation was possible.
 The pre-specified detectable-effect floor is consequently not reported: it is defined on the Fisher-$z$
 scale as $1.030/\sqrt{n-3}$, which is undefined for the $n$ actually achieved.

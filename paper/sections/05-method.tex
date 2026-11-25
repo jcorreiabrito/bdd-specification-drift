@@ -29,6 +29,7 @@ unrepresentative and unstable.
 We therefore define the frame as follows:
 
 \begin{quote}
+\raggedright
 \textbf{Frame.} All public GitHub repositories that had adopted at least one of twelve declared
 BDD-related topic tags --- \texttt{cucumber}, \texttt{bdd}, \texttt{gherkin}, \texttt{behave},
 \texttt{cucumber-jvm}, \texttt{cucumber-js}, \texttt{pytest-bdd}, \texttt{specflow},
@@ -82,19 +83,19 @@ Every candidate is recorded in exactly one funnel state with a categorised reaso
 
 \begin{quote}
 \texttt{eligible} $\rightarrow$ \texttt{bdd\_passes} \quad|\quad \texttt{bdd\_fails} \quad|\quad
-\texttt{no\_bdd\_execution} \quad|\quad \texttt{build\_fails} \quad|\quad \texttt{timeout}
+\texttt{no\_\allowbreak bdd\_\allowbreak execution} \quad|\quad \texttt{build\_fails} \quad|\quad \texttt{timeout}
 \end{quote}
 
 with exclusion reasons drawn from a fixed vocabulary: \texttt{no\_feature\_files},
 \texttt{too\_few\_scenarios}, \texttt{no\_step\_definitions}, \texttt{no\_build\_config},
-\texttt{language\_out\_of\_scope}, \texttt{licence\_not\_permissive},
-\texttt{no\_bdd\_runner\_dependency}, \texttt{no\_application\_shape}, and, for build attempts,
+\texttt{language\_out\_of\_scope}, \texttt{licence\_\allowbreak not\_\allowbreak permissive},
+\texttt{no\_\allowbreak bdd\_\allowbreak runner\_\allowbreak dependency}, \texttt{no\_application\_shape}, and, for build attempts,
 \texttt{dependency\_rot}, \texttt{tool\_incompatibility}, \texttt{missing\_service\_dependency},
 \texttt{needs\_browser}, \texttt{needs\_database}, \texttt{compile\_error}, \texttt{timeout},
 \texttt{other}.
 
 One distinction is load-bearing and is enforced in the harness rather than left to the analyst.
-\texttt{no\_bdd\_execution} denotes a repository whose tests pass but where no evidence exists that
+\texttt{no\_\allowbreak bdd\_\allowbreak execution} denotes a repository whose tests pass but where no evidence exists that
 the Gherkin layer ran at all; \texttt{bdd\_fails} denotes a repository whose tests ran and failed.
 Reporting the first as the second would inflate apparent build attrition, and reporting either as
 \texttt{bdd\_passes} would admit a suite that never executed a scenario. Because a green
@@ -109,12 +110,13 @@ execution is established by that output itself and the flag is left empty, which
 For repository $r$, let $M$ be the generated domain-layer mutants, $K$ the killed mutants and
 $\mathit{Cov}$ those executed by the run in question. Statuses are taken from the tool's
 \emph{per-mutant} records, never from its summary line, because the tools disagree about what their
-headline means.
+headline means. All three quantities below are functions of the run mode; $\mathit{MC}$ denotes
+mutant coverage.
 
 \begin{align}
-\msall(\textit{mode}) &= \frac{|K| + |T|}{|K| + |S| + |T| + |\mathit{NC}|} \label{eq:msall}\\
-\mscov(\textit{mode}) &= \frac{|K| + |T|}{|K| + |S| + |T|} \label{eq:mscov}\\
-\mathit{coverage}(\textit{mode}) &= \frac{|K| + |S| + |T|}{|K| + |S| + |T| + |\mathit{NC}|} \label{eq:cov}
+\msall &= \frac{|K| + |T|}{|K| + |S| + |T| + |\mathit{NC}|} \label{eq:msall}\\
+\mscov &= \frac{|K| + |T|}{|K| + |S| + |T|} \label{eq:mscov}\\
+\mathit{MC} &= \frac{|K| + |S| + |T|}{|K| + |S| + |T| + |\mathit{NC}|} \label{eq:cov}
 \end{align}
 
 where $S$ denotes surviving, $T$ timed-out and $\mathit{NC}$ uncovered mutants. Timeouts count as
@@ -126,6 +128,7 @@ reported}. The primary outcome is $\mscov(\bdd)$.
 Coverage conditioning is mandatory and the following rule is binding on every table:
 
 \begin{quote}
+\setlength{\rightmargin}{0pt}
 \label{quot:coverage}
 A low $\msall$ produced by low coverage says that the BDD suite does not execute that code --- ``not
 covered'' --- and is \emph{not} evidence of drift, nor of a weak oracle over the behaviour the suite
@@ -140,9 +143,8 @@ that set we report
 
 \begin{align}
 \dk &= \mscov(\full,\mathcal{S}) - \mscov(\bdd,\mathcal{S}) \label{eq:dk}\\
-\mathit{DK}_{\mathit{count}} &= \frac{|K_{\full}(\mathcal{S}) \setminus K_{\bdd}(\mathcal{S})|}{|\mathcal{S}|}
-\qquad
-\mathit{BDDshare} = \frac{|K_{\bdd}(\mathcal{S})|}{|K_{\full}(\mathcal{S})|} \label{eq:dkshare}
+\mathit{DK}_{\mathit{count}} &= \frac{|K_{\full}(\mathcal{S}) \setminus K_{\bdd}(\mathcal{S})|}{|\mathcal{S}|} \label{eq:dkcount}\\
+\mathit{BDDshare} &= \frac{|K_{\bdd}(\mathcal{S})|}{|K_{\full}(\mathcal{S})|} \label{eq:dkshare}
 \end{align}
 
 $\dk$ answers \emph{what the specification layer adds beyond the repository's other tests};
@@ -170,10 +172,10 @@ is strong, resolved to depth $\le 2$; \texttt{WEAK} if it carries a token and ma
 pattern; and \texttt{NONE} if it has neither token nor resolvable callee. Weakening patterns are
 tautology (identical operands), constant truth, unreachable assertion (after an unconditional return,
 or in a literal-conditioned branch), swallowed failure (a \texttt{catch} that neither rethrows nor
-fails), and self-comparison:
+fails), and self-comparison. Writing $\clsSD$, $\clsSG$, $\clsWK$ and $\clsNN$ for the four classes:
 \begin{equation}
-\texttt{assertion\_weakness} = \frac{|\texttt{WEAK}| + |\texttt{NONE}|}
-{|\texttt{STRONG\_DIRECT}| + |\texttt{STRONG\_DELEGATED}| + |\texttt{WEAK}| + |\texttt{NONE}|}.
+\texttt{assertion\_weakness} =
+\frac{|\clsWK| + |\clsNN|}{|\clsSD| + |\clsSG| + |\clsWK| + |\clsNN|}.
 \end{equation}
 
 \textbf{D3 --- \texttt{stale\_spec\_ratio}.} For an active scenario, let $t_s$ be the date of its

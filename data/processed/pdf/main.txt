@@ -1,6 +1,7 @@
 
 === page 1 ===
-ISSN:
+1984-2902
+ISSN: 1984-2902
 Do Public BDD Suites Still Work as Oracles? A
 Mutation-Based Instrument for Detecting
 Executable-Specification Drift in Cucumber-Style Suites
@@ -78,7 +79,7 @@ an organisation, with acceptable effort, whether its spec-
 ification layer still functions as an oracle — and whether
 that ability is decaying?
 === page 2 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
+BDD Suites as Oracles Anonymous submission
 1.1 The gap this paper addresses
 The literature tells us a great deal about BDD’s adoption
 Zampetti et al. (2020), its scenario quality Chandorkar
@@ -196,7 +197,7 @@ tation protocol and statistics. Section 6 reports results,
 including the measured attrition. Section 7 discusses
 implications for research and practice. Section 8 argues
 === page 3 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
+BDD Suites as Oracles Anonymous submission
 each threat to validity and quantifies it where possible.
 Section 9 concludes.
 2 Background: why this is an
@@ -311,7 +312,7 @@ facts, the other seeks explanations, and the two have
 different truth criteria March and Smith (1995). DSR
 is accordingly expected to state the problem class, the
 === page 4 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
+BDD Suites as Oracles Anonymous submission
 artefact’s design rationale, its evaluation in a relevant
 context, and the implications for practice Peffers et al.
 (2007); Gregor and Hevner (2013). The response here
@@ -429,7 +430,7 @@ surable density Catolino et al. (2019), and as a driver
 of false confidence in “pseudo-tested” methods that are
 covered but not effectively asserted Vera-Perez et al.
 === page 5 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
+BDD Suites as Oracles Anonymous submission
 (2018). Test-suite assessment has looked at whether
 suites would catch injected faults Yandrapally and Mes-
 bah (2021); Soto-Sanchez et al. (2021). Static indicators
@@ -545,7 +546,7 @@ or that nobody has related static test-quality indicators
 to mutation scores. Each of these would be false, and
 the corresponding prior work is cited above.
 === page 6 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
+BDD Suites as Oracles Anonymous submission
 4 Research design: a Design
 Science framing
 4.1 Problem class and relevance
@@ -659,11 +660,9 @@ missive licences, with the licence recorded per repository
 and repositories without a detectable permissive licence
 excluded before any modification. Mutation analysis
 === page 7 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
-Table 1. Research questions, the observations intended to
-answer them, and the evidentiary basis of each. The third
-column names what could make each answer fail, which is
-where the threats in Section 8 attach.
+BDD Suites as Oracles Anonymous submission
+Table 1. Research questions, the observations intended to answer them, and the evidentiary basis of each. The third column
+names what could make each answer fail, which is where the threats in Section 8 attach.
 RQ Observation What the answer depends on
 RQ1 Two-rater agreement on the judgement-
 coded indicators; seeded-drift detection
@@ -730,15 +729,15 @@ capped at approximately 1,000 results and ranked by
 popularity — characteristics that would have made “the
 top results” both unrepresentative and unstable.
 We therefore define the frame as follows:
-Frame. All public GitHub reposito-
-ries that had adopted at least one of
-twelve declared BDD-related topic tags
-— cucumber, bdd, gherkin, behave,
-cucumber-jvm, cucumber-js, pytest-bdd,
-specflow, behavior-driven-development,
+Frame. All public GitHub repositories that
+had adopted at least one of twelve declared
+BDD-related topic tags — cucumber, bdd,
+gherkin, behave, cucumber-jvm,
+cucumber-js, pytest-bdd, specflow,
+behavior-driven-development,
 bdd-framework, acceptance-testing,
-living-documentation — as observed on
-25 November 2026, enumerated across the
+living-documentation — as observed on 25
+November 2026, enumerated across the
 language filters any, java, javascript, typescript
 and python, six pages per combination.
 Enumeration produced 2,552 unique repositories
@@ -766,6 +765,8 @@ equivalents);
 4. at least one build descriptor (pom.xml,
 build.gradle, package.json, pyproject.toml,
 setup.py, ...);
+=== page 8 ===
+BDD Suites as Oracles Anonymous submission
 5. a language in scope: Java, JavaScript, TypeScript
 or Python;
 6. a detectable permissive licence;
@@ -782,8 +783,6 @@ source archive without executing the project, and that
 repositories could satisfy them while still being reporting
 agents or step libraries with no business rules. They were
 therefore replaced by an observable shape test — at least
-=== page 8 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 ten non-test source files and a BDD runner declared in a
 manifest — which is checkable without a build. Because
 this is a change to a stated criterion after data collection
@@ -797,42 +796,43 @@ dataset:
 eligible → bdd_passes | bdd_fails
 | no_bdd_execution | build_fails |
 timeout
-with exclusion reasons drawn from a fixed vocab-
-ulary: no_feature_files, too_few_scenarios,
-no_step_definitions, no_build_config,
-language_out_of_scope, licence_not_permissive,
-no_bdd_runner_dependency,
-no_application_shape, and, for build at-
-tempts, dependency_rot, tool_incompatibility,
-missing_service_dependency, needs_browser,
-needs_database, compile_error, timeout, other.
-One distinction is load-bearing and is enforced
-in the harness rather than left to the analyst.
-no_bdd_execution denotes a repository whose tests
-pass but where no evidence exists that the Gherkin
-layer ran at all; bdd_fails denotes a repository whose
-tests ran and failed. Reporting the first as the second
-would inflate apparent build attrition, and reporting
-either as bdd_passes would admit a suite that never
-executed a scenario. Because a green mvn test proves
-nothing about Gherkin, the harness requires positive
-evidence of Cucumber execution in the output before a
-repository is accepted as bdd_passes. The evidence flag
-is recorded for repositories whose run exited zero; where
-the run exited non-zero with test output, the execution
-is established by that output itself and the flag is left
-empty, which is why the bdd_fails rows show an empty
-bdd_evidence column in the released table.
+with exclusion reasons drawn from a fixed vo-
+cabulary: no_feature_files, too_few_scenarios,
+no_step_definitions, no_build_config, language_
+out_of_scope, licence_not_permissive, no_
+bdd_runner_dependency, no_application_shape,
+and, for build attempts, dependency_rot, tool_
+incompatibility, missing_service_dependency,
+needs_browser, needs_database, compile_error,
+timeout, other.
+One distinction is load-bearing and is enforced in
+the harness rather than left to the analyst. no_bdd_
+execution denotes a repository whose tests pass but
+where no evidence exists that the Gherkin layer ran
+at all; bdd_fails denotes a repository whose tests ran
+and failed. Reporting the first as the second would in-
+flate apparent build attrition, and reporting either as
+bdd_passes would admit a suite that never executed
+a scenario. Because a green mvn test proves nothing
+about Gherkin, the harness requires positive evidence of
+Cucumber execution in the output before a repository is
+accepted as bdd_passes. The evidence flag is recorded
+for repositories whose run exited zero; where the run
+exited non-zero with test output, the execution is estab-
+lished by that output itself and the flag is left empty,
+which is why the bdd_fails rows show an empty bdd_
+evidence column in the released table.
 5.4 Outcome: oracle strength
 For repository r, let M be the generated domain-layer
 mutants, K the killed mutants and Cov those executed
 by the run in question. Statuses are taken from the
 tool’s per-mutant records, never from its summary line,
 because the tools disagree about what their headline
-means.
-MS all(mode) = |K| +|T| |K| +|S| +|T| +|NC| (1)
-MS cov(mode) = |K| +|T| |K| +|S| +|T| (2)
-coverage(mode) = |K| +|S| +|T| |K| +|S| +|T| +|NC| (3)
+means. All three quantities below are functions of the
+run mode; MC denotes mutant coverage.
+MS all = |K| +|T| |K| +|S| +|T| +|NC| (1)
+MS cov = |K| +|T| |K| +|S| +|T| (2)
+MC = |K| +|S| +|T| |K| +|S| +|T| +|NC| (3)
 where S denotes surviving, T timed-out and NC
 uncovered mutants. Timeouts count as detected in the
 primary formula, on the reasoning that a mutant which
@@ -856,8 +856,8 @@ executed(bdd) ⊆ executed(full), so S is the BDD-
 covered set and every mutant in it is also executed by
 the full suite. On that set we report
 DK norm = MS cov(full,S)− MS cov(bdd,S) (4)
-DK count = |Kfull (S)\Kbdd (S)| |S| BDDshare = |Kbdd (S)| |Kfull (S)|
-(5)
+DK count = |Kfull (S)\Kbdd(S)| |S| (5)
+BDDshare = |Kbdd(S)| |Kfull (S)| (6)
 DK norm answers what the specification layer adds
 beyond the repository’s other tests; BDDshare answers
 how much of the full suite’s oracle is the specification
@@ -869,11 +869,13 @@ Seven indicators are defined so that higher always means
 more drift-like. None is sign-flipped after measurement.
 Denominators use active scenarios, i.e. all scenarios mi-
 nus those already flagged by the skip indicator.
+=== page 9 ===
+BDD Suites as Oracles Anonymous submission
 D1 — skip_ratio (primary). A scenario is
 skipped if a whole-tag match for @skip, @ignored, @wip,
 @pending, @todo, @manual or equivalents appears on the
 scenario, its Examples: block, or its feature:
-skip_ratio = |{s∈Sr :s is skipped}| |Sr| . (6)
+skip_ratio = |{s∈Sr :s is skipped}| |Sr| . (7)
 D2 — assertion_weakness_ratio (primary).
 The unit is one step definition. A step definition is
 STRONG_DIRECT if it carries an assertion token and
@@ -885,12 +887,11 @@ it has neither token nor resolvable callee. Weakening
 patterns are tautology (identical operands), constant
 truth, unreachable assertion (after an unconditional
 return, or in a literal-conditioned branch), swallowed
-=== page 9 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 failure (a catch that neither rethrows nor fails), and
-self-comparison:
-assertion_weakness = |WEAK| +|NONE| |STRONG_DIRECT| +|STRONG_DELEGATED| +|WEAK| +|NONE|.
-(7)
+self-comparison. Writing SD, SG, WK and NN for the
+four classes:
+assertion_weakness = |WK| +|NN| |SD| +|SG| +|WK| +|NN|.
+(8)
 D3 — stale_spec_ratio. For an active scenario,
 let ts be the date of its most recent touching commit
 (from git blame over its line range) and ns the number
@@ -965,7 +966,7 @@ smallest detectable |ρ| at two-sided α = 0.05 and
 power 0.80 is
 |ρ|min = tanh
 (
-(z1−α/2 +z1−β)· 1.030√n− 3 ) , (8)
+(z1−α/2 +z1−β)· 1.030√n− 3 ) , (9)
 giving 0.80 at n = 10, 0.60 at n = 20, 0.50 at n = 30
 and 0.44 at n = 40; under Holm (α = 0.025 for the
 smaller of two p-values) the floor at n = 30 rises to
@@ -985,6 +986,8 @@ change between two snapshots, not a trend.
 5.8 Reproducibility
 Every measurement is recorded in an append-only run
 log with the command, UTC timestamp, the git com-
+=== page 10 ===
+BDD Suites as Oracles Anonymous submission
 mit of the harness, host, seed and exact tool versions.
 Raw per-mutant statuses, the screening tables and the
 analysis scripts are part of the replication package. The
@@ -1000,8 +1003,6 @@ No value is typed by hand.
 The enumeration produced 2,552 unique repositories
 from 252 topic pages spanning 12 topic slugs and 5
 language filters, with the SHA-256 of the concatenated
-=== page 10 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 page payload recorded (data/frame/FRAME.md). The
 frame is a snapshot: re-running the enumeration later
 would produce a different membership, which is why the
@@ -1011,21 +1012,6 @@ package.
 Table 2 reports the screening funnel. Of 2,552 reposito-
 ries screened, 94 satisfied all eight eligibility criteria, a
 yield of 3.68% (95% Wilson interval 3.0–4.5%).
-Table 2. Static screening funnel. Every screened repository
-is counted exactly once. Reasons are ordered so that the
-recorded reason is the most fundamental blocker.
-Stage / reason n share
-Repositories screened 2,552 100.0%
-Excluded: too few scenarios 1270 49.76
-Excluded: no feature files 942 36.91
-Excluded: no step definitions 159 6.23
-Excluded: no BDD runner dependency 0 0.00
-Excluded: no application shape 15 0.59
-Excluded: licence not permissive 34 1.33
-Excluded: language out of scope 14 0.55
-Excluded: no build config 1 0.04
-Excluded: other / fetch failure 23 0.90
-Eligible 94 3.68%
 The dominant exclusions are substantive rather
 than technical. “Too few scenarios” is the single largest
 category, which indicates that most topic-tagged reposi-
@@ -1056,19 +1042,6 @@ study.
 First, a green mvn test or npm test does not
 prove that a BDD suite ran. The no_bdd_execution
 category exists because we initially accepted a zero exit
-Table 3. Build and execution screen. no_bdd_execution
-denotes a repository whose tests pass while nothing indicates
-that the Gherkin layer ran; it is not counted as a build failure,
-and it is critically not counted as a pass.
-Outcome n Representative reasons
-bdd_passes (green Gherkin baseline) 0 —
-bdd_fails (tests ran, failed) 7 failing scenarios at HEAD
-no_bdd_execution 8 tests pass, no Cucumber evidence
-timeout (exceeded the run budget) 1 repository too slow to screen within budget
-unsupported (no runner available) 1 language/tool chain out of scope
-build_fails 24 dependency_rot, needs_browser,
-compile_error, tool_incompatibility
-Attempted 41 of 94 eligible
 code as evidence of BDD execution and a spot check
 showed this to be false: a repository whose Maven build
 succeeded had executed none of its Gherkin. The harness
@@ -1101,36 +1074,22 @@ Before any corpus measurement we established, empiri-
 cally, that mutation analysis can be driven by the BDD
 runner itself. Table 4 reports the two harness demon-
 strations.
-Table 4. Tool-feasibility demonstrations. Both were run on
-purpose-built suites whose domain logic is known, so that
-the reported score is interpretable; they establish that the
-harness works, not what public suites score.
-Ecosystem Pinned toolchain Mutants Killed MS cov
-JavaScript/TypeScript Stryker10.1.1+ @stryker-mutator/cucumber-runner
-10.1.1, Cucumber 12.2.0
-43 31 72.09%
-Java PIT 1.30.2 + pitest-junit5-plugin 1.2.3,
-Cucumber-JVM 8.1.0
-19 14 73.68%
-Both runs reported zero mutants in the
-=== page 11 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
-NO_COVERAGE category. That zero is a consequence of
-the purpose-built suites, which exercise every line of
-the module under mutation, and it does not by itself
-demonstrate that the harness can separate execution
-from non-execution: a single empty bin distinguishes
-nothing. What demonstrates the capability is that
-both tools expose NoCoverage as a distinct per-mutant
-status, which the raw reports record, and that the
-harness maps it to its own NO_COVERAGE category
-before either score of Equations (1)–(2) is computed.
-A replication that adds an unexercised control module
-would settle the point empirically, and we recommend
-it. In both ecosystems the tool also attributed each
-mutant to the individual Cucumber scenarios that killed
-it, which is what makes the differential of Equation (4)
-computable.
+Both runs reported zero mutants in the NO_
+COVERAGE category. That zero is a consequence of the
+purpose-built suites, which exercise every line of the
+module under mutation, and it does not by itself demon-
+strate that the harness can separate execution from
+non-execution: a single empty bin distinguishes nothing.
+What demonstrates the capability is that both tools ex-
+pose NoCoverage as a distinct per-mutant status, which
+the raw reports record, and that the harness maps it
+to its own NO_COVERAGE category before either score of
+Equations (1)–(2) is computed. A replication that adds
+an unexercised control module would settle the point
+empirically, and we recommend it. In both ecosystems
+the tool also attributed each mutant to the individual
+Cucumber scenarios that killed it, which is what makes
+the differential of Equation (4) computable.
 The most instructive single number from this stage
 is a negative one. For the same domain logic, PIT gen-
 erated 19 mutants while Stryker generated 43 — a ratio
@@ -1144,6 +1103,34 @@ by Kintis et al. Kintis et al. (2018b), and it is a sufficient
 reason for the method’s refusal to pool scores across
 ecosystems. A controlled comparison would pin both
 tools to the same aligned operator set, which the study
+=== page 11 ===
+BDD Suites as Oracles Anonymous submission
+Table 2. Static screening funnel. Every screened repository is counted exactly once. Reasons are ordered so that the recorded
+reason is the most fundamental blocker.
+Stage / reason n share
+Repositories screened 2,552 100.0%
+Excluded: too few scenarios 1,270 49.76%
+Excluded: no feature files 942 36.91%
+Excluded: no step definitions 159 6.23%
+Excluded: no BDD runner dependency 0 0.00%
+Excluded: no application shape 15 0.59%
+Excluded: licence not permissive 34 1.33%
+Excluded: language out of scope 14 0.55%
+Excluded: no build config 1 0.04%
+Excluded: other / fetch failure 23 0.90%
+Eligible 94 3.68%
+Table 3. Build and execution screen. no_bdd_execution denotes a repository whose tests pass while nothing indicates that
+the Gherkin layer ran; it is not counted as a build failure, and it is critically not counted as a pass.
+Outcome n Representative reasons
+bdd_passes (green Gherkin baseline) 0 —
+bdd_fails (tests ran, failed) 7 failing scenarios at HEAD
+no_bdd_execution 8 tests pass, no Cucumber evidence
+timeout (exceeded the run budget) 1 repository too slow to screen within
+budget
+unsupported (no runner available) 1 language/tool chain out of scope
+build_fails 24 dependency_rot, needs_browser,
+compile_error, tool_incompatibility
+Attempted 41 of 94 eligible
 protocol specifies for the corpus stage but which the
 feasibility probes did not require.
 6.5 Oracle strength (RQ2)
@@ -1174,18 +1161,17 @@ drift accumulates over repository history.
 The protocol contains its own rule for this situa-
 tion. The protocol’s drop rule DR1 removes a stratum
 with fewer than eight repositories measurable end-to-
-end. Here 0 repositories were measurable, so **both
-strata fall below the threshold and DR1 applies to
-each**: the confirmatory family (D1 and D2 against
-MS cov(bdd), Holm-corrected) is therefore **void by
-the protocol’s own rule**, not merely underpowered.
-We invoke DR1 rather than reporting a null result, be-
-cause a null would imply that an association had been
-estimated and found absent, and no estimation was
-possible. The pre-specified detectable-effect floor is con-
-sequently not reported: it is defined on the Fisher-z scale
-as 1.030/√n− 3, which is undefined for the n actually
-achieved.
+end. Here 0 repositories were measurable, so both strata
+fall below the threshold and DR1 applies to each: the
+confirmatory family (D1 and D2 against MS cov(bdd),
+Holm-corrected) is therefore void by the protocol’s own
+rule, not merely underpowered. We invoke DR1 rather
+than reporting a null result, because a null would imply
+that an association had been estimated and found ab-
+sent, and no estimation was possible. The pre-specified
+detectable-effect floor is consequently not reported: it is
+defined on the Fisher-z scale as 1.030/√n− 3, which is
+undefined for the n actually achieved.
 For the erosion component, the static history miner
 recomputes the indicators at 12 deterministically sam-
 pled commits per repository and reports Theil–Sen
@@ -1198,14 +1184,20 @@ a mechanical reason, not because the repositories lack
 history: 0 repositories yielded a usable series. The miner
 is implemented and shipped in the replication package,
 and exercising it requires re-cloning candidates with
+=== page 12 ===
+BDD Suites as Oracles Anonymous submission
+Table 4. Tool-feasibility demonstrations. Both were run on purpose-built suites whose domain logic is known, so that the
+reported score is interpretable; they establish that the harness works, not what public suites score. The JavaScript path uses
+Stryker’s official Cucumber runner, @stryker-mutator/cucumber-runner.
+Ecosystem Pinned toolchain Mutants Killed MS cov
+JavaScript/TypeScript Stryker 10.1.1 + cucumber-runner 10.1.1, Cucumber
+12.2.0
+43 31 72.09%
+Java PIT 1.30.2 + pitest-junit5-plugin 1.2.3, Cucumber-
+JVM 8.1.0
+19 14 73.68%
 full history — a step this study budgeted for the corpus
 stage and did not reach. We make no longitudinal claim.
-Table 5. Longitudinal indicator series. No repository in the
-corpus yielded a usable series; the instrument is implemented
-and shipped in the replication package, but it is not exercised
-on real data in this study.
-Repository Points D1 slope D2 slope
-no usable longitudinal series
 6.7 What could not be measured, and
 why it matters
 We close the results with an explicit inventory of what
@@ -1229,8 +1221,6 @@ cause 0 repositories were measurable against a
 threshold of eight per stratum. No association was
 estimated, so no null result is claimed either.
 • No Python stratum. The frame yielded 5 Python
-=== page 12 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 repositories satisfying the application-shape crite-
 rion, and the Python mutation toolchain could not
 be established reliably in this environment (package
@@ -1299,6 +1289,8 @@ composed of the thing being studied. Our contribution
 here is to make that funnel visible and categorised, so
 that future work can either widen the frame deliberately
 or state its own selection more honestly.
+=== page 13 ===
+BDD Suites as Oracles Anonymous submission
 7.3 For Design Science: a negative result
 about deployment conditions
 In DSR terms, the artefact survived its feasibility evalua-
@@ -1347,8 +1339,6 @@ is the earliest available signal that the specification
 layer is being withdrawn from service.
 4. Do not assume a scenario checks what its text says.
 The appearance/function asymmetry is the whole
-=== page 13 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 problem. A scenario that reads well and asserts
 nothing is indistinguishable from a good one in
 review; it is distinguishable by mutation.
@@ -1391,15 +1381,15 @@ while projects with sophisticated suites are likelier to
 require services, browsers or databases and thus to drop
 out (downward bias, because the strongest suites become
 unmeasurable).
-Quantification. The attrition log records ev-
-ery candidate with a categorised reason, and the
-funnel is reported in full (Section 6). The
-share of failures attributable to needs_browser and
-missing_service_dependency is the measurable foot-
-print of the downward mechanism. We report counts of
-build_fails, bdd_fails and no_bdd_execution sepa-
-rately, precisely so that a reader can reconstruct which
-mechanism dominates.
+Quantification. The attrition log records every can-
+didate with a categorised reason, and the funnel is re-
+ported in full (Section 6). The share of failures at-
+tributable to needs_browser and missing_service_
+dependency is the measurable footprint of the down-
+ward mechanism. We report counts of build_fails,
+bdd_fails and no_bdd_execution separately, precisely
+so that a reader can reconstruct which mechanism dom-
+inates.
 Residual. We cannot correct for an unmeasured
 common cause such as “engineering care” that may
 drive both buildability and oracle quality. Bounds, not
@@ -1416,6 +1406,8 @@ other than business-rule sensitivity.
 Mitigation built into the design. Three things limit
 the damage. Mutation is restricted to the domain layer,
 so infrastructure and glue are excluded by construction.
+=== page 14 ===
+BDD Suites as Oracles Anonymous submission
 The operator set is restricted to decision-logic operators.
 And “business-rule relevance” is treated as a separate,
 explicitly labelled judgement rather than assumed.
@@ -1463,8 +1455,6 @@ ation largely dissolves once restricted to covered code
 Jain et al. (2023).
 Mitigation. Coverage conditioning is mandatory:
 MS all, MS cov and coverage are reported together in
-=== page 14 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 every table, and coverage is a covariate in every model.
 The primary outcome is the covered-only score. We go
 further and state the interpretation rule verbatim in the
@@ -1532,6 +1522,8 @@ each indicator flags it, with control injections) and an
 inter-rater reliability study for the judgement-coded in-
 dicators. Without them, the indicators’ sensitivity and
 specificity are unknown, and D2 and D7 in particular
+=== page 15 ===
+BDD Suites as Oracles Anonymous submission
 are unvalidated heuristics.
 Disclosure. We state this wherever the in-
 dicators are used, and the practitioner protocol
@@ -1579,8 +1571,6 @@ ment could produce a different corpus because different
 repositories would build.
 Mitigation. All tool versions are pinned and
 recorded, every measurement carries a UTC timestamp,
-=== page 15 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 harness commit and seed in an append-only run log,
 and the screening and analysis scripts are published.
 The vulnerability is not hidden: because the corpus is
@@ -1647,6 +1637,8 @@ specification-quality metrics as a gap, and the natural
 response to that gap is to measure quality on public
 repositories. Our attrition analysis shows what that
 response actually encounters.
+=== page 16 ===
+BDD Suites as Oracles Anonymous submission
 9.3 Limitations we could not remove
 Three limitations are structural rather than incidental,
 and we restate them so they are not lost in the detail
@@ -1693,8 +1685,6 @@ Funding
 This research received no specific grant from any funding
 agency in the public, commercial or not-for-profit sectors.
 This statement will be updated if that changes before
-=== page 16 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 publication.
 Availability of Data and Materials
 The replication package — including the sampling frame
@@ -1761,24 +1751,13 @@ not used as raters. Where the protocol required human
 judgement (the business-rule relevance of mutants, the
 mirror-step classification, and inter-rater reliability), no
 AI labelling was substituted, and the absence of those
+=== page 17 ===
+BDD Suites as Oracles Anonymous submission
 reliability statistics is disclosed as a limitation in Sec-
 tion 8 rather than filled with an automatically generated
 number.
 Use of Generative AI — summary for
 reviewers
-Purpose Verification applied
-Code and scripts in the replication
-package
-Executed; outputs checked against tool reports; run log records command,
-timestamp, commit and versions
-Drafting and editing manuscript
-prose
-Human author reviewed and approved all text; claims checked against
-result files
-Tables and figures Generated programmatically from result files, never typed by hand
-Reference verification Automated Crossref audit of every DOI; unverifiable entries deleted
-Research data Not generated by AI. All measurements come from executed tools; human-
-judgement items were not automated
 References
 Akour, M. and Alenezi, M. (2020). Test suites effective-
 ness evolution in open source systems: empirical study.
@@ -1810,8 +1789,6 @@ Conference on Software Maintenance (ICSM). DOI:
 10.1109/icsm.2012.6405253.
 Bavota, G., Qusef, A., Oliveto, R., De Lucia, A., and
 Binkley, D. (2015). Are test smells really harmful?
-=== page 17 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 an empirical study. Empirical Software Engineering.
 DOI: 10.1007/s10664-014-9313-0.
 Bhatta, S., Kendemah, F., and Jha, A. (2025).
@@ -1893,6 +1870,22 @@ Atal, Z. (2023). Behavior driven development: A
 systematic literature review. IEEE Access. DOI:
 10.1109/access.2023.3302356.
 Feldt, R. (2014). Do system test cases grow old?
+=== page 18 ===
+BDD Suites as Oracles Anonymous submission
+Table 5. Summary of generative-AI use and the verification applied to each use.
+Purpose Verification applied
+Code and scripts in the replication
+package
+Executed; outputs checked against tool reports; run log records command,
+timestamp, commit and versions
+Drafting and editing manuscript
+prose
+Human author reviewed and approved all text; claims checked against
+result files
+Tables and figures Generated programmatically from result files, never typed by hand
+Reference verification Automated Crossref audit of every DOI; unverifiable entries deleted
+Research data Not generated by AI. All measurements come from executed tools; human-
+judgement items were not automated
 In 2014 IEEE Seventh International Conference on
 Software Testing, Verification and Validation. DOI:
 10.1109/icst.2014.47.
@@ -1930,8 +1923,6 @@ Irshad, M., Borstler, J., and Petersen, K. (2022). Sup-
 porting refactoring of bdd specifications—an empirical
 study. Information and Software Technology. DOI:
 10.1016/j.infsof.2021.106717.
-=== page 18 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 Izurieta, C. and Bieman, J. (2012). A multiple case study
 of design pattern decay, grime, and rot in evolving
 software systems. Software Quality Journal. DOI:
@@ -1985,6 +1976,8 @@ and real faults. Empirical Software Engineering. DOI:
 10.1007/s10664-017-9582-5.
 Kushigian, B., Kaufman, S., Featherman, R., Potter,
 H., Madadi, A., and Just, R. (2024). Equivalent
+=== page 19 ===
+BDD Suites as Oracles Anonymous submission
 mutants in the wild: Identifying and efficiently sup-
 pressing equivalent mutants for java programs. In
 Proceedings of the 33rd ACM SIGSOFT International
@@ -2050,8 +2043,6 @@ evolving systems: Studying the relevance of mutants
 to code evolution. ACM Transactions on Software
 Engineering and Methodology. DOI: 10.1145/3530786.
 Oliveira, G. and Marczak, S. (2017). On the empiri-
-=== page 19 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 cal evaluation of bdd scenarios quality: Preliminary
 findings of an empirical study. In 2017 IEEE 25th
 International Requirements Engineering Conference
@@ -2105,6 +2096,8 @@ ment with mutation testing – an experimental study.
 Software Quality Journal. DOI: 10.1007/s11219-020-
 09534-x.
 Rosik, J., Le Gear, A., Buckley, J., Babar, M., and
+=== page 20 ===
+BDD Suites as Oracles Anonymous submission
 Connolly, D. (2010). Assessing architectural drift in
 commercial software development: a case study. Soft-
 ware: Practice and Experience. DOI: 10.1002/spe.999.
@@ -2170,8 +2163,6 @@ ference on Mining Software Repositories (MSR). DOI:
 10.1109/msr.2019.00080.
 Yao, X., Harman, M., and Jia, Y. (2014). A study of
 equivalent and stubborn mutation operators using
-=== page 20 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 human analysis of equivalence. In Proceedings of the
 36th International Conference on Software Engineer-
 ing. DOI: 10.1145/2568225.2568265.

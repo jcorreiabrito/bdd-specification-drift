@@ -21,6 +21,13 @@
 \usepackage{tabularray}
 \usepackage{afterpage}
 \usepackage{url}
+
+% The class is two-column (~240pt per column) and this manuscript uses long snake_case
+% identifiers such as no_bdd_runner_dependency. LaTeX will not break at an underscore and
+% will not hyphenate inside \texttt, so such tokens produced 66pt overfull boxes.
+% Allowing a break opportunity after every underscore fixes them all at once.
+\let\origtextunderscore\_
+\renewcommand{\_}{\origtextunderscore\allowbreak}
 \usepackage{pifont}
 \usepackage{graphicx}
 % NOTE: do NOT load `booktabs` or `longtable` here. `tabularray` is loaded by the
@@ -48,11 +55,24 @@
 \newcommand{\full}{\textsc{full}}
 \newcommand{\tool}[1]{\textsf{#1}}
 
+% Short math symbols for the four step-definition classes used in the D2 formula.
+% The full names (STRONG_DELEGATED etc.) are long enough that the fraction overflowed
+% its column in a two-column layout; the class names are spelled out in the prose.
+\newcommand{\clsSD}{\mathit{SD}}   % STRONG_DIRECT
+\newcommand{\clsSG}{\mathit{SG}}   % STRONG_DELEGATED
+\newcommand{\clsWK}{\mathit{WK}}   % WEAK
+\newcommand{\clsNN}{\mathit{NN}}   % NONE
+
+% The iSys e-ISSN, as printed in the frontmatter header. The class leaves \@issn empty
+% unless this is set, and the header then renders an empty box that overflows the line by
+% 66pt. Value verified from the journal's About page (submission/VENUE-RULES.md, V1).
+\issn{1984-2902}
+
 \begin{document}
 
 \begin{frontmatter}
 
-\title[Do Public BDD Suites Still Work as Oracles?]{Do Public BDD Suites Still Work as Oracles?
+\title[BDD Suites as Oracles]{Do Public BDD Suites Still Work as Oracles?
 A Mutation-Based Instrument for Detecting Executable-Specification Drift in
 Cucumber-Style Suites}
 

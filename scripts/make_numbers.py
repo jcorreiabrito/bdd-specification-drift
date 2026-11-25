@@ -34,6 +34,11 @@ def read_csv(path):
         return list(csv.DictReader(f))
 
 
+def grp(n) -> str:
+    """Group thousands with a LaTeX-safe separator: 1270 -> 1{,}270."""
+    return f"{n:,}".replace(",", "{,}")
+
+
 def pct(n, d):
     return f"{100.0 * n / d:.2f}" if d else "0.00"
 
@@ -93,7 +98,7 @@ def main() -> int:
     }
     for full, short in reason_map.items():
         n = reasons.get(full, 0)
-        macros[f"R{short}"] = str(n)
+        macros[f"R{short}"] = grp(n)
         macros[f"P{short}"] = pct(n, n_screened)
     macros["Nfetchfailed"] = str(reasons.get("fetch_failed_413", 0))
     other = n_screened - n_elig - sum(reasons.get(k, 0) for k in reason_map)
@@ -178,11 +183,11 @@ def main() -> int:
                    if (r.get('DK_norm') or '') not in ('', 'None') else '---')} \\\\")
         body = "\n".join(rows)
         macros["MeasuredTable"] = (
-            "\\begin{table}[htbp]\\centering\\caption{Measured oracle strength per repository.}"
+            "\\begin{table*}[t]\\centering\\caption{Measured oracle strength per repository.}"
             "\\label{tab:measured}\\begin{tblr}{width=\\textwidth,colspec={X[1.6]X[0.8]rrr},rowsep=1pt}"
             "\\toprule\\textbf{Repository} & \\textbf{Lang.} & \\textbf{Mutants} & "
             "$\\mscov(\\bdd)$ & $\\dk$ \\\\\\midrule\n" + body +
-            "\n\\bottomrule\\end{tblr}\\end{table}")
+            "\n\\bottomrule\\end{tblr}\\end{table*}")
 
     # ---------------- power floor
     n_eff = n_measured if n_measured >= 4 else max(n_measured, 1)
@@ -197,19 +202,9 @@ def main() -> int:
     hist = read_csv(os.path.join(ROOT, "data", "metrics", "history_slopes.csv"))
     macros.update(HistoryK="12", Nhistory=str(len(hist)))
     if not hist:
-        # Emit a real (labelled) table even when empty, so that \ref{tab:history}
-        # in the Results text always resolves.
-        macros["HistoryTable"] = (
-            "\\begin{table}[htbp]\\centering"
-            "\\caption{Longitudinal indicator series. No repository in the corpus yielded a "
-            "usable series; the instrument is implemented and shipped in the replication "
-            "package, but it is not exercised on real data in this study.}"
-            "\\label{tab:history}"
-            "\\begin{tblr}{width=\\textwidth,colspec={X[2.0]rrr},rowsep=1pt}"
-            "\\toprule\\textbf{Repository} & \\textbf{Points} & \\textbf{D1 slope} & "
-            "\\textbf{D2 slope} \\\\\\midrule "
-            "\\SetCell[c=4]{c}\\emph{no usable longitudinal series} \\\\ "
-            "\\bottomrule\\end{tblr}\\end{table}")
+        # No series: emit NOTHING. An empty table with headers and a placeholder
+        # row reads as a rendering fault; the prose already explains the absence.
+        macros["HistoryTable"] = ""
     else:
         lines = []
         for r in hist:
@@ -217,11 +212,11 @@ def main() -> int:
                          f"{r.get('D1_skip_ratio_slope_per_day','')} & "
                          f"{r.get('D2_assertion_weakness_ratio_slope_per_day','')} \\\\")
         macros["HistoryTable"] = (
-            "\\begin{table}[htbp]\\centering\\caption{Longitudinal indicator series.}"
+            "\\begin{table*}[t]\\centering\\caption{Longitudinal indicator series.}"
             "\\label{tab:history}\\begin{tblr}{width=\\textwidth,colspec={X[2.0]rrr},rowsep=1pt}"
             "\\toprule\\textbf{Repository} & \\textbf{Points} & \\textbf{D1 slope} & "
             "\\textbf{D2 slope} \\\\\\midrule\n" + "\n".join(lines) +
-            "\n\\bottomrule\\end{tblr}\\end{table}")
+            "\n\\bottomrule\\end{tblr}\\end{table*}")
 
     # ---------------- python stratum
     py_elig = sum(1 for r in cand if r.get("state") == "eligible" and r.get("language") == "python")
