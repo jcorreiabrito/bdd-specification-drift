@@ -1,0 +1,97 @@
+# Confidentiality Firewall local configuration (NEVER commit)
+.secrets-denylist.local
+.secrets-allowlist.local
+.env
+.env.*
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Study subject clones and heavy temporary artifacts
+data/repos/
+scratch/
+tmp/
+logs/
+*.tmp
+*.bak
+*.swp
+*.local.ps1
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+.coverage
+htmlcov/
+.mutmut-cache
+
+# Node.js / JS / TS
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+.npm/
+
+# Java / Maven / Gradle
+target/
+build/
+.gradle/
+*.class
+*.jar
+*.war
+hs_err_pid*
+
+# LaTeX / MiKTeX intermediate build files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+
+# Tool state kept inside the workspace (sandbox forbids writing outside it)
+.pyuser/
+.npm-cache/
+probe/
+paper/out/
+paper/template/
+*.blg.stdout.txt
+
+# Third-party vendored sources: fetched papers are NOT redistributed (publisher
+# copyright). Re-fetch them with refs/RETRIEVALS.md instructions instead.
+lit/sources/
+
+# Machine-cached HTTP responses: kept on disk as provenance but not committed
+# (bulk third-party HTML/JS). The integrity record that IS committed is
+# data/raw/INDEX.jsonl (url, UTC timestamp, sha256, byte size).
+data/raw/*
+!data/raw/INDEX.jsonl
+
+# Fetched venue HTML -> text is machine-derived third-party content, not authored
+# here. Kept locally as audit evidence; the authoritative, quotable record is
+# submission/VENUE-RULES.md plus data/raw/INDEX.jsonl hashes.
+data/processed/venue/
