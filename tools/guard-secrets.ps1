@@ -185,7 +185,7 @@ foreach ($own in @(
 # None of these can contain OUR employer's information, and all are reproducible
 # from the committed scripts. Excluding them keeps the signal meaningful.
 $ExcludedSubtrees = [string[]]@(
-    'data\frame\', 'data\processed\', 'data\raw\', 'data\repos\', 'lit\sources\',
+    'data\frame\', 'data\processed\', 'data\pilot\', 'data\raw\', 'data\repos\', 'lit\sources\',
     'tools\jvm\', '.m2repo\', '.npm-cache\', '.pylibs\', '.gradle-home\',
     'paper\template\', 'pilot\smoke-js\node_modules\', 'pilot\smoke-java\target\'
 )
@@ -376,3 +376,4 @@ if ($Findings.Count -gt 0) {
 
 Write-Host "GUARD-SECRETS PASSED: 0 findings." -ForegroundColor Green
 exit 0
+

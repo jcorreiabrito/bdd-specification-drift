@@ -73,8 +73,40 @@ instance of the oracle-weakness phenomenon the study targets.
 
 ## R002 — Java mutation harness feasibility (PIT × Cucumber-JVM)
 
-- **UTC**: (pending)
-- **status**: attempted; see entry once the probe completes.
+- **UTC**: 2026-11-25T11:56:17Z
+- **git_sha**: `b7115a4` (smoke project untracked at run time)
+- **seed**: n/a (no sampling in this probe)
+- **purpose**: prove that PIT can drive a Cucumber-JVM suite through the JUnit
+  Platform engine and produce a mutation score, before committing the design.
+- **command**:
+  ```powershell
+  cd pilot\smoke-java
+  $env:JAVA_HOME="C:\Program Files\Java\jdk-22"
+  mvn -B -Dmaven.repo.local=<repo>\.m2repo test                    # baseline
+  mvn -B -Dmaven.repo.local=<repo>\.m2repo pitest:mutationCoverage # mutation
+  ```
+  (`mvn` = vendored Apache Maven 3.9.9 at `tools/jvm/maven/`.)
+- **tool versions**: PIT `pitest-maven` 1.30.2, `pitest-junit5-plugin` 1.2.3,
+  `io.cucumber:cucumber-java` 8.1.0, `cucumber-junit-platform-engine` 8.1.0,
+  JUnit Platform 6.1.3, JDK 22.0.1, `maven.compiler.release=17`.
+- **config**: `pilot/smoke-java/pom.xml` — `targetClasses=smoke.pricing.*`,
+  `targetTests=smoke.RunCucumberTest`, operators = PIT `DEFAULTS` (probe only).
+- **baseline result**: BUILD SUCCESS, Cucumber features discovered and executed.
+- **mutation result**: **19 mutants — 14 killed (74 %), 0 with no coverage**,
+  test strength 74 %, line coverage of mutated classes 12/14 (86 %),
+  29 tests ran (1.53 per mutation), total 5 s.
+- **artifact**: `pilot/smoke-java/target/pit-reports/` (XML + HTML); console
+  transcript `pilot/smoke-java/pitest.out.txt`.
+- **what this proves**: the Java stratum is tool-feasible; PIT discovers individual
+  Cucumber scenarios as tests (it names them in its timing block), so BDD-only vs
+  full-suite differential kill is computable in Java as well as JS.
+- **method-relevant observation**: PIT generated **19** mutants for the same domain
+  logic on which Stryker generated **43** (R001). This is direct local evidence that
+  mutation tools are not on a common axis, corroborating Kintis et al. (2018), and
+  is why `docs/method.md` forbids pooling raw scores across languages.
+- **environment caveat**: requires a vendored Maven and a workspace-local repository
+  (`-Dmaven.repo.local`), because Maven is absent from the host and the file sandbox
+  forbids writing to the default `~/.m2`.
 
 ---
 
