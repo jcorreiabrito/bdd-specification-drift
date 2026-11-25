@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this artefact, please cite the associated article and this repository."
+title: "bdd-specification-drift: replication package for a mutation-based instrument for detecting executable-specification drift in Cucumber-style suites"
+type: software
+version: "1.0.0"
+date-released: "2026-11-25"
+license: MIT
+authors:
+  - given-names: "João"
+    family-names: "Correia de Brito"
+    email: "correiadebrito.joao@gmail.com"
+    orcid: ""
+repository-code: "https://github.com/jcorreiabrito/bdd-specification-drift"
+keywords:
+  - behaviour-driven development
+  - BDD
+  - Cucumber
+  - Gherkin
+  - mutation testing
+  - test oracle
+  - specification drift
+  - empirical software engineering
+  - design science research
+abstract: >-
+  Replication package for a study that builds and evaluates a mutation-based instrument
+  for measuring the oracle strength of BDD (Cucumber) specification layers, tests its
+  feasibility in the Java (PIT) and JavaScript/TypeScript (Stryker) ecosystems, and
+  applies it to a pre-registered frame of 2,552 public repositories. Contains the frame
+  enumeration with snapshot hash and sampling seed, the screening and attrition tables,
+  the static-indicator and mutation harnesses with pinned tool versions, the raw
+  per-mutant statuses, the analysis scripts, and an append-only run log.
+references:
+  - type: article
+    title: "Do Public BDD Suites Still Work as Oracles? A Mutation-Based Instrument for Detecting Executable-Specification Drift in Cucumber-Style Suites"
+    authors:
+      - family-names: "Correia de Brito"
+        given-names: "João"
+    status: submitted
+    notes: "Submitted to iSys — Revista Brasileira de Sistemas de Informação (SBC/CESI)."

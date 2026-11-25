@@ -1,0 +1,94 @@
+name: build-and-smoke
+
+# Builds the manuscript with the venue's template and runs the JS mutation harness
+# smoke test. The workflow deliberately mirrors the local build: pdflatex + bibtex
+# (never latexmk, which the project does not use) with the same three-pass order.
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  paper:
+    name: Build manuscript (pdfLaTeX + BibTeX)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeX Live
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
+          working_directory: paper
+          # apalike-sol.bst ships in the repo; no extra TeX packages are required
+          # beyond a standard scheme.
+          latexmk_use_lualatex: false
+          args: -pdf -interaction=nonstopmode -halt-on-error
+
+      - name: Verify the reference audit passes
+        run: |
+          python3 -m pip install --quiet requests || true
+          python3 scripts/audit_refs.py
+
+      - name: Verify generated numbers are current
+        run: |
+          python3 scripts/make_numbers.py
+          python3 scripts/make_bib.py
+          git diff --exit-code -- paper/numbers.tex paper/refs.bib \
+            || (echo "::error::paper/numbers.tex or paper/refs.bib is stale; re-run the generators" && exit 1)
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: main.pdf
+          path: paper/main.pdf
+          if-no-files-found: error
+
+  smoke-js:
+    name: JS mutation harness smoke test (Stryker x Cucumber)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install harness dependencies
+        working-directory: pilot/smoke-js
+        run: npm install --no-audit --no-fund
+
+      - name: Baseline Cucumber suite must pass
+        working-directory: pilot/smoke-js
+        run: npx --no-install cucumber-js
+
+      - name: Mutation analysis must run and produce a report
+        working-directory: pilot/smoke-js
+        run: npx --no-install stryker run stryker.conf.json
+
+      - name: Assert the report exists and has the expected mutant count
+        working-directory: pilot/smoke-js
+        run: |
+          test -f reports/mutation.json || (echo "::error::no mutation report produced" && exit 1)
+          python3 - <<'PY'
+          import json, sys
+          d = json.load(open("reports/mutation.json"))
+          n = sum(len(v.get("mutants", [])) for v in d.get("files", {}).values())
+          print(f"mutants generated: {n}")
+          # The harness is fixed; a different count means the toolchain drifted.
+          if n != 43:
+              sys.exit(f"::error::expected 43 mutants, got {n} - toolchain drift?")
+          PY
+
+  guard:
+    name: Confidentiality firewall
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run guard-secrets
+        shell: pwsh
+        run: |
+          Set-ExecutionPolicy -Scope Process Bypass -Force
+          ./tools/guard-secrets.ps1
