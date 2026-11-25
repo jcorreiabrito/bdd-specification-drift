@@ -12,11 +12,11 @@ Status legend: **PASS** verified mechanically · **MANUAL** requires the author'
 | # | Rule | Status | Evidence |
 |---|---|---|---|
 | V8/V9 | Official iSys 2026 LaTeX template used, not an SBC default | **PASS** | `paper/sbc2025.cls`, `paper/apalike-sol.bst` vendored from `Template_LaTeX_iSys_2026_Preferred.zip` (sha256 `c852b3e3a4737448…`) |
-| V10 | Minimum 15 pages (no maximum stated) | **PASS** | PDF is 18 pages (`paper/out/main.pdf`) |
+| V10 | Minimum 15 pages (no maximum stated) | **PASS** | PDF is 20 pages (`paper/out/main.pdf`) |
 | V11 | Title in English | **PASS** | English title; manuscript written in English |
 | V12 | Abstract in English, 150–250 words, structured, **one paragraph** | **PASS** | Structured `[Context][Objective][Method][Results][Conclusion/Contributions]`; single paragraph; word count verified below |
 | V13 | 3–6 keywords | **PASS** | 6 keywords (verified by script) |
-| V14 | References in iSys template style (APA-based), DOIs where available, all cited works listed and vice versa | **PASS** | `apalike-sol.bst`; 78 entries generated from `refs/verified.csv`; `scripts/audit_refs.py` reports 78/78 Crossref-verified; no undefined citations in the build log |
+| V14 | References in iSys template style (APA-based), DOIs where available, all cited works listed and vice versa | **PASS** | `apalike-sol.bst`; **87** entries generated from `refs/verified.csv`; `scripts/audit_refs.py` reports **87/87** Crossref-verified; **87 cited / 87 listed / 0 uncited** and no undefined citations in the build log |
 | V19 | Figures ≥300 dpi, tables editable, captions self-explanatory | **PASS** | No raster figures; all tables are native `tblr`, therefore editable and vector |
 
 ### A1 — keyword count — RESOLVED
@@ -68,12 +68,12 @@ The abstract is **249 words** (rule V12 permits 150–250) and is a single parag
 
 | Check | Command | Result |
 |---|---|---|
-| Every DOI resolves and titles match | `python scripts/audit_refs.py` | **78/78 PASS** |
+| Every DOI resolves and titles match | `python scripts/audit_refs.py` | **87/87 PASS** |
 | No number typed by hand | `python scripts/make_numbers.py` | `paper/numbers.tex` generated from `data/`, `results/` |
 | No unresolved sentinel in the PDF | scan of extracted PDF text | **0** occurrences of `??` |
 | No undefined references or citations | scan of `paper/main.log` | **none** |
 | Confidentiality firewall | `./tools/guard-secrets.ps1` | **0 findings** |
-| Manuscript builds from clean | `.\build.ps1 -Clean` | 18 pages, 0 errors |
+| Manuscript builds from clean | `.\build.ps1 -Clean` | 20 pages, 0 errors |
 
 ## Actions required before upload
 
@@ -85,3 +85,22 @@ The abstract is **249 words** (rule V12 permits 150–250) and is a single parag
   are intentionally absent from the PDF (rule V27).
 - **A5** After acceptance: prepare the camera-ready by restoring author details, and supply the separate
   references file (.txt or .docx) that the journal requires (rule V28).
+
+## Post-red-team revisions (round 2)
+
+The manuscript was attacked by an independent red-team review (`docs/redteam.md`) before submission.
+The following defects it found were fixed, and the fixes are reflected in the checks above.
+
+| Defect | Severity | Resolution |
+|---|---|---|
+| "Pre-registered" was falsified by the package's own `DEVIATIONS.md`; executed protocol differed from the written one | **S0** | Rewritten: the paper now says **pre-specified, not externally registered or frozen**, and names the departures |
+| Confirmatory family never invoked its own drop rule DR1; an undefined power floor was compared against | **S0** | DR1 invoked explicitly; both strata dropped; the floor is stated as undefined at the achieved n and not reported |
+| IS scope: 0 of 78 references were IS venues; DSR invoked with zero citations | **S0** | **9 IS/SOL sources added** (MIS Quarterly, JMIS, IBM Systems Journal, Decision Support Systems, Requirements Engineering, 2× SBSI); DSR now cited at each invocation |
+| Manuscript claimed seeded-drift validation that never happened | **S0 (integrity)** | Claim removed from the declarations and from `docs/PROTOCOL.md`, which now carries an explicit evaluation-state table |
+| Abstract over 250 words | S1 | 241 words excluding labels, 246 including; limitation sentence added |
+| "Zero NO_COVERAGE mutants proves discrimination" — invalid inference | S1 | Rewritten: a single empty bin proves nothing; the argument now rests on the tools exposing `NoCoverage` as a distinct status |
+| 19-vs-43 mutant comparison presented as clean cross-tool evidence | S1 | Disclosed as confounded by different operator sets; a controlled comparison is named as future work |
+| Build-screen count inconsistent between `RUNLOG` (18), `numbers.tex` (25) and the CSVs | S1 | `RUNLOG` R005 corrected; `paper/numbers.tex` is now the single source and the entry says so |
+| Size-correlated HTTP 413 missingness hidden in "other" | S1 | Reported as its own threat, with the count, and the direction of bias stated |
+| 8 bibliography entries never cited | S1 | All 8 now cited in Related Work with accurate characterisations |
+| `\Nhistory{0}` presented as a corpus fact | S2 | Rewritten: the series is empty for a *mechanical* reason (no VCS history in the materialised sources), and this is stated |

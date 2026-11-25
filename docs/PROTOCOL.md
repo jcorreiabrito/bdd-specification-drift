@@ -207,21 +207,25 @@ If `S_common` covers less than half of the HEAD mutants, do not report a change 
 
 ## 8. Evaluation of this protocol
 
-The protocol's own claims are bounded by how it was evaluated, and the accompanying study reports:
+**Read this before relying on any indicator.** The protocol's own claims are bounded by how much of it
+has actually been evaluated, and the associated study did **not** complete the full evaluation. Stated
+plainly, so that a practitioner is not misled:
 
-- **Tool feasibility, proven not assumed** — a JS/TS path (Stryker + the official Cucumber runner)
-  and a Java path (PIT + the Cucumber-JVM JUnit-Platform engine) were both driven end to end, with
-  per-mutant coverage and per-scenario attribution, before any corpus measurement.
-- **Seeded-drift validation** — known drift injected into a working suite, checking that each
-  indicator flags what it is supposed to flag and that the mutation score moves in the expected
-  direction, with control injections to catch an indicator that simply flags everything.
-- **Reliability** — the two judgement-coded indicators (D2's weakening rubric, D7's mirror
-  judgement) require human raters; where no independent rater is available, the study must say so
-  and report no kappa rather than a fabricated one.
+| Element | State |
+|---|---|
+| Tool feasibility (Java, JS/TS) | **Demonstrated.** Both paths were driven end to end with per-mutant coverage and per-scenario attribution. |
+| Static indicators D1–D7 | **Implemented and runnable**; D2 and D7 are heuristic approximations of the judgement-coded rubric (see §5). |
+| Longitudinal indicators over history | **Implemented; not exercised on real data** in the associated study (the materialised repositories carried no VCS history). |
+| **Seeded-drift validation** | **NOT PERFORMED.** The injection experiment in §10 of the study protocol was not carried out. The indicators are therefore **not empirically validated against known ground truth**, and no detection rate exists. |
+| Inter-rater reliability | **NOT PERFORMED.** No independent human raters were available. No kappa is reported for any indicator, and D7's precision is unknown. |
+| Oracle strength on a public corpus | **Not established.** The associated study found no public repository that both built and produced a green Gherkin baseline within its budget, so no corpus-level score is reported. |
 
-Where the study could not complete an element of this evaluation, that is stated in the paper's
-limitations. **A protocol that reports its own gaps is more useful than one that hides them**, and
-practitioners should apply the same standard to their own results.
+Two consequences for anyone applying this protocol. First, treat D2 and D7 as **screening heuristics**
+that flag candidates for human inspection, not as measurements with known accuracy. Second, your own
+application of the protocol is the first real validation of it; we would be glad to know the result.
+Where the study could not complete an element, that is stated in the paper's limitations. **A protocol
+that reports its own gaps is more useful than one that hides them**, and practitioners should apply the
+same standard to their own results.
 
 ---
 

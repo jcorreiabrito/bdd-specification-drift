@@ -32,6 +32,26 @@ or (b) a pre-gate decision awaiting human approval.
 | **G3** | `"specification drift"` is **not** an established term; the paper must coin and define it as a specialisation of architectural drift, with hedging. | `lit/novelty.md` §5 | naming decision, gate report §1 |
 | **G4** | Novelty survives only as a **conjunction**; AAT4IRS (2024) already mutation-tested a BDD suite once. | `lit/novelty.md` | acknowledgement in the introduction |
 
+
 ## C. Post-gate deviations
 
-_None yet — the gate has not closed._
+The P1.5 gate was approved with two decisions (D1: reframe as IS/Design-Science; D2: redefine the frame
+to require a licence and an application shape). Execution then departed from `docs/method.md` in the
+following respects. Each is disclosed in the manuscript.
+
+| # | Deviation | Reason | Disclosed in |
+|---|---|---|---|
+| **G5** | `docs/method.md` was **not frozen or externally registered**. It is described in the paper as *pre-specified*, not pre-registered. | No registration was lodged and the document was edited as the pilot exposed problems. Claiming pre-registration would be false. | `paper/sections/05-method.tex` opening; threats |
+| **G6** | Eligibility criteria E7/E8 (framework-exclusion list + domain-layer test) were replaced by an observable application-shape test. | The original tests were not mechanically decidable without a build, and admitted tooling that passed them. | `05-method.tex` §Eligibility; threats |
+| **G7** | The seeded-drift validation campaign was **not performed**. | Pilot yielded no repository with a green Gherkin baseline, so there was no suite to inject drift into. | `08-threats.tex`; `docs/PROTOCOL.md` §8 |
+| **G8** | Inter-rater reliability was **not performed**; no Cohen's kappa is reported. | No independent human raters were available. No automated labeller was substituted. | `08-threats.tex`; abstract limitation sentence |
+| **G9** | The longitudinal component was implemented but **not exercised on real data**. | Repositories were materialised from source archives and depth-one clones, which carry no history to walk. | `06-results.tex`; `08-threats.tex` |
+| **G10** | The build/execution screen covered 25 of the 94 eligible repositories, not all. | Wall-clock cost of dependency installation and Maven resolution. | `06-results.tex` §Build and execution screen |
+| **G11** | Four artefacts mandated by `docs/method.md` §5.4/§15.1/§15.3 were **not produced**: `results/runlog.jsonl`, `scripts/render_runlog.py`, `data/corpus/LOCKFILE.csv`, `data/attrition/attrition.csv`. The run log is Markdown (`results/RUNLOG.md`) and the attrition data lives in `data/corpus/bs_*.csv`. | The Markdown log and the per-language CSVs carry the same information in a different shape; the JSONL/LOCKFILE forms were not generated. A replication should generate them. | replication `README.md` |
+| **G12** | Python stratum not established. | PyPI resets and `mutmut` 3.x couples to pytest rather than a BDD runner. | `06-results.tex`; `results/RUNLOG.md` R003 |
+
+**Note on G11.** This is recorded rather than quietly satisfied because the method document names those
+paths. A reader comparing the protocol to the package will find the information, but not at the named
+paths; that mismatch is a defect in the package's conformance to its own protocol, not a missing
+measurement.
+

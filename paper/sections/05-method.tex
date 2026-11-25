@@ -1,10 +1,22 @@
-﻿\section{Method}
+\section{Method}
 \label{sec:method}
 
-The method was pre-registered in a versioned protocol document before any corpus measurement, and the
-commit timestamp is its evidence. This section reports what was actually executed, including where it
-departs from the pre-registered plan; departures are enumerated in Section~\ref{sec:threats} and in
-the replication package.
+The method was specified in advance in a versioned protocol document (\texttt{docs/method.md}), written
+and committed before any corpus measurement in order to constrain analytic freedom. \textbf{It was not
+externally registered and not frozen}: no registration service was used, no hash-frozen copy was
+lodged, and the document continued to be edited as the pilot exposed problems. We therefore describe
+the work as \emph{pre-specified} rather than \emph{pre-registered}, and we do not claim the evidential
+force that a genuine pre-registration would carry.
+
+This matters because the executed protocol departs from the written one on several load-bearing points,
+and those departures are the reader's business. The most consequential are: the planned census of a
+sampled frame became a full enumeration of the frame; the eligibility criteria were revised after the
+pilot, replacing the protocol's framework-exclusion and domain-layer tests with an observable
+application-shape test; the seeded-drift campaign and the inter-rater reliability study were not
+carried out; and the pre-registered stop-at-$n$ rule was superseded by the available population. Each
+departure is recorded with a reason and a timestamp in \texttt{docs/DEVIATIONS.md} and summarised in
+Section~\ref{sec:threats}; the replication package contains the protocol document as written, so a
+reader can check the differences rather than take our word for them.
 
 \subsection{Sampling frame}
 
@@ -54,10 +66,14 @@ A repository enters the corpus only if all eight criteria hold, each mechanicall
 \item a BDD runner named in a build manifest or dependency file.
 \end{enumerate}
 
-Criteria 7 and 8 were added after the pilot (P1.5) revealed that the naive rule --- features, steps,
-build, licence --- admitted reporting agents, test utilities and Maven plugins but almost no
-applications with business rules. This is a change to the frame definition made \emph{before} the
-gate closed, with the supporting pilot data, and it is disclosed here and in the replication package.
+Criteria 7 and 8 are a revision of the protocol as written. The original document specified a
+framework-exclusion list and a domain-layer test; the pilot showed that those tests were not
+mechanically decidable on a source archive without executing the project, and that repositories could
+satisfy them while still being reporting agents or step libraries with no business rules. They were
+therefore replaced by an observable shape test --- at least ten non-test source files and a BDD runner
+declared in a manifest --- which is checkable without a build. Because this is a change to a stated
+criterion after data collection had begun, it is logged in \texttt{docs/DEVIATIONS.md} and named in
+Section~\ref{sec:threats} as a threat rather than presented as a refinement.
 
 \subsection{Funnel and attrition}
 
@@ -83,7 +99,10 @@ the Gherkin layer ran at all; \texttt{bdd\_fails} denotes a repository whose tes
 Reporting the first as the second would inflate apparent build attrition, and reporting either as
 \texttt{bdd\_passes} would admit a suite that never executed a scenario. Because a green
 \texttt{mvn test} proves nothing about Gherkin, the harness requires positive evidence of Cucumber
-execution in the output before a repository is accepted.
+execution in the output before a repository is accepted as \texttt{bdd\_passes}. The evidence flag is
+recorded for repositories whose run exited zero; where the run exited non-zero with test output, the
+execution is established by that output itself and the flag is left empty, which is why the
+\texttt{bdd\_fails} rows show an empty \texttt{bdd\_evidence} column in the released table.
 
 \subsection{Outcome: oracle strength}
 

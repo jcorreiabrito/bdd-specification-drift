@@ -1,4 +1,4 @@
-﻿\section{Results}
+\section{Results}
 \label{sec:results}
 
 Every number in this section is produced by a command recorded in the replication package's run log
@@ -129,20 +129,26 @@ Java & PIT \PitVer{} + \texttt{pitest-junit5-plugin} \PitPluginVer{}, Cucumber-J
 \end{tblr}
 \end{table}
 
-Both runs reported zero mutants in the \texttt{NO\_COVERAGE} category, which is the property the
-construct requires: the tool was able to distinguish \emph{executed but survived} from \emph{never
-executed}, so the coverage-conditioned score of Equation~\eqref{eq:mscov} is computable rather than
-being an alias for coverage. In both ecosystems the tool attributed each mutant to the individual
-Cucumber scenarios that killed it, which is what makes the differential of
-Equation~\eqref{eq:dk} computable.
+Both runs reported zero mutants in the \texttt{NO\_COVERAGE} category. That zero is a consequence of
+the purpose-built suites, which exercise every line of the module under mutation, and it does
+\emph{not} by itself demonstrate that the harness can separate execution from non-execution: a single
+empty bin distinguishes nothing. What demonstrates the capability is that both tools expose
+\texttt{NoCoverage} as a distinct per-mutant status, which the raw reports record, and that the
+harness maps it to its own \texttt{NO\_COVERAGE} category before either score of
+Equations~\eqref{eq:msall}--\eqref{eq:mscov} is computed. A replication that adds an unexercised
+control module would settle the point empirically, and we recommend it. In both ecosystems the tool
+also attributed each mutant to the individual Cucumber scenarios that killed it, which is what makes
+the differential of Equation~\eqref{eq:dk} computable.
 
 The most instructive single number from this stage is a negative one. For the same domain logic, PIT
 generated \JavaMutants{} mutants while Stryker generated \JsMutants{} --- a ratio of roughly
-\MutantRatio{}. This is a direct, locally reproducible instance of the cross-tool incomparability
-reported by Kintis et al.\ \cite{Kintis2018HowEffectiveTools}, and it is the empirical justification
-for the method's refusal to pool scores across ecosystems. It also means that any cross-language
-comparison of ``BDD oracle strength'' in the literature should be treated as comparing tools until
-proven otherwise.
+\MutantRatio{}. This comparison is \emph{confounded by design}, and we state it as such: the two runs
+used their tools' default operator sets (recorded in the run log) rather than a common aligned set, so
+the difference reflects operator configuration as well as tool behaviour. It is nonetheless consistent
+with the cross-tool incomparability reported by Kintis et al.\ \cite{Kintis2018HowEffectiveTools}, and
+it is a sufficient reason for the method's refusal to pool scores across ecosystems. A controlled
+comparison would pin both tools to the same aligned operator set, which the study protocol specifies
+for the corpus stage but which the feasibility probes did not require.
 
 \subsection{Oracle strength (RQ2)}
 
@@ -164,18 +170,24 @@ Section~\ref{sec:threats} states what a reader should and should not infer.
 RQ3 asks whether pre-specified static drift indicators associate with lower BDD-only kill rates, and
 whether drift accumulates over repository history.
 
-For the association component, the pre-registered detectable-effect floor at the achieved $n$ is
-$|\rho|_{\min} = \FloorRho$ (Equation in Section~\ref{sec:method}). Any association weaker than this
-could not have been detected by the design, so a null result here is uninformative about weak or
-moderate associations, and we report it as \emph{not estimable at this $n$} rather than as evidence
-of absence.
+The protocol contains its own rule for this situation. The protocol's drop rule DR1 removes a stratum
+with fewer than eight repositories measurable end-to-end. Here \Nmeasured{} repositories were
+measurable, so **both strata fall below the threshold and DR1 applies to each**: the confirmatory
+family (D1 and D2 against $\mscov(\bdd)$, Holm-corrected) is therefore **void by the protocol's own
+rule**, not merely underpowered. We invoke DR1 rather than reporting a null result, because a null
+would imply that an association had been estimated and found absent, and no estimation was possible.
+The pre-specified detectable-effect floor is consequently not reported: it is defined on the Fisher-$z$
+scale as $1.030/\sqrt{n-3}$, which is undefined for the $n$ actually achieved.
 
 For the erosion component, the static history miner recomputes the indicators at \HistoryK{}
-deterministically sampled commits per repository and reports Theil--Sen slopes. This component runs
-without builds and is therefore available for repositories that could not be executed; its output is
-reported in Table~\ref{tab:history} for the \Nhistory{} repositories with a usable series. As declared,
-a slope is a statement about accumulation over the sampled commits, and the two-snapshot change
-estimate is reported as a change, never as a trend.
+deterministically sampled commits per repository and reports Theil--Sen slopes. This component needs
+no builds, but it does need commit history, and the repositories that reached this stage were
+materialised from source archives and from depth-one clones, neither of which carries the history the
+miner walks. The series is therefore empty for a \emph{mechanical} reason, not because the
+repositories lack history: \Nhistory{} repositories yielded a usable series. The miner is implemented
+and shipped in the replication package, and exercising it requires re-cloning candidates with full
+history --- a step this study budgeted for the corpus stage and did not reach. We make no longitudinal
+claim.
 
 \HistoryTable
 
@@ -193,8 +205,9 @@ is entitled to know where the evidence stops.
       conjunction.
 \item \textbf{No completed build screen.} \Nbuildtested{} of \Neligible{} eligible repositories were
       attempted; the remainder were not screened for build and execution.
-\item \textbf{No corpus-scale association.} At the achieved $n$ the detectable-effect floor exceeds any
-      plausible association for the weaker indicators.
+\item \textbf{No corpus-scale association.} The pre-specified confirmatory family is void under drop
+      rule DR1, because \Nmeasured{} repositories were measurable against a threshold of eight per
+      stratum. No association was estimated, so no null result is claimed either.
 \item \textbf{No Python stratum.} The frame yielded \NpyEligible{} Python repositories satisfying the
       application-shape criterion, and the Python mutation toolchain could not be established
       reliably in this environment (package index unreliability, and the tooling's coupling to a

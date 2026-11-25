@@ -95,6 +95,7 @@ def main() -> int:
         n = reasons.get(full, 0)
         macros[f"R{short}"] = str(n)
         macros[f"P{short}"] = pct(n, n_screened)
+    macros["Nfetchfailed"] = str(reasons.get("fetch_failed_413", 0))
     other = n_screened - n_elig - sum(reasons.get(k, 0) for k in reason_map)
     macros["Rother"] = str(max(other, 0))
     macros["Pother"] = pct(max(other, 0), n_screened)

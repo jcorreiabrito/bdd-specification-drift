@@ -55,20 +55,32 @@ indefensible, which is why our analysis is stratified by language and tool.
 Mutation analysis has been applied at levels above the unit test --- to end-to-end web suites
 \cite{leotta2023mutta}, to evolving systems over time \cite{Ojdanic2023MutationEvolving,
 ojdanic2023longstanding,akour2020evolution} --- and to specifications themselves
-\cite{black2000specmutation}. What it has not been used for, systematically, is measuring the
-discriminating power of a \emph{BDD specification layer} across a corpus.
+\cite{black2000specmutation}. It has also been studied where practitioners actually are: a large-scale
+examination of repositories on GitHub characterises how mutation testing is adopted in the wild
+\cite{Sanchez2022MutationInTheWild}, a static and dynamic comparison of Python mutation tools shows
+that they diverge in the mutants they generate \cite{Guerino2024PythonTools}, and a study asking
+``will my tests tell me if I break this code?'' examines the discriminating power of suites at
+different test levels \cite{niedermayr2016willmytests}. The technique has been combined with
+test-driven development in a controlled experiment \cite{roman2020tddm} and extended to
+cyber-physical systems through data-driven analysis \cite{vigano2022damat}. What it has not been used
+for, systematically, is measuring the discriminating power of a \emph{BDD specification layer} across
+a corpus.
 
 \subsection{The oracle problem and assertion quality}
 
-Whether a test can detect a fault depends on its oracle \cite{barr2015oracleproblem}. Assertion
-quality has been studied as a defect source \cite{zhi2013inadequateassertions,zhang2015assertions},
-as a measurable density \cite{Catolino2019AssertionDensity}, and as a driver of false confidence in
-``pseudo-tested'' methods that are covered but not effectively asserted
-\cite{veraperez2018pseudotested}. Test-suite assessment has looked at whether suites would catch
-injected faults \cite{yandrapally2021maewu,soto2021e2edataset}. Static indicators have been used to
+Whether a test can detect a fault depends on its oracle \cite{barr2015oracleproblem}, and the choice of
+oracle has been evaluated empirically, including the use of assertions specifically
+\cite{shrestha2011assertionsoracles}. Assertion quality has been studied as a defect source
+\cite{zhi2013inadequateassertions,zhang2015assertions}, as a measurable density
+\cite{Catolino2019AssertionDensity}, and as a driver of false confidence in ``pseudo-tested'' methods
+that are covered but not effectively asserted \cite{veraperez2018pseudotested}. Test-suite assessment
+has looked at whether suites would catch injected faults
+\cite{yandrapally2021maewu,soto2021e2edataset}. Static indicators have been used to
 \emph{predict} mutation scores at the level of an individual test case
 \cite{Grano2021Lightweight}, and removing redundant tests has been shown to change coverage and
-mutation scores \cite{Bhatta2025TestDeletion}.
+mutation scores \cite{Bhatta2025TestDeletion}. At the system level, smells specific to system user
+interactive tests have been catalogued \cite{rwemalika2023suit}, and test-code refactoring has been
+related to test-code quality outcomes \cite{Martins2024TestRefactoring}.
 
 The nearest miss to our RQ3 is \cite{Grano2021Lightweight}: static indicators estimating a test
 case's mutation score. Our unit is different (the repository's specification layer, not an individual
@@ -99,6 +111,28 @@ applied to test suites. We therefore introduce \emph{specification drift} explic
 --- a specialisation of architectural drift to the executable-specification layer --- and we do not
 present it as a received construct. This is a terminological contribution at best, and we do not
 overstate it.
+
+\subsection{Traceability in the Information Systems literature}
+
+Because the instrument includes a traceability measure --- the fraction of identifiable business rules
+that at least one scenario references --- it is grounded in the IS literature on requirements
+traceability rather than invented for the occasion. Traceability between requirements and downstream
+artefacts is a long-standing IS concern, motivated by the need to demonstrate that a system satisfies
+the requirements it was built against; a systematic review of pre-requirements-specification
+traceability characterises its motivations and the persistent difficulty of establishing it in
+practice \cite{mucha2024prerequirements}. That difficulty is not confined to plan-driven settings:
+Brazilian studies of agile practice report that requirements traceability remains problematic when
+requirements are expressed as user stories and acceptance criteria rather than as numbered
+specifications \cite{trindade2016rastreabilidade}, and that independently evolving systems in a
+software ecosystem complicate tracing further \cite{goncalves2022rastreabilidade}.
+
+This body of work is why we treat traceability coverage as an \emph{indicator of organisational
+legibility} rather than as a completeness metric. A scenario that references no identifiable rule may
+still be a good test; what it cannot do is connect the system's behaviour to a stated obligation. The
+IS framing also explains why the business-and-IT alignment tradition treats such connections as
+processes to be maintained rather than states to be achieved \cite{henderson1993strategic}: a
+traceability link that is established once and never revisited decays exactly as the rest of the
+specification does.
 
 \subsection{What is new, precisely}
 

@@ -1,4 +1,4 @@
-﻿\section{Threats to validity}
+\section{Threats to validity}
 \label{sec:threats}
 
 We argue each threat explicitly and quantify it where the data allow. Where a threat could not be
@@ -36,7 +36,7 @@ the domain layer, so infrastructure and glue are excluded by construction. The o
 restricted to decision-logic operators. And ``business-rule relevance'' is treated as a separate,
 explicitly labelled judgement rather than assumed.
 
-\textbf{What we could not do.} The pre-registered plan called for two independent human raters to
+\textbf{What we could not do.} The pre-specified plan called for two independent human raters to
 label a random sample of mutants as business-rule-relevant or not, and to report Cohen's $\kappa$.
 \textbf{No independent human raters were available for this study, so no $\kappa$ is reported.} We
 regard this as a genuine limitation rather than a formality: it means the strength of the proxy
@@ -122,7 +122,35 @@ domain logic, PIT generated 19 mutants while Stryker generated 43.
 reported as a headline; where a pooled figure appears it is an average of within-stratum associations
 with a cluster bootstrap, and is labelled as such. Operator sets are stated per tool.
 
-\subsection{Construct terminology}
+\subsection{Validation experiments that were not performed}
+
+\textbf{Mechanism.} The protocol specifies two evaluations that this study did not carry out: a
+seeded-drift campaign (inject known drift into working suites and check that each indicator flags it,
+with control injections) and an inter-rater reliability study for the judgement-coded indicators.
+Without them, the indicators' sensitivity and specificity are unknown, and D2 and D7 in particular are
+unvalidated heuristics.
+
+\textbf{Disclosure.} We state this wherever the indicators are used, and the practitioner protocol
+(\texttt{docs/PROTOCOL.md}) carries an explicit evaluation-state table telling users that seeded-drift
+validation was \textbf{not} performed and that no detection rate exists. The manuscript does not claim
+that the indicators were validated. This is the most serious limitation of the artefact: a measurement
+instrument whose accuracy has not been established can still support the \emph{decision to investigate},
+but it cannot support a quantitative verdict.
+
+\subsection{Size-correlated missingness in the frame}
+
+\textbf{Mechanism.} \Nfetchfailed{} candidate repositories could not be fetched at all: the archive
+exceeded the size cap and the host returned an HTTP 413. These repositories are recorded as excluded
+with a distinct reason and are \emph{not} counted as analysed.
+
+\textbf{Why it matters.} The missingness is correlated with size, and project size plausibly correlates
+with both engineering maturity and the presence of a domain layer. If large projects are systematically
+missing, the eligible set is biased toward smaller codebases.
+
+\textbf{Mitigation.} The count and the reason are reported in the funnel rather than folded into
+``other'', so a reader can see the magnitude and the mechanism. We did not raise the cap and retry,
+because the fetch path is what a replication would also have to use; a replication with more generous
+limits should report a different, and probably larger, eligible set.
 
 \textbf{Mechanism.} ``Specification drift'' is not an established term, and if a reader interprets it
 as a received construct the paper will appear to claim more prior consensus than exists.

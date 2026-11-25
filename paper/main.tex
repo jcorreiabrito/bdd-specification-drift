@@ -62,27 +62,26 @@ Cucumber-Style Suites}
 \maketitle
 
 \begin{abstract-en}
-[Context] In organisations, a business rule typically lives in three places that can drift apart: the
-requirement, the executable specification written in Gherkin, and the code. Behaviour-Driven
-Development (BDD) is widely adopted on the premise that executable specifications keep the first and
-the third aligned, yet no metric is routinely used to check whether that alignment still holds.
-[Objective] We ask whether the specification layer of a Cucumber-style suite still functions as an
-\emph{oracle} --- whether it can discriminate a change in the business rules it claims to describe ---
-and we design an instrument for organisations to answer that question about their own suites.
-[Method] Following Design Science Research, we build a drift-detection protocol and evaluate it in
-two ways: feasibility of mutation-based oracle measurement in two ecosystems, and a pre-registered
-measurement of the population of public Cucumber suites, from a frame of \Nframe{} repositories drawn
-with a fixed seed and subject to a stated, categorised attrition protocol.
-[Results] Mutation-based oracle measurement is feasible in both the Java and JavaScript/TypeScript
-ecosystems, with per-mutant coverage and per-scenario attribution confirmed end to end. However, of
-\Nscreened{} screened repositories only \Neligible{} satisfy the study's static eligibility criteria
-(\YieldPct\,\% ; 95\,\% CI \YieldLo--\YieldHi\,\%), and of \Nbuildtested{} build-tested repositories
-\Ngreen{} produced a green, executing Gherkin baseline.
-[Conclusion/Contributions] The binding constraint on evidence about BDD oracle quality is not
-statistical but infrastructural: public BDD suites are overwhelmingly frameworks, templates and
-demonstrators rather than applications with an executable specification layer. We contribute the
-instrument, the feasibility evidence, and a quantified attrition analysis that any future study of
-BDD effectiveness must confront.
+[Context] A business rule lives in three places that can drift apart: the organisational requirement,
+the executable specification written in Gherkin, and the code. Behaviour-Driven Development (BDD) is
+adopted on the premise that executable specifications keep the first and third aligned, yet no metric
+is used to check whether that alignment still holds. [Objective] We ask whether the
+specification layer of a Cucumber-style suite still functions as an \emph{oracle} --- whether it can
+discriminate a change in the business rules it claims to describe --- and we design an instrument for
+organisations to answer it about their own suites. [Method] Following Design Science
+Research, we build and evaluate a drift-detection protocol as feasibility of mutation-based
+oracle measurement in two ecosystems, and a measurement of the public population from a frame of \Nframe{}
+repositories drawn with a fixed seed under a categorised attrition protocol.
+[Results] Mutation-based oracle measurement is feasible in the Java and JavaScript/TypeScript
+ecosystems, with per-mutant coverage and per-scenario attribution. However, of
+\Nscreened{} screened repositories \Neligible{} met the study's static eligibility criteria
+(\YieldPct\,\%; 95\,\% CI \YieldLo--\YieldHi\,\%), and of \Nbuildtested{} build-tested repositories
+\Ngreen{} produced a green, executing Gherkin baseline. [Conclusion/Contributions] The binding constraint on evidence about BDD oracle quality is
+infrastructural rather than statistical: public BDD suites are overwhelmingly frameworks, templates and
+demonstrators, not applications with an executable specification layer. We contribute the instrument, the feasibility evidence and a
+quantified attrition analysis. \emph{Limitation.} No independent human raters were available, so the
+judgement-coded indicators carry no inter-rater reliability statistic, and no corpus-scale association
+could be estimated.
 \end{abstract-en}
 
 \begin{keywords}

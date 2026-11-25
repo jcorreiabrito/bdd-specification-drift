@@ -5,41 +5,45 @@ Do Public BDD Suites Still Work as Oracles? A
 Mutation-Based Instrument for Detecting
 Executable-Specification Drift in Cucumber-Style Suites
 Anonymous submission — author identities withheld for review
-Abstract. [Context] In organisations, a business rule typically lives in three places that can drift apart: the
-requirement, the executable specification written in Gherkin, and the code. Behaviour-Driven Development
-(BDD) is widely adopted on the premise that executable specifications keep the first and the third aligned,
-yet no metric is routinely used to check whether that alignment still holds. [Objective] We ask whether
-the specification layer of a Cucumber-style suite still functions as an oracle — whether it can discriminate
-a change in the business rules it claims to describe — and we design an instrument for organisations to
-answer that question about their own suites. [Method] Following Design Science Research, we build a
-drift-detection protocol and evaluate it in two ways: feasibility of mutation-based oracle measurement in two
-ecosystems, and a pre-registered measurement of the population of public Cucumber suites, from a frame of
-2,552 repositories drawn with a fixed seed and subject to a stated, categorised attrition protocol. [Results]
-Mutation-based oracle measurement is feasible in both the Java and JavaScript/TypeScript ecosystems,
-with per-mutant coverage and per-scenario attribution confirmed end to end. However, of 2,552 screened
-repositories only 94 satisfy the study’s static eligibility criteria (3.68% ; 95% CI 3.0–4.5%), and of 22
-build-tested repositories 0 produced a green, executing Gherkin baseline. [Conclusion/Contributions] The
-binding constraint on evidence about BDD oracle quality is not statistical but infrastructural: public
-BDD suites are overwhelmingly frameworks, templates and demonstrators rather than applications with
-an executable specification layer. We contribute the instrument, the feasibility evidence, and a quantified
-attrition analysis that any future study of BDD effectiveness must confront.
+Abstract. [Context] A business rule lives in three places that can drift apart: the organisational requirement,
+the executable specification written in Gherkin, and the code. Behaviour-Driven Development (BDD) is
+adopted on the premise that executable specifications keep the first and third aligned, yet no metric is
+used to check whether that alignment still holds. [Objective] We ask whether the specification layer of a
+Cucumber-style suite still functions as an oracle — whether it can discriminate a change in the business rules
+it claims to describe — and we design an instrument for organisations to answer it about their own suites.
+[Method] Following Design Science Research, we build and evaluate a drift-detection protocol as feasibility
+of mutation-based oracle measurement in two ecosystems, and a measurement of the public population
+from a frame of 2,552 repositories drawn with a fixed seed under a categorised attrition protocol. [Results]
+Mutation-based oracle measurement is feasible in the Java and JavaScript/TypeScript ecosystems, with
+per-mutant coverage and per-scenario attribution. However, of 2,552 screened repositories 94 met the study’s
+static eligibility criteria (3.68%; 95% CI 3.0–4.5%), and of 31 build-tested repositories 0 produced a green,
+executing Gherkin baseline. [Conclusion/Contributions] The binding constraint on evidence about BDD
+oracle quality is infrastructural rather than statistical: public BDD suites are overwhelmingly frameworks,
+templates and demonstrators, not applications with an executable specification layer. We contribute the
+instrument, the feasibility evidence and a quantified attrition analysis. Limitation. No independent human
+raters were available, so the judgement-coded indicators carry no inter-rater reliability statistic, and no
+corpus-scale association could be estimated.
 Keywords: Behaviour-Driven Development, executable specifications, mutation testing, test oracle, specifi-
-cation drift, design science research, empirical software engineering
+cation drift, empirical software engineering
 Received: DD Month YYYY • Accepted: DD Month YYYY • Published: DD Month YYYY
 1 Introduction
 An information system is not merely a body of code;
 it is a system of work in which organisational rules are
 encoded so that routine decisions can be made consis-
-tently. When a bank approves a loan, a retailer prices an
-order, or an insurer settles a claim, the software enacts
-a business rule that someone, somewhere, wrote down.
-The distance between the rule as intended and the rule
-as enacted is an old concern of the Information Systems
-(IS) field, which has long studied the alignment between
-organisational requirements and the systems that sup-
-port them. This paper is about a specific, measurable,
-and surprisingly neglected way in which that distance
-grows.
+tently. When a lender approves a loan, a retailer prices
+an order, or an insurer settles a claim, the software en-
+acts a business rule that someone, somewhere, wrote
+down. The distance between the rule as intended and
+the rule as enacted is an old concern of the Information
+Systems (IS) field, whose literature has long treated the
+alignment between business strategy and information
+technology as a continuing managerial problem rather
+than a one-off design decision Henderson and Venkatra-
+man (1993), and which distinguishes the quality of the
+information an artefact carries from the quality of the
+system that carries it DeLone and McLean (2003). This
+paper is about a specific, measurable, and surprisingly
+neglected way in which that distance grows.
 Behaviour-Driven Development (BDD) was pro-
 posed precisely to close it. A requirement is written
 as a concrete scenario in a structured natural language
@@ -73,14 +77,14 @@ measurement question. Is there an instrument that tells
 an organisation, with acceptable effort, whether its spec-
 ification layer still functions as an oracle — and whether
 that ability is decaying?
+=== page 2 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 1.1 The gap this paper addresses
 The literature tells us a great deal about BDD’s adoption
 Zampetti et al. (2020), its scenario quality Chandorkar
 et al. (2022); Binamungu et al. (2020), the maintain-
 ability burden of keeping scenarios and code in step
 Binamungu et al. (2018b); Oliveira et al. (2019), and
-=== page 2 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 its benefits as reported by practitioners Couto et al.
 (2022). It tells us that mutation analysis is the standard
 instrument for measuring a suite’s discriminating power,
@@ -156,7 +160,7 @@ Cucumber-JVM JUnit-Platform engine) and the
 JavaScript/TypeScript ecosystem (Stryker with the
 official Cucumber runner). We report the exact
 pinned versions and the observed mutation counts.
-3. A pre-registered, quantified account of the popula-
+3. A pre-specified, quantified account of the popula-
 tion. From a frame of 2,552 repositories enumerated
 without a popularity-ranked search, we report eligi-
 bility, build and execution attrition with categorised
@@ -185,16 +189,16 @@ than reporting a number we could not honestly produce
 1.5 Organisation
 Section 2 states the problem in IS terms. Section 3
 positions the work against prior literature and states
-precisely what is and is not new. Section 4 presents
-the design-science framing and the artefact. Section 5
-gives the pre-registered method: frame, eligibility, met-
-rics, mutation protocol and statistics. Section 6 reports
-results, including the measured attrition. Section 7 dis-
-cusses implications for research and practice. Section 8
-argues each threat to validity and quantifies it where
-possible. Section 9 concludes.
+precisely what is and is not new. Section 4 presents the
+design-science framing and the artefact. Section 5 gives
+the pre-specified method: frame, eligibility, metrics, mu-
+tation protocol and statistics. Section 6 reports results,
+including the measured attrition. Section 7 discusses
+implications for research and practice. Section 8 argues
 === page 3 ===
 Do Public BDD Suites Still Work as Oracles? Anonymous submission
+each threat to validity and quantifies it where possible.
+Section 9 concludes.
 2 Background: why this is an
 Information Systems problem
 2.1 The rule, the specification and the
@@ -202,13 +206,22 @@ code
 In the IS tradition an information system is understood
 as a system of work in which human participants and
 technological components jointly perform activities to
-process information and support decision-making; its
-value emerges from integration into organisational prac-
-tice rather than from technological functionality alone.
-This framing has a direct consequence for how we should
-judge software artefacts: what matters is not whether
-the code runs, but whether it continues to enact the
-organisational rule it was built to enact.
+process information and support decision-making, and
+its value emerges from integration into organisational
+practice rather than from technological functionality
+alone. The alignment between business strategy and
+information technology has been framed as a continuing
+process of managerial fit rather than a one-off design
+choice Henderson and Venkatraman (1993), and the
+success of an information system has been modelled as
+a multi-dimensional construct in which the quality of
+the information and the quality of the system are dis-
+tinct from their use and their net organisational benefit
+DeLone and McLean (2003). These framings matter
+here for a direct reason: they insist that a system can
+be technically sound and organisationally wrong at the
+same time, which is precisely the failure mode this paper
+measures.
 BDD is an attempt to make that correspondence
 inspectable. A requirement is expressed as scenarios in
 Gherkin, in domain vocabulary, and those scenarios are
@@ -287,17 +300,23 @@ legible appearance, degraded function — is what makes
 an instrument necessary, and it is why a practitioner
 cannot simply read the feature files and know.
 2.4 The Design Science framing
-We therefore treat the problem as a design problem, in
-the sense of Design Science Research (DSR): there is
-an organisational problem class (business rules silently
-diverging from the system that enacts them), and the
-response is to build and evaluate an artefact that makes
-the divergence detectable. The artefact is a measure-
-ment protocol, not a tool. Its evaluation has two parts:
-whether the measurement is feasible with available tool-
-ing (constructed and tested), and what it reveals when
-applied to a defined population (observed, with attrition
-reported).
+We therefore treat the problem as a design problem,
+in the sense of Design Science Research (DSR). Design
+science builds and evaluates artefacts intended to ad-
+dress identified organisational problems, with relevance
+and rigour as twin requirements Hevner et al. (2004),
+and it is distinguished from natural-science research by
+the kind of knowledge it produces: the one builds arte-
+facts, the other seeks explanations, and the two have
+different truth criteria March and Smith (1995). DSR
+is accordingly expected to state the problem class, the
+=== page 4 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
+artefact’s design rationale, its evaluation in a relevant
+context, and the implications for practice Peffers et al.
+(2007); Gregor and Hevner (2013). The response here
+is to build and evaluate an artefact that makes the
+divergence detectable.
 Framing the contribution this way is not a rhetorical
 choice. It determines what counts as success. A DSR
 artefact is evaluated on whether it solves the problem
@@ -306,8 +325,6 @@ the context — that the population on which the artefact
 would be validated at scale barely exists — is a finding
 about the artefact’s deployment conditions, not a failure
 of the artefact. Section 7 draws out that distinction.
-=== page 4 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 3 Related work and the novelty
 claim
 We organise prior work into four bodies and state, for
@@ -357,17 +374,17 @@ faults and roughly 230,000 mutants, mutant detection
 was positively correlated with real fault detection inde-
 pendently of code coverage, while 17% of faults had no
 coupling to any commonly used mutant Justet al. (2014);
-earlier work questioned whether mutation is an appropri-
-ate experimental tool at all Andrews et al. (2005). Fault
-revelation has been studied per criterion Chekam et al.
-(2017), redundant and equivalent mutants are a known
-measurement hazard Just et al. (2012); Yao et al. (2014);
-Kintis et al. (2018a); Kushigian et al. (2024); Straubinger
-et al. (2024), and mutation testing has been examined as
-a practitioner activity Petrovi’c et al. (2021); Petrovic
-et al. (2022). Surveys and threat analyses set out the
-standards a credible mutation-based study must meet
-Papadakis et al. (2019, 2016); Jia and Harman (2011).
+earlier work questioned whether mutation is an appro-
+priate experimental tool at all Andrews et al. (2005).
+Fault revelation has been studied per criterion Chekam
+et al. (2017), redundant and equivalent mutants are a
+known measurement hazard Just et al. (2012); Yao et al.
+(2014); Kintis et al. (2018a); Kushigian et al. (2024);
+Straubinger et al. (2024), and mutation testing has been
+examined as a practitioner activity Petrovic et al. (2021,
+2022). Surveys and threat analyses set out the standards
+a credible mutation-based study must meet Papadakis
+et al. (2019, 2016); Jia and Harman (2011).
 Two results from this body shape our design directly.
 First, the coverage–mutation gap: raw correlations be-
 tween coverage and mutation score largely disappear
@@ -383,27 +400,47 @@ is stratified by language and tool.
 Mutation analysis has been applied at levels above
 the unit test — to end-to-end web suites Leotta et al.
 (2023), to evolving systems over time Ojdanic et al.
-(2023b,a); Akour and Alenezi (2020) — and to speci-
-fications themselves Black et al. (2000). What it has
-not been used for, systematically, is measuring the dis-
-criminating power of a BDD specification layer across a
-corpus.
+(2023b,a); Akour and Alenezi (2020) — and to specifi-
+cations themselves Black et al. (2000). It has also been
+studied where practitioners actually are: a large-scale
+examination of repositories on GitHub characterises how
+mutation testing is adopted in the wild Sanchez et al.
+(2022), a static and dynamic comparison of Python mu-
+tation tools shows that they diverge in the mutants
+they generate Guerino et al. (2024), and a study asking
+“will my tests tell me if I break this code?” examines
+the discriminating power of suites at different test lev-
+els Niedermayr et al. (2016). The technique has been
+combined with test-driven development in a controlled
+experiment Roman and Mnich (2020) and extended
+to cyber-physical systems through data-driven analysis
+Vigano et al. (2022). What it has not been used for,
+systematically, is measuring the discriminating power of
+a BDD specification layer across a corpus.
 3.3 The oracle problem and assertion
 quality
 Whether a test can detect a fault depends on its oracle
-Barr et al. (2015). Assertion quality has been studied
-as a defect source Zhi and Garousi (2013); Zhang and
-Mesbah (2015), as a measurable density Catolino et al.
-(2019), and as a driver of false confidence in “pseudo-
-tested” methods that are covered but not effectively
-asserted Vera-Prez et al. (2018). Test-suite assessment
-has looked at whether suites would catch injected faults
-Yandrapally and Mesbah (2021); Soto-S’anchez et al.
-(2021). Static indicators have been used to predict muta-
-tion scores at the level of an individual test case Grano
-et al. (2021), and removing redundant tests has been
-shown to change coverage and mutation scores Bhatta
-et al. (2025).
+Barr et al. (2015), and the choice of oracle has been
+evaluated empirically, including the use of assertions
+specifically Shrestha and Rutherford (2011). Assertion
+quality has been studied as a defect source Zhi and
+Garousi (2013); Zhang and Mesbah (2015), as a mea-
+surable density Catolino et al. (2019), and as a driver
+of false confidence in “pseudo-tested” methods that are
+covered but not effectively asserted Vera-Perez et al.
+=== page 5 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
+(2018). Test-suite assessment has looked at whether
+suites would catch injected faults Yandrapally and Mes-
+bah (2021); Soto-Sanchez et al. (2021). Static indicators
+have been used to predict mutation scores at the level of
+an individual test case Grano et al. (2021), and removing
+redundant tests has been shown to change coverage and
+mutation scores Bhatta et al. (2025). At the system level,
+smells specific to system user interactive tests have been
+catalogued Rwemalika et al. (2023), and test-code refac-
+toring has been related to test-code quality outcomes
+Martins et al. (2024).
 The nearest miss to our RQ3 is Grano et al. (2021):
 static indicators estimating a test case’s mutation score.
 Our unit is different (the repository’s specification layer,
@@ -424,8 +461,6 @@ man (2012). On the test side, the relevant evidence
 concerns disabled tests Kim et al. (2021b), test-case sur-
 vival Feldt (2014), rotten green tests Delplanque et al.
 (2019); Aranega et al. (2021), test-smell prevalence and
-=== page 5 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 survival Bavota et al. (2015, 2012); Kim (2020); Kim
 et al. (2021a); Spadini et al. (2018, 2020); Pontillo et al.
 (2024); Panichella et al. (2022); Cai (2026); Martins et al.
@@ -444,7 +479,40 @@ fore introduce specification drift explicitly as a definition
 specification layer — and we do not present it as a
 received construct. This is a terminological contribution
 at best, and we do not overstate it.
-3.5 What is new, precisely
+3.5 Traceability in the Information
+Systems literature
+Becausetheinstrumentincludesatraceabilitymeasure—
+the fraction of identifiable business rules that at least one
+scenario references — it is grounded in the IS literature
+on requirements traceability rather than invented for the
+occasion. Traceability between requirements and down-
+stream artefacts is a long-standing IS concern, motivated
+by the need to demonstrate that a system satisfies the
+requirements it was built against; a systematic review of
+pre-requirements-specification traceability characterises
+its motivations and the persistent difficulty of establish-
+ing it in practice Mucha et al. (2024). That difficulty is
+not confined to plan-driven settings: Brazilian studies
+of agile practice report that requirements traceability
+remains problematic when requirements are expressed
+as user stories and acceptance criteria rather than as
+numbered specifications Da Trindade and Lucena (2016),
+and that independently evolving systems in a software
+ecosystem complicate tracing further Goncalves et al.
+(2022).
+This body of work is why we treat traceability cov-
+erage as an indicator of organisational legibility rather
+than as a completeness metric. A scenario that refer-
+ences no identifiable rule may still be a good test; what
+it cannot do is connect the system’s behaviour to a
+stated obligation. The IS framing also explains why the
+business-and-IT alignment tradition treats such connec-
+tions as processes to be maintained rather than states
+to be achieved Henderson and Venkatraman (1993): a
+traceability link that is established once and never re-
+visited decays exactly as the rest of the specification
+does.
+3.6 What is new, precisely
 The claim this paper defends is a conjunction of four
 elements, each individually unclaimed:
 No study has measured, on a corpus of pub-
@@ -476,6 +544,8 @@ to a BDD suite; longitudinal mutation analysis is new;
 or that nobody has related static test-quality indicators
 to mutation scores. Each of these would be false, and
 the corresponding prior work is cited above.
+=== page 6 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 4 Research design: a Design
 Science framing
 4.1 Problem class and relevance
@@ -501,10 +571,12 @@ stopped checking anything. A manager reviewing the
 artefact sees compliance; the instrument we propose
 tests whether compliance is real.
 4.2 The artefact
-Following the design-science convention of describing an
-artefact’s rationale and evaluation rather than only its
-implementation, we state the artefact as a protocol with
-five steps:
+Following the design-science convention of describing
+an artefact’s rationale and evaluation rather than only
+its implementation Hevner et al. (2004); Peffers et al.
+(2007), and being explicit about the type of knowledge
+the contribution claims Gregor and Hevner (2013), we
+state the artefact as a protocol with five steps:
 1. Delimit the domain layer using a three-tier rule
 (path convention, framework exclusion, decision-
 bearing fallback), so that mutation is applied where
@@ -539,8 +611,6 @@ covered code Jain et al. (2023), a study that
 reports only an overall mutation score is measuring
 coverage under another name. We therefore require
 both values side by side in every table.
-=== page 6 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 Differential attribution is required. A suite can be
 strong for reasons unrelated to BDD: a mature
 project with excellent unit tests will have a high
@@ -570,7 +640,7 @@ observed mutation counts and scores (Section 6).
 • Applied to a population (attrition and observed
 values). What happens when the instrument is
 pointed at a defined frame of public repositories un-
-der pre-registered eligibility rules? This is answered
+der pre-specified eligibility rules? This is answered
 by observation, and the answer includes how many
 candidate repositories could not be measured and
 why. Section 6 reports the funnel; the interpreta-
@@ -588,13 +658,8 @@ All analysis is confined to public repositories under per-
 missive licences, with the licence recorded per repository
 and repositories without a detectable permissive licence
 excluded before any modification. Mutation analysis
-necessarily modifies code; it is performed only in isolated
-working copies, never against a repository in place, and
-seeded-drift experiments are confined to separate copies
-so that no measured artefact is altered. No human
-participants are involved, so no ethics committee ap-
-proval applies; the research uses only publicly available
-artefacts.
+=== page 7 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 Table 1. Research questions, the observations intended to
 answer them, and the evidentiary basis of each. The third
 column names what could make each answer fail, which is
@@ -621,13 +686,40 @@ pled commits
 Statistical power at the achieved n;
 whether the history contains enough rele-
 vant commits to support a slope
+necessarily modifies code; it is performed only in isolated
+working copies, never against a repository in place, and
+seeded-drift experiments are confined to separate copies
+so that no measured artefact is altered. No human
+participants are involved, so no ethics committee ap-
+proval applies; the research uses only publicly available
+artefacts.
 5 Method
-The method was pre-registered in a versioned protocol
-document before any corpus measurement, and the com-
-mit timestamp is its evidence. This section reports what
-was actually executed, including where it departs from
-the pre-registered plan; departures are enumerated in
-Section 8 and in the replication package.
+The method was specified in advance in a versioned pro-
+tocol document (docs/method.md), written and commit-
+ted before any corpus measurement in order to constrain
+analytic freedom. It was not externally registered and
+not frozen: no registration service was used, no hash-
+frozen copy was lodged, and the document continued to
+be edited as the pilot exposed problems. We therefore de-
+scribe the work as pre-specified rather than pre-registered,
+and we do not claim the evidential force that a genuine
+pre-registration would carry.
+This matters because the executed protocol departs
+from the written one on several load-bearing points,
+and those departures are the reader’s business. The
+most consequential are: the planned census of a sampled
+frame became a full enumeration of the frame; the eligi-
+bility criteria were revised after the pilot, replacing the
+protocol’s framework-exclusion and domain-layer tests
+with an observable application-shape test; the seeded-
+drift campaign and the inter-rater reliability study were
+not carried out; and the pre-registered stop-at-n rule
+was superseded by the available population. Each de-
+parture is recorded with a reason and a timestamp in
+docs/DEVIATIONS.md and summarised in Section 8; the
+replication package contains the protocol document as
+written, so a reader can check the differences rather than
+take our word for them.
 5.1 Sampling frame
 A defensible frame must be reproducible, must not be
 ranked by popularity, and must not depend on creden-
@@ -661,8 +753,6 @@ We state the frame’s bias explicitly rather than
 concealing it: repositories that never adopted a BDD
 topic tag are out of frame, and topic tagging correlates
 with project self-presentation. The frame is therefore a
-=== page 7 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 sample of self-identified BDD projects, not of all projects
 using Cucumber.
 5.2 Eligibility
@@ -684,13 +774,22 @@ because the construct requires a domain layer to
 mutate;
 8. a BDD runner named in a build manifest or depen-
 dency file.
-Criteria 7 and 8 were added after the pilot (P1.5)
-revealed that the naive rule — features, steps, build,
-licence — admitted reporting agents, test utilities and
-Maven plugins but almost no applications with business
-rules. This is a change to the frame definition made
-before the gate closed, with the supporting pilot data,
-and it is disclosed here and in the replication package.
+Criteria 7 and 8 are a revision of the protocol as
+written. The original document specified a framework-
+exclusion list and a domain-layer test; the pilot showed
+that those tests were not mechanically decidable on a
+source archive without executing the project, and that
+repositories could satisfy them while still being reporting
+agents or step libraries with no business rules. They were
+therefore replaced by an observable shape test — at least
+=== page 8 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
+ten non-test source files and a BDD runner declared in a
+manifest — which is checkable without a build. Because
+this is a change to a stated criterion after data collection
+had begun, it is logged in docs/DEVIATIONS.md and
+named in Section 8 as a threat rather than presented as
+a refinement.
 5.3 Funnel and attrition
 Every candidate is recorded in exactly one funnel state
 with a categorised reason, and this log is the attrition
@@ -718,7 +817,12 @@ either as bdd_passes would admit a suite that never
 executed a scenario. Because a green mvn test proves
 nothing about Gherkin, the harness requires positive
 evidence of Cucumber execution in the output before a
-repository is accepted.
+repository is accepted as bdd_passes. The evidence flag
+is recorded for repositories whose run exited zero; where
+the run exited non-zero with test output, the execution
+is established by that output itself and the flag is left
+empty, which is why the bdd_fails rows show an empty
+bdd_evidence column in the released table.
 5.4 Outcome: oracle strength
 For repository r, let M be the generated domain-layer
 mutants, K the killed mutants and Cov those executed
@@ -752,7 +856,7 @@ executed(bdd) ⊆ executed(full), so S is the BDD-
 covered set and every mutant in it is also executed by
 the full suite. On that set we report
 DK norm = MS cov(full,S)− MS cov(bdd,S) (4)
-DK count = |Kfull (S)\Kbdd(S)| |S| BDDshare = |Kbdd(S)| |Kfull (S)|
+DK count = |Kfull (S)\Kbdd (S)| |S| BDDshare = |Kbdd (S)| |Kfull (S)|
 (5)
 DK norm answers what the specification layer adds
 beyond the repository’s other tests; BDDshare answers
@@ -767,8 +871,6 @@ Denominators use active scenarios, i.e. all scenarios mi-
 nus those already flagged by the skip indicator.
 D1 — skip_ratio (primary). A scenario is
 skipped if a whole-tag match for @skip, @ignored, @wip,
-=== page 8 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 @pending, @todo, @manual or equivalents appears on the
 scenario, its Examples: block, or its feature:
 skip_ratio = |{s∈Sr :s is skipped}| |Sr| . (6)
@@ -783,6 +885,8 @@ it has neither token nor resolvable callee. Weakening
 patterns are tautology (identical operands), constant
 truth, unreachable assertion (after an unconditional
 return, or in a literal-conditioned branch), swallowed
+=== page 9 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 failure (a catch that neither rethrows nor fails), and
 self-comparison:
 assertion_weakness = |WEAK| +|NONE| |STRONG_DIRECT| +|STRONG_DELEGATED| +|WEAK| +|NONE|.
@@ -881,8 +985,6 @@ change between two snapshots, not a trend.
 5.8 Reproducibility
 Every measurement is recorded in an append-only run
 log with the command, UTC timestamp, the git com-
-=== page 9 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 mit of the harness, host, seed and exact tool versions.
 Raw per-mutant statuses, the screening tables and the
 analysis scripts are part of the replication package. The
@@ -898,6 +1000,8 @@ No value is typed by hand.
 The enumeration produced 2,552 unique repositories
 from 252 topic pages spanning 12 topic slugs and 5
 language filters, with the SHA-256 of the concatenated
+=== page 10 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 page payload recorded (data/frame/FRAME.md). The
 frame is a snapshot: re-running the enumeration later
 would produce a different membership, which is why the
@@ -944,31 +1048,32 @@ why the naive test is inadequate for this construct.
 Static eligibility is necessary but not sufficient: a reposi-
 tory must also build and actually execute its Gherkin.
 Table 3 reports the outcome of the build and execu-
-tion screen over the 22 eligible repositories that were
+tion screen over the 31 eligible repositories that were
 attempted.
-Table 3. Build and execution screen. no_bdd_execution
-denotes a repository whose tests pass while nothing indicates
-that the Gherkin layer ran; it is not counted as a build failure,
-and it is critically not counted as a pass.
-Outcome n Representative reasons
-bdd_passes (green Gherkin baseline) 0 —
-bdd_fails (tests ran, failed) 5 failing scenarios at HEAD
-no_bdd_execution 7 tests pass, no Cucumber evidence
-build_fails 10 dependency_rot, needs_browser,
-compile_error, tool_incompatibility
-Attempted 22 of 94 eligible
 Three observations follow directly from this table
 and are important for the interpretation of the whole
 study.
 First, a green mvn test or npm test does not
 prove that a BDD suite ran. The no_bdd_execution
 category exists because we initially accepted a zero exit
+Table 3. Build and execution screen. no_bdd_execution
+denotes a repository whose tests pass while nothing indicates
+that the Gherkin layer ran; it is not counted as a build failure,
+and it is critically not counted as a pass.
+Outcome n Representative reasons
+bdd_passes (green Gherkin baseline) 0 —
+bdd_fails (tests ran, failed) 7 failing scenarios at HEAD
+no_bdd_execution 8 tests pass, no Cucumber evidence
+unsupported (no runner available) 1 language/tool chain out of scope
+build_fails 14 dependency_rot, needs_browser,
+compile_error, tool_incompatibility
+Attempted 31 of 94 eligible
 code as evidence of BDD execution and a spot check
 showed this to be false: a repository whose Maven build
 succeeded had executed none of its Gherkin. The harness
 was changed to require positive evidence of Cucumber
 execution in the output before accepting a repository,
-and 7 attempted repositories fell into this category. Any
+and 8 attempted repositories fell into this category. Any
 study that equates “tests pass” with “BDD suite passes”
 will overcount its corpus.
 Second, the failures are heterogeneous, and conflat-
@@ -983,14 +1088,12 @@ Third, the rate of green, executing BDD baselines
 in this population is low. We report the count rather
 than a rate, because the build screen did not complete
 for every eligible repository: of 94 eligible repositories,
-22 were attempted. The remaining repositories were not
+31 were attempted. The remaining repositories were not
 screened for build and execution within the resources
 of this study, and we therefore do not report a green-
 suite rate that would imply full coverage of the eligible
 set. This is a limitation of our execution budget, not a
 finding.
-=== page 10 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 6.4 Tool feasibility and instrument
 validation
 Before any corpus measurement we established, empiri-
@@ -1009,24 +1112,39 @@ Java PIT 1.30.2 + pitest-junit5-plugin 1.2.3,
 Cucumber-JVM 8.1.0
 19 14 73.68%
 Both runs reported zero mutants in the
-NO_COVERAGE category, which is the property the
-construct requires: the tool was able to distinguish
-executed but survived from never executed, so the
-coverage-conditioned score of Equation (2) is com-
-putable rather than being an alias for coverage. In
-both ecosystems the tool attributed each mutant to the
-individual Cucumber scenarios that killed it, which is
-what makes the differential of Equation (4) computable.
+NO_COVERAGE category. That zero is a consequence of
+=== page 11 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
+the purpose-built suites, which exercise every line of
+the module under mutation, and it does not by itself
+demonstrate that the harness can separate execution
+from non-execution: a single empty bin distinguishes
+nothing. What demonstrates the capability is that
+both tools expose NoCoverage as a distinct per-mutant
+status, which the raw reports record, and that the
+harness maps it to its own NO_COVERAGE category
+before either score of Equations (1)–(2) is computed.
+A replication that adds an unexercised control module
+would settle the point empirically, and we recommend
+it. In both ecosystems the tool also attributed each
+mutant to the individual Cucumber scenarios that killed
+it, which is what makes the differential of Equation (4)
+computable.
 The most instructive single number from this stage
 is a negative one. For the same domain logic, PIT gen-
 erated 19 mutants while Stryker generated 43 — a ratio
-of roughly 2.3. This is a direct, locally reproducible
-instance of the cross-tool incomparability reported by
-Kintis et al. Kintis et al. (2018b), and it is the empirical
-justification for the method’s refusal to pool scores across
-ecosystems. It also means that any cross-language com-
-parison of “BDD oracle strength” in the literature should
-be treated as comparing tools until proven otherwise.
+of roughly 2.3. This comparison is confounded by design,
+and we state it as such: the two runs used their tools’ de-
+fault operator sets (recorded in the run log) rather than
+a common aligned set, so the difference reflects operator
+configuration as well as tool behaviour. It is nonetheless
+consistent with the cross-tool incomparability reported
+by Kintis et al. Kintis et al. (2018b), and it is a sufficient
+reason for the method’s refusal to pool scores across
+ecosystems. A controlled comparison would pin both
+tools to the same aligned operator set, which the study
+protocol specifies for the corpus stage but which the
+feasibility probes did not require.
 6.5 Oracle strength (RQ2)
 RQ2 asks what share of covered domain mutants the
 BDD suite alone kills, and how much it adds beyond
@@ -1052,24 +1170,35 @@ states what a reader should and should not infer.
 RQ3 asks whether pre-specified static drift indicators
 associate with lower BDD-only kill rates, and whether
 drift accumulates over repository history.
-For the association component, the pre-registered
-detectable-effect floor at the achieved n is |ρ|min =
-not defined (no measured units) (Equation in Sec-
-tion 5). Any association weaker than this could not
-have been detected by the design, so a null result here
-is uninformative about weak or moderate associations,
-and we report it as not estimable at this n rather than
-as evidence of absence.
+The protocol contains its own rule for this situa-
+tion. The protocol’s drop rule DR1 removes a stratum
+with fewer than eight repositories measurable end-to-
+end. Here 0 repositories were measurable, so **both
+strata fall below the threshold and DR1 applies to
+each**: the confirmatory family (D1 and D2 against
+MS cov(bdd), Holm-corrected) is therefore **void by
+the protocol’s own rule**, not merely underpowered.
+We invoke DR1 rather than reporting a null result, be-
+cause a null would imply that an association had been
+estimated and found absent, and no estimation was
+possible. The pre-specified detectable-effect floor is con-
+sequently not reported: it is defined on the Fisher-z scale
+as 1.030/√n− 3, which is undefined for the n actually
+achieved.
 For the erosion component, the static history miner
 recomputes the indicators at 12 deterministically sam-
 pled commits per repository and reports Theil–Sen
-slopes. This component runs without builds and is
-therefore available for repositories that could not be
-executed; its output is reported in Table 5 for the 0
-repositories with a usable series. As declared, a slope is
-a statement about accumulation over the sampled com-
-mits, and the two-snapshot change estimate is reported
-as a change, never as a trend.
+slopes. This component needs no builds, but it does
+need commit history, and the repositories that reached
+this stage were materialised from source archives and
+from depth-one clones, neither of which carries the his-
+tory the miner walks. The series is therefore empty for
+a mechanical reason, not because the repositories lack
+history: 0 repositories yielded a usable series. The miner
+is implemented and shipped in the replication package,
+and exercising it requires re-cloning candidates with
+full history — a step this study budgeted for the corpus
+stage and did not reach. We make no longitudinal claim.
 Table 5. Longitudinal indicator series. No repository in the
 corpus yielded a usable series; the instrument is implemented
 and shipped in the replication package, but it is not exercised
@@ -1090,22 +1219,24 @@ because agreement between a heuristic and itself is
 not inter-rater reliability.
 • No validated precision for D7. D7 is reported only
 as an automated census of its loose conjunction.
-• No completed build screen. 22 of 94 eligible repos-
+• No completed build screen. 31 of 94 eligible repos-
 itories were attempted; the remainder were not
 screened for build and execution.
-• No corpus-scale association. At the achieved n the
-detectable-effect floor exceeds any plausible associ-
-ation for the weaker indicators.
+• No corpus-scale association. The pre-specified con-
+firmatory family is void under drop rule DR1, be-
+cause 0 repositories were measurable against a
+threshold of eight per stratum. No association was
+estimated, so no null result is claimed either.
 • No Python stratum. The frame yielded 5 Python
 repositories satisfying the application-shape crite-
+=== page 12 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 rion, and the Python mutation toolchain could not
 be established reliably in this environment (package
 index unreliability, and the tooling’s coupling to a
 unit-test runner rather than a BDD runner). The
 planned three-stratum design was therefore not re-
 alised, and language effects could not be separated
-=== page 11 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 from tool effects.
 7 Discussion
 7.1 What the instrument buys an
@@ -1216,13 +1347,13 @@ layer is being withdrawn from service.
 4. Do not assume a scenario checks what its text says.
 The appearance/function asymmetry is the whole
 problem. A scenario that reads well and asserts
+=== page 13 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 nothing is indistinguishable from a good one in
 review; it is distinguishable by mutation.
 7.5 Implications for research
 The obvious next study is the one this paper could not
 run: a corpus of BDD suites drawn from organisations
-=== page 12 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 rather than from public topic tags, where builds, ser-
 vices and data are controllable, measured longitudinally
 against business-rule change events. Our instrument is
@@ -1287,17 +1418,17 @@ so infrastructure and glue are excluded by construction.
 The operator set is restricted to decision-logic operators.
 And “business-rule relevance” is treated as a separate,
 explicitly labelled judgement rather than assumed.
-What we could not do. The pre-registered plan
-called for two independent human raters to label a ran-
-dom sample of mutants as business-rule-relevant or not,
-and to report Cohen’s κ. No independent human raters
-were available for this study, so no κ is reported. We re-
-gard this as a genuine limitation rather than a formality:
-it means the strength of the proxy assumption is asserted
-on design grounds (domain restriction plus operator re-
-striction) rather than measured. A study that reports a
-κ for this construct would materially strengthen the evi-
-dence, and we recommend it to anyone replicating this
+What we could not do. The pre-specified plan called
+for two independent human raters to label a random
+sample of mutants as business-rule-relevant or not, and
+to report Cohen’s κ. No independent human raters were
+available for this study, so no κ is reported. We regard
+this as a genuine limitation rather than a formality: it
+means the strength of the proxy assumption is asserted
+on design grounds (domain restriction plus operator
+restriction) rather than measured. A study that reports
+a κ for this construct would materially strengthen the
+evidence, and we recommend it to anyone replicating this
 work. We did not substitute an automated labeller for a
 human rater, because an automated agreement statistic
 would measure the consistency of a heuristic with itself
@@ -1331,13 +1462,13 @@ ation largely dissolves once restricted to covered code
 Jain et al. (2023).
 Mitigation. Coverage conditioning is mandatory:
 MS all, MS cov and coverage are reported together in
+=== page 14 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 every table, and coverage is a covariate in every model.
 The primary outcome is the covered-only score. We go
 further and state the interpretation rule verbatim in the
 method so that it cannot be quietly abandoned when
 results are inconvenient.
-=== page 13 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 8.5 BDD attribution
 Mechanism. A suite may be strong for reasons unrelated
 to BDD: mature projects have good unit tests, review
@@ -1367,11 +1498,11 @@ or “rate”.
 8.7 Public repositories versus industrial
 practice
 Mechanism. Public repositories differ from industrial
-practice in ways that matter: they have no proprietary
-business rules, no auditors, often no sustained main-
-tenance, and they are self-selected for public visibility.
-Conclusions about organisational practice drawn from
-them are correspondingly weak.
+practice in ways that matter: they have no organisation-
+specific business rules, no auditors, often no sustained
+maintenance, and they are self-selected for public visi-
+bility. Conclusions about organisational practice drawn
+from them are correspondingly weak.
 Position. This is why the paper frames its con-
 tribution as an instrument plus a population finding
 rather than as a verdict on BDD. The population find-
@@ -1391,16 +1522,54 @@ tool; no raw pooled correlation is reported as a headline;
 where a pooled figure appears it is an average of within-
 stratum associations with a cluster bootstrap, and is
 labelled as such. Operator sets are stated per tool.
-8.9 Construct terminology
-Mechanism. “Specification drift” is not an established
-term, and if a reader interprets it as a received construct
-the paper will appear to claim more prior consensus
-than exists.
+8.9 Validation experiments that were not
+performed
+Mechanism. The protocol specifies two evaluations that
+this study did not carry out: a seeded-drift campaign
+(inject known drift into working suites and check that
+each indicator flags it, with control injections) and an
+inter-rater reliability study for the judgement-coded in-
+dicators. Without them, the indicators’ sensitivity and
+specificity are unknown, and D2 and D7 in particular
+are unvalidated heuristics.
+Disclosure. We state this wherever the in-
+dicators are used, and the practitioner protocol
+(docs/PROTOCOL.md) carries an explicit evaluation-state
+table telling users that seeded-drift validation was not
+performed and that no detection rate exists. The
+manuscript does not claim that the indicators were vali-
+dated. This is the most serious limitation of the artefact:
+a measurement instrument whose accuracy has not been
+established can still support the decision to investigate,
+but it cannot support a quantitative verdict.
+8.10 Size-correlated missingness in the
+frame
+Mechanism. 23 candidate repositories could not be
+fetched at all: the archive exceeded the size cap and
+the host returned an HTTP 413. These repositories are
+recorded as excluded with a distinct reason and are not
+counted as analysed.
+Why it matters. The missingness is correlated with
+size, and project size plausibly correlates with both
+engineering maturity and the presence of a domain layer.
+If large projects are systematically missing, the eligible
+set is biased toward smaller codebases.
+Mitigation. The count and the reason are reported
+in the funnel rather than folded into “other”, so a reader
+can see the magnitude and the mechanism. We did
+not raise the cap and retry, because the fetch path is
+what a replication would also have to use; a replication
+with more generous limits should report a different, and
+probably larger, eligible set.
+Mechanism. “Specification drift” is not an estab-
+lished term, and if a reader interprets it as a received
+construct the paper will appear to claim more prior
+consensus than exists.
 Mitigation. The term is introduced explicitly as a
 definition, its established relatives are cited, and Sec-
 tion 3 states that the terminological contribution is
 minor.
-8.10 Environment and reproducibility
+8.11 Environment and reproducibility
 Mechanism. Measurements were taken on a single host
 without container isolation, in which the Java toolchain
 is a single JDK version and mutation tools must be in-
@@ -1409,6 +1578,8 @@ ment could produce a different corpus because different
 repositories would build.
 Mitigation. All tool versions are pinned and
 recorded, every measurement carries a UTC timestamp,
+=== page 15 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 harness commit and seed in an append-only run log,
 and the screening and analysis scripts are published.
 The vulnerability is not hidden: because the corpus is
@@ -1420,7 +1591,7 @@ We set out to measure whether public Behaviour-Driven
 Development suites still function as oracles, and whether
 that capability erodes. We built the instrument, proved
 that it can be driven end to end in two ecosystems,
-pointed it at a pre-registered frame of public repositories
+pointed it at a pre-specified frame of public repositories
 — and found that the binding constraint is not statistical
 but infrastructural.
 9.1 Findings
@@ -1448,14 +1619,12 @@ same domain logic yielded 19 mutants under PIT
 and 43 under Stryker. Any study that pools such
 numbers is measuring its tools, not its subject.
 4. Where an association could not be estimated, we
-say so. At the achieved n, the detectable-effect floor
-for a Spearman association is well above any effect
-the design could plausibly have detected for the
-=== page 14 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
-weaker indicators. We report that as not estimable
-at this n, which is a different statement from no
-association.
+say so. The pre-registered confirmatory family is
+void under the protocol’s own drop rule, because no
+repository was measurable end-to-end. We report
+that as not estimated, which is a different statement
+from no association, and we do not substitute a
+null result for an absent one.
 9.2 Contributions revisited
 The artefact is a five-step protocol that an organisation
 can apply to its own suite, with mandatory coverage
@@ -1523,6 +1692,8 @@ Funding
 This research received no specific grant from any funding
 agency in the public, commercial or not-for-profit sectors.
 This statement will be updated if that changes before
+=== page 16 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 publication.
 Availability of Data and Materials
 The replication package — including the sampling frame
@@ -1547,12 +1718,14 @@ Ethical Considerations
 This study analyses only publicly available software arte-
 facts and involves no human participants, so no ethics
 committee approval was required or sought. Mutation
-analysis modifies code only in isolated working copies;
-no public repository was altered, and seeded-drift ex-
-periments were confined to separate copies so that no
-measured artefact was modified. Repositories lacking a
-detectable permissive licence were excluded before any
-modification.
+analysis modifies code only in isolated working copies; no
+public repository was altered. No code was injected into
+any third-party repository, and the seeded-drift valida-
+tion described in the protocol was not carried out in this
+study (Section 8); had it been, it would have been con-
+fined to separate copies so that no measured artefact was
+modified. Repositories lacking a detectable permissive
+licence were excluded before any modification.
 Further Relevant Information: Declaration
 of AI-Assisted Use in Writing
 In accordance with the journal’s policy on AI/LLM use,
@@ -1564,8 +1737,6 @@ software engineering tasks in the replication package
 code, and generating tables and figures from result files);
 and (ii) for drafting and editing prose in this manuscript,
 including restructuring sections and improving clarity
-=== page 15 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 and language.
 In every case the tools used were large language
 model assistants, and the following verification applies.
@@ -1638,6 +1809,8 @@ Conference on Software Maintenance (ICSM). DOI:
 10.1109/icsm.2012.6405253.
 Bavota, G., Qusef, A., Oliveto, R., De Lucia, A., and
 Binkley, D. (2015). Are test smells really harmful?
+=== page 17 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 an empirical study. Empirical Software Engineering.
 DOI: 10.1007/s10664-014-9313-0.
 Bhatta, S., Kendemah, F., and Jha, A. (2025).
@@ -1683,8 +1856,6 @@ sme.2019.00034.
 Chandorkar, A., Patkar, N., Di Sorbo, A., and Nier-
 strasz, O. (2022). An exploratory study on the usage
 of gherkin features in open-source projects. In 2022
-=== page 16 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 IEEE International Conference on Software Anal-
 ysis, Evolution and Reengineering (SANER). DOI:
 10.1109/saner53432.2022.00134.
@@ -1694,18 +1865,26 @@ ment and branch coverage fault revelation that avoids
 the unreliable clean program assumption. In 2017
 IEEE/ACM 39th International Conference on Soft-
 ware Engineering (ICSE). DOI: 10.1109/icse.2017.61.
-Couto, T., Marczak, S., Callegari, D., M’ora, M., and
+Couto, T., Marczak, S., Callegari, D., Mora, M., and
 Gomes, F. (2022). On the characterization of behavior-
 driven development adoption benefits: A multiple case
 study. In Proceedings of the XXI Brazilian Symposium
 on Software Quality. DOI: 10.1145/3571473.3571492.
+Da Trindade, G. and Lucena, M. (2016). Rastreabilidade
+de requisitos em metodologias ageis: um estudo ex-
+ploratorio. Anais do Simposio Brasileiro de Sistemas
+de Informacao (SBSI). DOI: 10.5753/sbsi.2016.5997.
+DeLone, W. and McLean, E. (2003). The delone and
+mclean model of information systems success: A ten-
+year update. Journal of Management Information
+Systems. DOI: 10.1080/07421222.2003.11045748.
 Delplanque, J., Ducasse, S., Polito, G., Black,
 A., and Etien, A. (2019). Rotten green
 tests. In 2019 IEEE/ACM 41st International
 Conference on Software Engineering (ICSE). DOI:
 10.1109/icse.2019.00062.
-dos Santos, M., Hall, S., Petrillo, F., and Guhneuc, Y.
-(2024). Aat4irs: automated acceptance testing for
+dos Santos, M., Halle, S., Petrillo, F., and Gueheneuc,
+Y. (2024). Aat4irs: automated acceptance testing for
 industrial robotic systems. Frontiers in Robotics and
 AI. DOI: 10.3389/frobt.2024.1346580.
 Farooq, M., Omer, U., Ramzan, A., Rasheed, M., and
@@ -1722,14 +1901,36 @@ smells in python test code over commit history. In
 2023 49th Euromicro Conference on Software En-
 gineering and Advanced Applications (SEAA). DOI:
 10.1109/seaa60479.2023.00054.
+Goncalves, R., Malcher, P., and Santos, R. (2022). Inves-
+tigandoarastreabilidadederequisitosemecossistemas
+de software. Anais Estendidos do XVIII Simposio
+Brasileiro de Sistemas de Informacao (SBSI Estendido
+2022). DOI: 10.5753/sbsi_estendido.2022.222708.
 Grano, G., Palomba, F., and Gall, H. (2021).
 Lightweight assessment of test-case effectiveness using
 source-code-quality indicators. IEEE Transactions on
 Software Engineering. DOI: 10.1109/tse.2019.2903057.
+Gregor, S. and Hevner, A. (2013). Positioning and pre-
+senting design science research for maximum impact1.
+MIS Quarterly. DOI: 10.25300/misq/2013/37.2.01.
+Guerino, L., Kuroishi, P., Paiva, A., and Vincenzi,
+A. (2024). Static and dynamic comparison of mu-
+tation testing tools for python. In Proceedings of the
+XXIII Brazilian Symposium on Software Quality. DOI:
+10.1145/3701625.3701659.
+Henderson, J. and Venkatraman, H. (1993). Strate-
+gic alignment: Leveraging information technology for
+transforming organizations. IBM Systems Journal.
+DOI: 10.1147/sj.382.0472.
+Hevner, A., March, S., Park, J., and Ram, S. (2004).
+Design science in information systems research1. MIS
+Quarterly. DOI: 10.2307/25148625.
 Irshad, M., Borstler, J., and Petersen, K. (2022). Sup-
 porting refactoring of bdd specifications—an empirical
 study. Information and Software Technology. DOI:
 10.1016/j.infsof.2021.106717.
+=== page 18 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 Izurieta, C. and Bieman, J. (2012). A multiple case study
 of design pattern decay, grime, and rot in evolving
 software systems. Software Quality Journal. DOI:
@@ -1801,10 +2002,11 @@ Mutation testing in practice using ruby. In 2015 IEEE
 Eighth International Conference on Software Testing,
 Verification and Validation Workshops (ICSTW). DOI:
 10.1109/icstw.2015.7107453.
+March, S. and Smith, G. (1995). Design and natural
+science research on information technology. Decision
+Support Systems. DOI: 10.1016/0167-9236(94)00041-2.
 Marsavina, C., Romano, D., and Zaidman, A. (2014).
 Studying fine-grained co-evolution patterns of produc-
-=== page 17 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 tion and test code. In 2014 IEEE 14th International
 Working Conference on Source Code Analysis and Ma-
 nipulation. DOI: 10.1109/scam.2014.28.
@@ -1812,7 +2014,12 @@ Martins, L., Costa, H., and Machado, I. (2023). On the
 diffusion of test smells and their relationship with test
 code quality of java projects. Journal of Software:
 Evolution and Process. DOI: 10.1002/smr.2532.
-Miranda, C., Avelino, G., and SantosNeto, P. (2025).
+Martins, L., Pontillo, V., Costa, H., Ferrucci, F.,
+Palomba, F., and Machado, I. (2024). Test code
+refactoring unveiled: where and how does it affect test
+code quality and effectiveness? Empirical Software
+Engineering. DOI: 10.1007/s10664-024-10577-y.
+Miranda, C., Avelino, G., and Santos Neto, P. (2025).
 Test coevolution in software projects: A largescale
 empirical study. Journal of Software: Evolution and
 Process. DOI: 10.1002/smr.70035.
@@ -1821,6 +2028,15 @@ Bruntink, M. (2008). On the interplay between
 software testing and evolution and its effect on
 program comprehension. Software Evolution. DOI:
 10.1007/978-3-540-76440-3_8.
+Mucha, J., Kaufmann, A., and Riehle, D. (2024). A
+systematic literature review of pre-requirements spec-
+ification traceability. Requirements Engineering. DOI:
+10.1007/s00766-023-00412-z.
+Niedermayr, R., Juergens, E., and Wagner, S. (2016).
+Will my tests tell me if i break this code? In
+Proceedings of the International Workshop on Con-
+tinuous Software Evolution and Delivery. DOI:
+10.1145/2896941.2896944.
 Ojdanic, M., Papadakis, M., and Harman, M. (2023a).
 Keeping mutation test suites consistent and relevant
 with long-standing mutants. In Proceedings of the 31st
@@ -1833,6 +2049,8 @@ evolving systems: Studying the relevance of mutants
 to code evolution. ACM Transactions on Software
 Engineering and Methodology. DOI: 10.1145/3530786.
 Oliveira, G. and Marczak, S. (2017). On the empiri-
+=== page 19 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 cal evaluation of bdd scenarios quality: Preliminary
 findings of an empirical study. In 2017 IEEE 25th
 International Requirements Engineering Conference
@@ -1854,10 +2072,15 @@ Papadakis, M., Kintis, M., Zhang, J., Jia, Y., Le Traon,
 Y., and Harman, M. (2019). Mutation testing ad-
 vances: An analysis and survey. Advances in Comput-
 ers. DOI: 10.1016/bs.adcom.2018.03.015.
+Peffers, K., Tuunanen, T., Rothenberger, M., and Chat-
+terjee, S. (2007). A design science research methodol-
+ogy for information systems research. Journal of Man-
+agement Information Systems. DOI: 10.2753/mis0742-
+1222240302.
 Perry, D. and Wolf, A. (1992). Foundations for the study
 of software architecture. ACM SIGSOFT Software
 Engineering Notes. DOI: 10.1145/141874.141884.
-Petrovi’c, G., Ivankovi’c, M., Fraser, G., and Just,
+Petrovic, G., Ivankovic, M., Fraser, G., and Just,
 R. (2021). Does mutation testing improve testing
 practices? In 2021 IEEE/ACM 43rd International
 Conference on Software Engineering (ICSE). DOI:
@@ -1876,12 +2099,28 @@ Di Nucci, D., Ferrucci, F., and Palomba, F. (2024).
 Machine learning-based test smell detection. Empiri-
 cal Software Engineering. DOI: 10.1007/s10664-023-
 10436-2.
+Roman, A. and Mnich, M. (2020). Test-driven develop-
+ment with mutation testing – an experimental study.
+Software Quality Journal. DOI: 10.1007/s11219-020-
+09534-x.
 Rosik, J., Le Gear, A., Buckley, J., Babar, M., and
 Connolly, D. (2010). Assessing architectural drift in
 commercial software development: a case study. Soft-
 ware: Practice and Experience. DOI: 10.1002/spe.999.
-Soto-S’anchez, O., Maes-Bermejo, M., Gallego, M., and
-Gort’azar, F. (2021). A dataset of regressions in web
+Rwemalika, R., Habchi, S., Papadakis, M., Le Traon,
+Y., and Brasseur, M. (2023). Smells in system user in-
+teractive tests. Empirical Software Engineering. DOI:
+10.1007/s10664-022-10251-1.
+Sanchez, A., Delgado-Perez, P., Medina-Bulo, I., and Se-
+gura, S. (2022). Mutation testing in the wild: findings
+from github. Empirical Software Engineering. DOI:
+10.1007/s10664-022-10177-8.
+Shrestha, K. and Rutherford, M. (2011). An empirical
+evaluation of assertions as oracles. In 2011 Fourth
+IEEE International Conference on Software Testing,
+Verification and Validation. DOI: 10.1109/icst.2011.50.
+Soto-Sanchez, O., Maes-Bermejo, M., Gallego, M., and
+Gortazar, F. (2021). A dataset of regressions in web
 applications detected by end-to-end tests. Software
 Quality Journal. DOI: 10.1007/s11219-021-09566-x.
 Spadini, D., Palomba, F., Zaidman, A., Bruntink, M.,
@@ -1905,10 +2144,14 @@ D. (2023). Revisiting the identification of the co-
 evolution of production and test code. ACM Transac-
 tions on Software Engineering and Methodology. DOI:
 10.1145/3607183.
-Vera-Prez, O., Danglot, B., Monperrus, M., and Baudry,
-B. (2018). A comprehensive study of pseudo-tested
-methods. Empirical Software Engineering. DOI:
+Vera-Perez, O., Danglot, B., Monperrus, M., and
+Baudry, B. (2018). A comprehensive study of pseudo-
+tested methods. Empirical Software Engineering. DOI:
 10.1007/s10664-018-9653-2.
+Vigano, E., Cornejo, O., Pastore, F., and Briand, L.
+(2022). Data-driven mutation analysis for cyber-
+physical systems. IEEE Transactions on Software
+Engineering. DOI: 10.1109/tse.2022.3213041.
 Wermelinger, M., Yu, Y., Lozano, A., and Capiluppi, A.
 (2011). Assessing architectural evolution: a case study.
 Empirical Software Engineering. DOI: 10.1007/s10664-
@@ -1923,11 +2166,11 @@ Predicting co-changes between functionality specifi-
 cations and source code in behavior driven develop-
 ment. In 2019 IEEE/ACM 16th International Con-
 ference on Mining Software Repositories (MSR). DOI:
-=== page 18 ===
-Do Public BDD Suites Still Work as Oracles? Anonymous submission
 10.1109/msr.2019.00080.
 Yao, X., Harman, M., and Jia, Y. (2014). A study of
 equivalent and stubborn mutation operators using
+=== page 20 ===
+Do Public BDD Suites Still Work as Oracles? Anonymous submission
 human analysis of equivalence. In Proceedings of the
 36th International Conference on Software Engineer-
 ing. DOI: 10.1145/2568225.2568265.

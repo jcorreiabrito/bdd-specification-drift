@@ -1,11 +1,14 @@
-﻿\section{Introduction}
+\section{Introduction}
 \label{sec:intro}
 
 An information system is not merely a body of code; it is a system of work in which organisational
 rules are encoded so that routine decisions can be made consistently. When a lender approves a loan, a retailer prices an order, or an insurer settles a claim, the software enacts a business rule that someone, somewhere, wrote down. The distance between the rule as intended and the rule as enacted is
-an old concern of the Information Systems (IS) field, which has long studied the alignment between
-organisational requirements and the systems that support them. This paper is about a specific,
-measurable, and surprisingly neglected way in which that distance grows.
+an old concern of the Information Systems (IS) field, whose literature has long treated the alignment
+between business strategy and information technology as a continuing managerial problem rather than a
+one-off design decision \cite{henderson1993strategic}, and which distinguishes the quality of the
+information an artefact carries from the quality of the system that carries it
+\cite{delone2003model}. This paper is about a specific, measurable, and surprisingly neglected way in
+which that distance grows.
 
 Behaviour-Driven Development (BDD) was proposed precisely to close it. A requirement is written as a
 concrete scenario in a structured natural language (Gherkin); each step of the scenario is bound to
@@ -88,7 +91,7 @@ relatives: architectural drift and erosion \cite{PerryWolf1992,Rosik2010ArchDrif
       attribution, is demonstrated in both the Java ecosystem (PIT with the Cucumber-JVM
       JUnit-Platform engine) and the JavaScript/TypeScript ecosystem (Stryker with the official
       Cucumber runner). We report the exact pinned versions and the observed mutation counts.
-\item \textbf{A pre-registered, quantified account of the population.} From a frame of \Nframe{}
+\item \textbf{A pre-specified, quantified account of the population.} From a frame of \Nframe{}
       repositories enumerated without a popularity-ranked search, we report eligibility, build and
       execution attrition with categorised reasons, and show that the binding constraint on this
       literature is infrastructural rather than statistical.
@@ -112,7 +115,7 @@ not honestly produce (Section~\ref{sec:threats}).
 Section~\ref{sec:background} states the problem in IS terms. Section~\ref{sec:related} positions the
 work against prior literature and states precisely what is and is not new.
 Section~\ref{sec:design} presents the design-science framing and the artefact.
-Section~\ref{sec:method} gives the pre-registered method: frame, eligibility, metrics, mutation
+Section~\ref{sec:method} gives the pre-specified method: frame, eligibility, metrics, mutation
 protocol and statistics. Section~\ref{sec:results} reports results, including the measured attrition.
 Section~\ref{sec:discussion} discusses implications for research and practice.
 Section~\ref{sec:threats} argues each threat to validity and quantifies it where possible.

@@ -18,13 +18,13 @@
 | P0 | Novelty check (S1), venue rules, environment inventory, repo init, secret guard | **DONE** |
 | P1 | `docs/method.md`: sampling plan, metrics, mutation protocol, statistics, power analysis | **DONE** (`docs/method.md`, power table verified) |
 | P1.5 | Pilot: real funnel yield, tool feasibility | **DONE** — 170 screened, 9 eligible (5.3 %, CI 2.8-9.8 %); JS + Java strata proven |
-| **GATE** | **Human stop: novelty note + method.md + power analysis + pilot yield + tool feasibility** | **REACHED — AWAITING HUMAN DECISION** (`docs/GATE-1.5-REPORT.md`) |
-| P2 | Full sampling pipeline + attrition log | blocked by gate |
-| P3 | Mutation + metric measurement | blocked by gate |
-| P4 | Statistics + figures | blocked by gate |
-| P5 | Manuscript | blocked by gate |
-| P6 | Red-team + revision | blocked by gate |
-| P7 | Compliance + submission folder | blocked by gate |
+| **GATE** | Human stop | **PASSED** — D1 (IS/DSR reframing) and D2 (frame redefinition) approved by the author |
+| P2 | Full sampling pipeline + attrition log | **DONE** — 2,552 screened, 94 eligible; 31 build-tested |
+| P3 | Mutation + metric measurement | **DONE (feasibility)** — harnesses proven; corpus yielded 0 green baselines |
+| P4 | Statistics + figures | **DONE** — confirmatory family void under DR1, reported as such |
+| P5 | Manuscript | **DONE** — 20 pages, 0 errors, 87/87 references verified |
+| P6 | Red-team + revision | **DONE** — 3 S0 defects found and fixed (`docs/redteam.md`) |
+| P7 | Compliance + submission folder | **DONE** — `submission/` complete, CI, tag v1.0-submission |
 
 ---
 

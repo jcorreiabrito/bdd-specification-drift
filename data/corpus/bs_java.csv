@@ -55,3 +55,71 @@ ctco/cukes,java,bdd_fails,other,1,89.0,C:\Users\jvtri\OneDrive\Documentos\Projet
 [ERROR] 
 [ERROR] After correcting the problems, you can resume the build with the command
 [ERROR]   mvn <args> -rf :cukes-core",2026-11-25T13:10:08+00:00
+citrusframework/yaks,java,timeout,timeout,124,955.6,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\citrusframework__yaks\java\mvnw.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,java,1,,,,"nov. 25, 2026 10:24:20 AM io.fabric8.mockwebserver.MockWebServer info
+INFO: MockWebServer[51119] starting to accept connections on localhost
+nov. 25, 2026 10:24:50 AM io.fabric8.mockwebserver.MockWebServer info
+INFO: MockWebServer[51136] starting to accept connections on localhost
+nov. 25, 2026 10:25:20 AM io.fabric8.mockwebserver.MockWebServer info
+INFO: MockWebServer[51172] starting to accept connections on localhost
+nov. 25, 2026 10:25:50 AM io.fabric8.mockwebserver.MockWebServer info
+INFO: MockWebServer[57151] starting to accept connections on localhost
+nov. 25, 2026 10:26:11 AM io.fabric8.mockwebserver.MockWebServer info
+INFO: MockWebServer[53881] starting to accept connections on localhost
+
+timeout",2026-11-25T13:11:37+00:00
+sbtqa/page-factory-2,java,build_fails,dependency_rot,1,56.0,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,,,,,"[ERROR] Failed to execute goal org.apache.maven.plugins:maven-dependency-plugin:3.0.0:copy (copy-war-to-lib-folder) on project web-plugin: Unable to find/resolve artifact. The following artifacts could not be resolved: ru.sbtqa.tag:test-web-app:war:17.0-SNAPSHOT (absent): Could not find artifact ru.sbtqa.tag:test-web-app:war:17.0-SNAPSHOT -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :web-plugin",2026-11-25T13:27:32+00:00
+osvaldjr/easy-cucumber,java,build_fails,other,1,29.4,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,,,,,"[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile (default-compile) on project easy-cucumber-core: Fatal error compiling: java.lang.IllegalAccessError: class lombok.javac.apt.LombokProcessor (in unnamed module @0x651caa2e) cannot access class com.sun.tools.javac.processing.JavacProcessingEnvironment (in module jdk.compiler) because module jdk.compiler does not export com.sun.tools.javac.processing to unnamed module @0x651caa2e -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :easy-cucumber-core",2026-11-25T13:28:28+00:00
+7ep/demo,java,build_fails,tool_incompatibility,1,21.3,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\7ep__demo\gradlew.bat test --no-daemon -q,.,,,,,"  	at org.gradle.internal.concurrent.ThreadFactoryImpl$ManagedThreadRunnable.run(ThreadFactoryImpl.java:56)
+  	at java.base/java.lang.Thread.run(Thread.java:1570)
+  
+  1 error
+
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+BUILD FAILED in 20s",2026-11-25T13:28:58+00:00
+dougnoel/sentinel,java,bdd_fails,needs_browser,1,455.7,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,1,,,,"Starting ChromeDriver 114.0.5735.90 (386bc09e8f4f2e025eddae123f36f6263096ae49-refs/branch-heads/5735@{#1052}) on port 7744
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.
+Starting ChromeDriver 114.0.5735.90 (386bc09e8f4f2e025eddae123f36f6263096ae49-refs/branch-heads/5735@{#1052}) on port 58862
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.
+Starting ChromeDriver 114.0.5735.90 (386bc09e8f4f2e025eddae123f36f6263096ae49-refs/branch-heads/5735@{#1052}) on port 14789
+Only local connections are allowed.
+Please see https://chromedriver.chromium.org/security-considerations for suggestions on keeping ChromeDriver safe.
+ChromeDriver was started successfully.",2026-11-25T13:29:19+00:00
+CatenaUS/Dtective,java,build_fails,needs_browser,1,21.1,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,,,,,"[ERROR]   ZipException opening ""aspectjweaver-1.9.1.jar"": Invalid CEN header (invalid zip64 extra data field size)
+[ERROR] /C:/Users/jvtri/OneDrive/Documentos/Projetos/bdd-specification-drift/data/repos/CatenaUS__Dtective/src/main/java/io/dtective/utils/ClipboardHelper.java:[7,16] cannot access java.awt.datatransfer
+[ERROR]   ZipException opening ""aspectjweaver-1.9.1.jar"": Invalid CEN header (invalid zip64 extra data field size)
+[ERROR] /C:/Users/jvtri/OneDrive/Documentos/Projetos/bdd-specification-drift/data/repos/CatenaUS__Dtective/src/main/java/io/dtective/quality/framework/http/HttpStepsCore.java:[36,8] cannot access io.dtective.quality.framework
+[ERROR]   ZipException opening ""aspectjweaver-1.9.1.jar"": Invalid CEN header (invalid zip64 extra data field size)
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException",2026-11-25T13:36:55+00:00

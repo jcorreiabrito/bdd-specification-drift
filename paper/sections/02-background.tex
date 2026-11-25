@@ -5,10 +5,14 @@
 
 In the IS tradition an information system is understood as a system of work in which human
 participants and technological components jointly perform activities to process information and
-support decision-making; its value emerges from integration into organisational practice rather than
-from technological functionality alone. This framing has a direct consequence for how we should judge
-software artefacts: what matters is not whether the code runs, but whether it continues to enact the
-organisational rule it was built to enact.
+support decision-making, and its value emerges from integration into organisational practice rather
+than from technological functionality alone. The alignment between business strategy and information
+technology has been framed as a continuing process of managerial fit rather than a one-off design
+choice \cite{henderson1993strategic}, and the success of an information system has been modelled as a
+multi-dimensional construct in which the quality of the information and the quality of the system are
+distinct from their use and their net organisational benefit \cite{delone2003model}. These framings
+matter here for a direct reason: they insist that a system can be technically sound and
+organisationally wrong at the same time, which is precisely the failure mode this paper measures.
 
 BDD is an attempt to make that correspondence inspectable. A requirement is expressed as scenarios in
 Gherkin, in domain vocabulary, and those scenarios are bound to executable steps. Three artefacts are
@@ -68,12 +72,14 @@ instrument necessary, and it is why a practitioner cannot simply read the featur
 
 \subsection{The Design Science framing}
 
-We therefore treat the problem as a design problem, in the sense of Design Science Research (DSR):
-there is an organisational problem class (business rules silently diverging from the system that
-enacts them), and the response is to build and evaluate an artefact that makes the divergence
-detectable. The artefact is a measurement protocol, not a tool. Its evaluation has two parts: whether
-the measurement is \emph{feasible} with available tooling (constructed and tested), and what it
-reveals when applied to a defined population (observed, with attrition reported).
+We therefore treat the problem as a design problem, in the sense of Design Science Research (DSR).
+Design science builds and evaluates artefacts intended to address identified organisational problems,
+with relevance and rigour as twin requirements \cite{hevner2004design}, and it is distinguished from
+natural-science research by the kind of knowledge it produces: the one builds artefacts, the other
+seeks explanations, and the two have different truth criteria \cite{march1995design}. DSR is
+accordingly expected to state the problem class, the artefact's design rationale, its evaluation in a
+relevant context, and the implications for practice \cite{peffers2007dsrm,gregor2013positioning}. The
+response here is to build and evaluate an artefact that makes the divergence detectable.
 
 Framing the contribution this way is not a rhetorical choice. It determines what counts as success. A
 DSR artefact is evaluated on whether it solves the problem class in a relevant context, and a

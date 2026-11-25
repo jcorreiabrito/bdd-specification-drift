@@ -119,7 +119,7 @@ instance of the oracle-weakness phenomenon the study targets.
 
 ---
 
-## R004 — Manuscript build (P5)
+## R004 â€” Manuscript build (P5)
 
 - **UTC**: 2026-11-25T13:25:00Z
 - **git_sha**: `1a2ef2a` (preceding commit; harness commit recorded in the next commit)
@@ -138,7 +138,7 @@ instance of the oracle-weakness phenomenon the study targets.
 - **build-script defects found and fixed while producing this artefact** (each would have blocked a
   replicator):
   1. `$installerFlag = if (...) { @('--disable-installer') }` is unrolled by PowerShell to a *string*,
-     so `@installerFlag` splatting threw and pdflatex never ran — the build failed with a stale exit
+     so `@installerFlag` splatting threw and pdflatex never ran â€” the build failed with a stale exit
      code and produced no log.
   2. MiKTeX writes log4cxx notices to stderr; with `$ErrorActionPreference='Stop'` and `2>&1`, those
      became terminating errors even on a successful compile.
@@ -148,14 +148,19 @@ instance of the oracle-weakness phenomenon the study targets.
   5. BibTeX's `format.name$`/`change.case$` corrupt multi-byte UTF-8 and strip bare accent commands;
      the bibliography is now emitted as pure ASCII with diacritics transliterated.
 
-## R005 — Corpus screening and build/execution screen (P2)
+## R005 â€” Corpus screening and build/execution screen (P2)
 
 - **UTC**: 2026-11-25T13:17:12Z
 - **command**: `python scripts/corpus_screen_tar.py --limit 2100` then `pipelines/mutation/build_screen.py`
 - **frame**: 2,552 unique repositories (12 topic slugs x 5 language filters x 6 pages, 252 pages,
   snapshot SHA-256 recorded in `data/frame/FRAME.md`)
 - **screened**: 2,552 attempted, **94 eligible** (3.68 %)
-- **build/execution screen**: **18 attempted**, 0 green Gherkin baselines
+- **build/execution screen**: **31 attempted**, 0 green Gherkin baselines
 - **caveat, disclosed in the paper**: the build screen did not complete for all 94 eligible
   repositories. The manuscript reports the attempted count and states that no green-suite *rate* is
   claimed, because the denominator is incomplete.
+
+- **correction (R005)**: an earlier revision recorded 18 attempted; later 25. The
+  authoritative figure is recomputed from `data/corpus/bs_*.csv` by
+  `scripts/make_numbers.py` and is carried into the manuscript as `\Nbuildtested`. If this
+  entry and the generated macro ever disagree, the macro is right and this entry is stale.

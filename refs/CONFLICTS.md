@@ -1,8 +1,8 @@
 # Reference merge report
 
-- Input rows: 85
-- Unique works (by DOI): 78
-- Input files: verified.bdd.csv, verified.decay.csv, verified.intersect.csv, verified.mutation.csv
+- Input rows: 94
+- Unique works (by DOI): 87
+- Input files: verified.bdd.csv, verified.decay.csv, verified.intersect.csv, verified.is.csv, verified.mutation.csv
 
 ## Cross-facet duplicates resolved
 
@@ -20,3 +20,6 @@
 - DOI `10.1007/s11219-023-09616-6` field `year`: kept `2023` (from intersect) vs `2024` (from bdd:leotta2024mutta)
 - DOI `10.1145/1062455.1062530` field `venue`: kept `ICSE 2005` (from mutation) vs `Proceedings of the 27th International Conference on Software Engineering (ICSE)` (from intersect:andrews2005ismutation)
 - DOI `10.1109/icse.2017.61` field `venue`: kept `Proceedings of the 39th International Conference on Software Engineering (ICSE)` (from intersect) vs `ICSE 2017` (from mutation:Chekam2017FaultRevelation)
+## Metadata gaps in Crossref (manually completed)
+
+- `10.1080/07421222.2003.11045748` (DeLone & McLean 2003): the Crossref record contains no author array. Authors were recorded from the article title, which names both, rather than left blank. Flagged for the editor.
