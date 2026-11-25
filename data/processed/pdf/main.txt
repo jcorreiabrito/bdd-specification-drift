@@ -16,7 +16,7 @@ of mutation-based oracle measurement in two ecosystems, and a measurement of the
 from a frame of 2,552 repositories drawn with a fixed seed under a categorised attrition protocol. [Results]
 Mutation-based oracle measurement is feasible in the Java and JavaScript/TypeScript ecosystems, with
 per-mutant coverage and per-scenario attribution. However, of 2,552 screened repositories 94 met the study’s
-static eligibility criteria (3.68%; 95% CI 3.0–4.5%), and of 31 build-tested repositories 0 produced a green,
+static eligibility criteria (3.68%; 95% CI 3.0–4.5%), and of 41 build-tested repositories 0 produced a green,
 executing Gherkin baseline. [Conclusion/Contributions] The binding constraint on evidence about BDD
 oracle quality is infrastructural rather than statistical: public BDD suites are overwhelmingly frameworks,
 templates and demonstrators, not applications with an executable specification layer. We contribute the
@@ -1048,7 +1048,7 @@ why the naive test is inadequate for this construct.
 Static eligibility is necessary but not sufficient: a reposi-
 tory must also build and actually execute its Gherkin.
 Table 3 reports the outcome of the build and execu-
-tion screen over the 31 eligible repositories that were
+tion screen over the 41 eligible repositories that were
 attempted.
 Three observations follow directly from this table
 and are important for the interpretation of the whole
@@ -1064,10 +1064,11 @@ Outcome n Representative reasons
 bdd_passes (green Gherkin baseline) 0 —
 bdd_fails (tests ran, failed) 7 failing scenarios at HEAD
 no_bdd_execution 8 tests pass, no Cucumber evidence
+timeout (exceeded the run budget) 1 repository too slow to screen within budget
 unsupported (no runner available) 1 language/tool chain out of scope
-build_fails 14 dependency_rot, needs_browser,
+build_fails 24 dependency_rot, needs_browser,
 compile_error, tool_incompatibility
-Attempted 31 of 94 eligible
+Attempted 41 of 94 eligible
 code as evidence of BDD execution and a spot check
 showed this to be false: a repository whose Maven build
 succeeded had executed none of its Gherkin. The harness
@@ -1088,7 +1089,7 @@ Third, the rate of green, executing BDD baselines
 in this population is low. We report the count rather
 than a rate, because the build screen did not complete
 for every eligible repository: of 94 eligible repositories,
-31 were attempted. The remaining repositories were not
+41 were attempted. The remaining repositories were not
 screened for build and execution within the resources
 of this study, and we therefore do not report a green-
 suite rate that would imply full coverage of the eligible
@@ -1112,9 +1113,9 @@ Java PIT 1.30.2 + pitest-junit5-plugin 1.2.3,
 Cucumber-JVM 8.1.0
 19 14 73.68%
 Both runs reported zero mutants in the
-NO_COVERAGE category. That zero is a consequence of
 === page 11 ===
 Do Public BDD Suites Still Work as Oracles? Anonymous submission
+NO_COVERAGE category. That zero is a consequence of
 the purpose-built suites, which exercise every line of
 the module under mutation, and it does not by itself
 demonstrate that the harness can separate execution
@@ -1219,7 +1220,7 @@ because agreement between a heuristic and itself is
 not inter-rater reliability.
 • No validated precision for D7. D7 is reported only
 as an automated census of its loose conjunction.
-• No completed build screen. 31 of 94 eligible repos-
+• No completed build screen. 41 of 94 eligible repos-
 itories were attempted; the remainder were not
 screened for build and execution.
 • No corpus-scale association. The pre-specified con-
@@ -1228,9 +1229,9 @@ cause 0 repositories were measurable against a
 threshold of eight per stratum. No association was
 estimated, so no null result is claimed either.
 • No Python stratum. The frame yielded 5 Python
-repositories satisfying the application-shape crite-
 === page 12 ===
 Do Public BDD Suites Still Work as Oracles? Anonymous submission
+repositories satisfying the application-shape crite-
 rion, and the Python mutation toolchain could not
 be established reliably in this environment (package
 index unreliability, and the tooling’s coupling to a
@@ -1346,9 +1347,9 @@ is the earliest available signal that the specification
 layer is being withdrawn from service.
 4. Do not assume a scenario checks what its text says.
 The appearance/function asymmetry is the whole
-problem. A scenario that reads well and asserts
 === page 13 ===
 Do Public BDD Suites Still Work as Oracles? Anonymous submission
+problem. A scenario that reads well and asserts
 nothing is indistinguishable from a good one in
 review; it is distinguishable by mutation.
 7.5 Implications for research

@@ -19,7 +19,7 @@
 | P1 | `docs/method.md`: sampling plan, metrics, mutation protocol, statistics, power analysis | **DONE** (`docs/method.md`, power table verified) |
 | P1.5 | Pilot: real funnel yield, tool feasibility | **DONE** — 170 screened, 9 eligible (5.3 %, CI 2.8-9.8 %); JS + Java strata proven |
 | **GATE** | Human stop | **PASSED** — D1 (IS/DSR reframing) and D2 (frame redefinition) approved by the author |
-| P2 | Full sampling pipeline + attrition log | **DONE** — 2,552 screened, 94 eligible; 31 build-tested |
+| P2 | Full sampling pipeline + attrition log | **DONE** — 2,552 screened, 94 eligible; 41 build-tested; 0 green BDD baselines |
 | P3 | Mutation + metric measurement | **DONE (feasibility)** — harnesses proven; corpus yielded 0 green baselines |
 | P4 | Statistics + figures | **DONE** — confirmatory family void under DR1, reported as such |
 | P5 | Manuscript | **DONE** — 20 pages, 0 errors, 87/87 references verified |

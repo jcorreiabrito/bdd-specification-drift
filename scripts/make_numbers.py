@@ -116,6 +116,7 @@ def main() -> int:
         Nnobddexec=str(bstates.get("no_bdd_execution", 0)),
         Nbuildfails=str(bstates.get("build_fails", 0)),
         Nunsupported=str(bstates.get("unsupported", 0)),
+        Ntimeout=str(bstates.get("timeout", 0)),
     )
 
     # ---------------- tool feasibility (smoke harnesses)

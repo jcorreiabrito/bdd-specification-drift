@@ -123,3 +123,113 @@ CatenaUS/Dtective,java,build_fails,needs_browser,1,21.1,C:\Users\jvtri\OneDrive\
 [ERROR] 
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
 [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException",2026-11-25T13:36:55+00:00
+jon-frankel/playwright-yadda,java,build_fails,other,1,627.3,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\jon-frankel__playwright-yadda\ide\jetbrains\gradlew.bat test --no-daemon -q,ide/jetbrains,,,,,"   > Failed to transform WebStorm-2026.2.3-win.zip (webstorm:WebStorm:2026.2.3) to match attributes {artifactType=zip, intellijPlatformCollected=false, intellijPlatformExtracted=true, intellijPlatformLocalPluginsNormalized=false, intellijPlatformPluginLibrariesFiltered=false, org.gradle.status=integration}.
+      > Execution failed for ExtractorTransformer: C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.gradle-home\caches\modules-2\files-2.1\webstorm\WebStorm\2026.2.3\f5b93570c25ae04dd0fc008b2654bd2286f58bcc\WebStorm-2026.2.3-win.zip.
+         > Could not copy zip entry 'C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.gradle-home\caches\modules-2\files-2.1\webstorm\WebStorm\2026.2.3\f5b93570c25ae04dd0fc008b2654bd2286f58bcc\WebStorm-2026.2.3-win.zip!lib/intellij.platform.execution.impl.jar' to 'C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.gradle-home\caches\9.8.2\transforms\a584cc6306e9bf06bb887cda5259dd94\transformed\WebStorm-2026.2.3-win\lib\intellij.platform.execution.impl.jar'.
+            > java.io.IOException: Espaço insuficiente no disco
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with",2026-11-25T13:37:16+00:00
+Arc-E-Tect/arc-e-tect_phonebook,java,build_fails,other,1,6.2,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\Arc-E-Tect__arc-e-tect_phonebook\gradlew.bat test --no-daemon -q,.,,,,,".
+
+Exception in thread ""main"" java.io.IOException: Espa�o insuficiente no disco
+	at java.base/java.io.FileOutputStream.writeBytes(Native Method)
+	at java.base/java.io.FileOutputStream.write(FileOutputStream.java:367)
+	at java.base/java.io.BufferedOutputStream.flushBuffer(BufferedOutputStream.java:125)
+	at java.base/java.io.BufferedOutputStream.implFlush(BufferedOutputStream.java:252)
+	at java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:240)
+	at java.base/java.io.FilterOutputStream.close(FilterOutputStream.java:184)
+	at org.gradle.wrapper.Install.forceFetch(SourceFile:4)
+	at org.gradle.wrapper.Install$1.call(SourceFile:8)
+	at org.gradle.wrapper.GradleWrapperMain.main(SourceFile:67)",2026-11-25T13:47:44+00:00
+ManianVSS/Karta,java,build_fails,other,1,5.7,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,,,,,"    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/InternalErrorException",2026-11-25T13:47:50+00:00
+szymonpoltorak/SoftwareTesting,java,build_fails,other,1,8.5,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\gradle\gradle-8.10.2\bin\gradle.bat test --no-daemon -q,cinema-backend,,,,,"		at java.base/java.io.BufferedOutputStream.implFlush(BufferedOutputStream.java:252)
+		at java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:240)
+		at java.base/java.io.DataOutputStream.flush(DataOutputStream.java:134)
+		at java.base/java.io.FilterOutputStream.close(FilterOutputStream.java:184)
+		... 21 more
+
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.",2026-11-25T13:47:56+00:00
+Accenture/bdd-for-all,java,build_fails,other,1,11.2,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,,,,,"[ERROR] Plugin org.apache.maven.plugins:maven-enforcer-plugin:3.0.0-M3 or one of its dependencies could not be resolved:
+[ERROR] 	The following artifacts could not be resolved: org.apache.maven.plugins:maven-enforcer-plugin:pom:3.0.0-M3 (absent): Could not transfer artifact org.apache.maven.plugins:maven-enforcer-plugin:pom:3.0.0-M3 from/to central (https://repo.maven.apache.org/maven2): Espa�o insuficiente no disco
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginResolutionException",2026-11-25T13:48:04+00:00
+Decathlon/ara,java,build_fails,other,1,1.8,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\Decathlon__ara\code\api\mvnw.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,code/api,,,,,"	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:102)
+	at java.base/sun.nio.ch.IOUtil.write(IOUtil.java:72)
+	at java.base/sun.nio.ch.FileChannelImpl.write(FileChannelImpl.java:303)
+	at java.base/sun.nio.ch.ChannelOutputStream.writeFully(ChannelOutputStream.java:68)
+	at java.base/sun.nio.ch.ChannelOutputStream.write(ChannelOutputStream.java:105)
+	at java.base/java.io.InputStream.transferTo(InputStream.java:797)
+	at java.base/java.nio.file.Files.copy(Files.java:3156)
+	at org.apache.maven.wrapper.DefaultDownloader.downloadInternal(DefaultDownloader.java:111)
+	at org.apache.maven.wrapper.DefaultDownloader.download(DefaultDownloader.java:97)
+	at org.apache.maven.wrapper.Installer.createDist(Installer.java:94)
+	at org.apache.maven.wrapper.WrapperExecutor.execute(WrapperExecutor.java:151)
+	at org.apache.maven.wrapper.MavenWrapperMain.main(MavenWrapperMain.java:76)",2026-11-25T13:48:15+00:00
+Soyle-Productions/soyle-stories,java,build_fails,other,1,8.3,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\gradle\gradle-8.10.2\bin\gradle.bat test --no-daemon -q,.,,,,,"		at java.base/java.io.BufferedOutputStream.implFlush(BufferedOutputStream.java:252)
+		at java.base/java.io.BufferedOutputStream.flush(BufferedOutputStream.java:240)
+		at java.base/java.io.DataOutputStream.flush(DataOutputStream.java:134)
+		at java.base/java.io.FilterOutputStream.close(FilterOutputStream.java:184)
+		... 20 more
+
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.",2026-11-25T13:48:17+00:00
+youvegotnigel/cucmber-java-testng-saucelabs,java,build_fails,other,1,6.2,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,,,,,"[ERROR] Plugin org.apache.maven.plugins:maven-resources-plugin:2.4 or one of its dependencies could not be resolved:
+[ERROR] 	The following artifacts could not be resolved: org.apache.maven.plugins:maven-resources-plugin:pom:2.4 (absent): Could not transfer artifact org.apache.maven.plugins:maven-resources-plugin:pom:2.4 from/to central (https://repo.maven.apache.org/maven2): Espa�o insuficiente no disco
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginResolutionException",2026-11-25T13:48:26+00:00
+cucumber/cucumber-jvm,java,build_fails,other,1,5.9,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,cucumber-jvm-HEAD,,,,,"    at jdk.internal.reflect.DirectMethodHandleAccessor.invoke (DirectMethodHandleAccessor.java:103)
+    at java.lang.reflect.Method.invoke (Method.java:580)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launchEnhanced (Launcher.java:255)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.launch (Launcher.java:201)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.mainWithExitCode (Launcher.java:361)
+    at org.codehaus.plexus.classworlds.launcher.Launcher.main (Launcher.java:314)
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/InternalErrorException",2026-11-25T13:48:32+00:00
+JakimLi/pandaria,java,build_fails,other,1,4.3,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\JakimLi__pandaria\pandaria-HEAD\gradlew.bat test --no-daemon -q,pandaria-HEAD,,,,,"	at java.base/java.io.FileOutputStream.writeBytes(Native Method)
+	at java.base/java.io.FileOutputStream.write(FileOutputStream.java:367)
+	at java.base/java.io.BufferedOutputStream.implWrite(BufferedOutputStream.java:217)
+	at java.base/java.io.BufferedOutputStream.write(BufferedOutputStream.java:200)
+	at org.gradle.wrapper.Download.downloadInternal(Download.java:72)
+	at org.gradle.wrapper.Download.download(Download.java:44)
+	at org.gradle.wrapper.Install$1.call(Install.java:61)
+	at org.gradle.wrapper.Install$1.call(Install.java:48)
+	at org.gradle.wrapper.ExclusiveFileAccessManager.access(ExclusiveFileAccessManager.java:65)
+	at org.gradle.wrapper.Install.createDist(Install.java:48)
+	at org.gradle.wrapper.WrapperExecutor.execute(WrapperExecutor.java:128)
+	at org.gradle.wrapper.GradleWrapperMain.main(GradleWrapperMain.java:61)",2026-11-25T13:48:38+00:00

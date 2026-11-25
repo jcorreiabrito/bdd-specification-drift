@@ -155,12 +155,14 @@ instance of the oracle-weakness phenomenon the study targets.
 - **frame**: 2,552 unique repositories (12 topic slugs x 5 language filters x 6 pages, 252 pages,
   snapshot SHA-256 recorded in `data/frame/FRAME.md`)
 - **screened**: 2,552 attempted, **94 eligible** (3.68 %)
-- **build/execution screen**: **31 attempted**, 0 green Gherkin baselines
+- **build/execution screen**: **41 attempted**, 0 green Gherkin baselines (24 build_fails, 7 bdd_fails, 8 no_bdd_execution, 1 timeout, 1 unsupported)
 - **caveat, disclosed in the paper**: the build screen did not complete for all 94 eligible
   repositories. The manuscript reports the attempted count and states that no green-suite *rate* is
   claimed, because the denominator is incomplete.
 
-- **correction (R005)**: an earlier revision recorded 18 attempted; later 25. The
-  authoritative figure is recomputed from `data/corpus/bs_*.csv` by
-  `scripts/make_numbers.py` and is carried into the manuscript as `\Nbuildtested`. If this
-  entry and the generated macro ever disagree, the macro is right and this entry is stale.
+- **correction history (R005)**: this entry has recorded 18, then 25, then 31 attempted while
+  the Java shard was still running; it now records the final **41**. The authoritative figure is
+  recomputed from `data/corpus/bs_*.csv` by `scripts/make_numbers.py` and carried into the
+  manuscript as `\Nbuildtested`. If this entry and the generated macro ever disagree, **the
+  macro is right and this entry is stale**. The zero-green result was re-verified after the
+  shard completed and is unchanged.
