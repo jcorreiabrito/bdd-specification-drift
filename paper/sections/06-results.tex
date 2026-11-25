@@ -23,7 +23,7 @@ Table~\ref{tab:funnel} reports the screening funnel. Of \Nscreened{} repositorie
 \caption{Static screening funnel. Every screened repository is counted exactly once. Reasons are
 ordered so that the recorded reason is the most fundamental blocker.}
 \label{tab:funnel}
-\begin{tblr}{width=\textwidth,colspec={X[2.2]rr},rowsep=1pt}
+\begin{tblr}{width=\textwidth,colspec={X[2.2,l]rr},rowsep=1pt}
 \toprule
 \textbf{Stage / reason} & \textbf{n} & \textbf{share} \\
 \midrule
@@ -120,7 +120,7 @@ BDD runner itself. Table~\ref{tab:feasibility} reports the two harness demonstra
 known, so that the reported score is interpretable; they establish that the harness works, not what
 public suites score. The JavaScript path uses Stryker's official Cucumber runner, \texttt{@stryker-mutator/cucumber-runner}.}
 \label{tab:feasibility}
-\begin{tblr}{width=\textwidth,colspec={X[0.9]X[2.1]rrr},rowsep=1pt}
+\begin{tblr}{width=\textwidth,colspec={X[0.9,l]X[2.1,l]rrr},rowsep=1pt}
 \toprule
 \textbf{Ecosystem} & \textbf{Pinned toolchain} & \textbf{Mutants} & \textbf{Killed} & \textbf{$\mscov$} \\
 \midrule
@@ -146,7 +146,7 @@ generated \JavaMutants{} mutants while Stryker generated \JsMutants{} --- a rati
 \MutantRatio{}. This comparison is \emph{confounded by design}, and we state it as such: the two runs
 used their tools' default operator sets (recorded in the run log) rather than a common aligned set, so
 the difference reflects operator configuration as well as tool behaviour. It is nonetheless consistent
-with the cross-tool incomparability reported by Kintis et al.\ \cite{Kintis2018HowEffectiveTools}, and
+with the cross-tool incomparability reported by \citet{Kintis2018HowEffectiveTools}, and
 it is a sufficient reason for the method's refusal to pool scores across ecosystems. A controlled
 comparison would pin both tools to the same aligned operator set, which the study protocol specifies
 for the corpus stage but which the feasibility probes did not require.

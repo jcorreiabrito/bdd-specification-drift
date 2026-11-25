@@ -2,10 +2,10 @@
 %  iSys submission — Do Public BDD Suites Still Work as Oracles?
 %
 %  BUILD:  .\build.ps1 -Main paper\main.tex -Clean   (from the repo root)
-%  The iSys class comments out \RequirePackage{lmodern}, which leaves T1-encoded
-%  bitmap fonts and makes microtype die with
-%      "pdfTeX error (font expansion): auto expansion is only possible with scalable fonts".
-%  Hence the explicit \usepackage{lmodern} below — do not remove it.
+%  Uses the official iSys 2026 class (sbc2025.cls) with its intended TeX Gyre
+%  Termes + FiraSans typography. On MiKTeX hosts whose pdftex.map has not been
+%  refreshed after package install, \pdfmapfile registers the Type 1 maps so
+%  pdflatex embeds scalable fonts without overriding the class typography.
 %
 %  ANONYMITY: iSys uses double-anonymous review. This file must contain no author
 %  names, affiliations, emails, ORCIDs, acknowledgements, funding, or links that
@@ -14,35 +14,57 @@
 % =====================================================================
 \documentclass[english]{sbc2025}
 
-\usepackage{lmodern}              % see header: required by this class
 \usepackage[misc,geometry]{ifsym}
 \usepackage{aas_macros}
 \usepackage[bottom]{footmisc}
 \usepackage{tabularray}
 \usepackage{afterpage}
 \usepackage{url}
+\usepackage{pifont}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage[scaled=0.84]{FiraMono}
+
+% Ensure Type 1 font maps for the class's TeX Gyre Termes, FiraSans/FiraMono and
+% FontAwesome fonts are visible to pdfTeX even when MiKTeX's pdftex.map is stale.
+\ifpdftex
+  \pdfmapfile{+qtm.map}
+  \pdfmapfile{+fira.map}
+  \pdfmapfile{+fontawesome.map}
+  \pdfinfoomitdate=1
+  \pdfsuppressptexinfo=-1
+\fi
+
+% Official iSys citation style (square author-year brackets) and link styling.
+\setcitestyle{square}
+
+\definecolor{engtitle}{rgb}{0.5,0.5,0.5}
+\definecolor{orcidlogo}{rgb}{0.37,0.48,0.13}
+\definecolor{unilogo}{rgb}{0.16, 0.26, 0.58}
+\definecolor{maillogo}{rgb}{0.58, 0.16, 0.26}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.0}
+\hypersetup{
+  colorlinks,breaklinks,
+  linkcolor=darkblue,urlcolor=darkblue,
+  anchorcolor=darkblue,citecolor=darkblue,
+  pdfauthor={},
+  pdftitle={Do Public BDD Suites Still Work as Oracles? A Mutation-Based Instrument for Detecting Executable-Specification Drift in Cucumber-Style Suites},
+  pdfsubject={},
+  pdfkeywords={},
+  pdfcreator={},
+  pdfproducer={}
+}
 
 % The class is two-column (~240pt per column) and this manuscript uses long snake_case
 % identifiers such as no_bdd_runner_dependency. LaTeX will not break at an underscore and
-% will not hyphenate inside \texttt, so such tokens produced 66pt overfull boxes.
+% will not hyphenate inside \texttt, so such tokens produced overfull boxes.
 % Allowing a break opportunity after every underscore fixes them all at once.
 \let\origtextunderscore\_
 \renewcommand{\_}{\origtextunderscore\allowbreak}
-\usepackage{pifont}
-\usepackage{graphicx}
-% NOTE: do NOT load `booktabs` or `longtable` here. `tabularray` is loaded by the
-% iSys class and provides \toprule/\midrule/\bottomrule for tblr; loading booktabs
-% afterwards redefines those rules and makes every tblr fail with
-% "! Misplaced \noalign." at \end{tblr}.
-\usepackage{multirow}
-\usepackage{xcolor}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{array}
-\usepackage{microtype}
 
-% tabularray must be told to provide the booktabs-style rules used by every tblr in
-% this manuscript; without this, \toprule is undefined inside tblr.
+% NOTE: do NOT load `booktabs` or `longtable` here. `tabularray` provides
+% \toprule/\midrule/\bottomrule via \UseTblrLibrary{booktabs}; loading the
+% standalone booktabs package afterwards breaks tblr.
 \UseTblrLibrary{booktabs}
 
 \input{numbers}
@@ -63,45 +85,51 @@
 \newcommand{\clsWK}{\mathit{WK}}   % WEAK
 \newcommand{\clsNN}{\mathit{NN}}   % NONE
 
-% The iSys e-ISSN, as printed in the frontmatter header. The class leaves \@issn empty
-% unless this is set, and the header then renders an empty box that overflows the line by
-% 66pt. Value verified from the journal's About page (submission/VENUE-RULES.md, V1).
+% Official iSys template journal metadata (placeholders updated by editors on acceptance).
+\jid{iSys}
+\jtitle{iSys - Journal of Information Systems, 202X, XX:1}
 \issn{1984-2902}
+\doi{10.5753/isys.202X.XXXXXX}
+\copyrightstatement{This work is licensed under a Creative Commons Attribution 4.0 International License}
+\jyear{202X}
 
-\begin{document}
-
-\begin{frontmatter}
+\category{Research Paper}
 
 \title[BDD Suites as Oracles]{Do Public BDD Suites Still Work as Oracles?
 A Mutation-Based Instrument for Detecting Executable-Specification Drift in
 Cucumber-Style Suites}
 
 % Anonymised for double-anonymous review (iSys policy).
-\author[Anonymous submission]{\affil{\textbf{Anonymous submission --- author identities withheld for review}}}
+\author[Anonymous submission]{%
+\affil{\textbf{Anonymous submission --- author identities withheld for review}}%
+}
+
+\begin{document}
+
+\begin{frontmatter}
 
 \maketitle
 
 \begin{abstract-en}
 [Context] A business rule lives in three places that can drift apart: the organisational requirement,
-the executable specification written in Gherkin, and the code. Behaviour-Driven Development (BDD) is
-adopted on the premise that executable specifications keep the first and third aligned, yet no metric
-is used to check whether that alignment still holds. [Objective] We ask whether the
-specification layer of a Cucumber-style suite still functions as an \emph{oracle} --- whether it can
-discriminate a change in the business rules it claims to describe --- and we design an instrument for
-organisations to answer it about their own suites. [Method] Following Design Science
-Research, we build and evaluate a drift-detection protocol as feasibility of mutation-based
-oracle measurement in two ecosystems, and a measurement of the public population from a frame of \Nframe{}
+the executable Gherkin specification, and the code. Behaviour-Driven Development (BDD) assumes
+executable specifications keep requirements and code aligned, yet no metric checks whether that
+alignment still holds. [Objective] We ask whether the specification layer of a Cucumber-style suite
+still acts as an \emph{oracle}---discriminating changes in the business rules it describes---and we
+design an instrument for organisations to answer this about their own suites. [Method] Following
+Design Science Research, we build and evaluate a drift-detection protocol via mutation-based oracle
+measurement feasibility in two ecosystems and a public-population screen from a frame of \Nframe{}
 repositories drawn with a fixed seed under a categorised attrition protocol.
-[Results] Mutation-based oracle measurement is feasible in the Java and JavaScript/TypeScript
-ecosystems, with per-mutant coverage and per-scenario attribution. However, of
-\Nscreened{} screened repositories \Neligible{} met the study's static eligibility criteria
-(\YieldPct\,\%; 95\,\% CI \YieldLo--\YieldHi\,\%), and of \Nbuildtested{} build-tested repositories
-\Ngreen{} produced a green, executing Gherkin baseline. [Conclusion/Contributions] The binding constraint on evidence about BDD oracle quality is
-infrastructural rather than statistical: public BDD suites are overwhelmingly frameworks, templates and
-demonstrators, not applications with an executable specification layer. We contribute the instrument, the feasibility evidence and a
-quantified attrition analysis. \emph{Limitation.} No independent human raters were available, so the
-judgement-coded indicators carry no inter-rater reliability statistic, and no corpus-scale association
-could be estimated.
+[Results] Mutation-based oracle measurement is feasible in Java and JavaScript/TypeScript, with
+per-mutant coverage and per-scenario attribution. However, of \Nscreened{} screened repositories,
+\Neligible{} met static eligibility (\YieldPct\,\%; 95\,\% CI \YieldLo--\YieldHi\,\%), and of
+\Nbuildtested{} build-tested repositories, \Ngreen{} produced a green, executing Gherkin baseline.
+[Conclusion/Contributions] The binding constraint on BDD oracle evidence is infrastructural rather
+than statistical: public BDD repositories are overwhelmingly frameworks, templates and demonstrators,
+not applications with an executable specification layer. We contribute the instrument, feasibility
+evidence and quantified attrition analysis. \emph{Limitation.} Without independent human raters,
+judgement-coded indicators carry no inter-rater reliability statistic, and no corpus-scale
+association was estimated.
 \end{abstract-en}
 
 \begin{keywords}

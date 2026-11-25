@@ -12,7 +12,7 @@ Status legend: **PASS** verified mechanically · **MANUAL** requires the author'
 | # | Rule | Status | Evidence |
 |---|---|---|---|
 | V8/V9 | Official iSys 2026 LaTeX template used, not an SBC default | **PASS** | `paper/sbc2025.cls`, `paper/apalike-sol.bst` vendored from `Template_LaTeX_iSys_2026_Preferred.zip` (sha256 `c852b3e3a4737448…`) |
-| V10 | Minimum 15 pages (no maximum stated) | **PASS** | PDF is 20 pages (`paper/out/main.pdf`) |
+| V10 | Minimum 15 pages (no maximum stated) | **PASS** | PDF is 19 pages (`paper/out/main.pdf`) |
 | V11 | Title in English | **PASS** | English title; manuscript written in English |
 | V12 | Abstract in English, 150–250 words, structured, **one paragraph** | **PASS** | Structured `[Context][Objective][Method][Results][Conclusion/Contributions]`; single paragraph; word count verified below |
 | V13 | 3–6 keywords | **PASS** | 6 keywords (verified by script) |
@@ -24,16 +24,16 @@ The manuscript listed seven keywords against a 3–6 rule. Reduced to six by dro
 research", which is already carried by the abstract and the IS framing. Verified: 6 keywords.
 
 ### Abstract length — VERIFIED
-The abstract is **249 words** (rule V12 permits 150–250) and is a single paragraph.
+The rendered abstract is **219 words** including section tags (**214** excluding tags; rule V12 permits 150–250) and is a single paragraph.
 
 ## Declarations (V15, V16, V22)
 
 | # | Rule | Status | Evidence |
 |---|---|---|---|
-| V15 | Mandatory declaration sections after "Final Remarks" | **PASS** | `paper/sections/10-declarations.tex`: Authors' Contributions (CRediT), Competing Interests, Funding, Availability of Data and Materials, Acknowledgments, Ethical Considerations |
-| V15 | Union of the two lists the journal gives (checklist vs. structure) | **PASS** | Both lists are covered; "Further relevant information" is used as the carrier section for the AI disclosure, satisfying the checklist wording |
-| V16 | AI/LLM use transparently described (tool, purpose, author verification); AI not an author | **PASS** | "Declaration of AI-Assisted Use in Writing" states purpose, verification, and that AI was **not** used as a rater or to generate research data; AI is not listed as an author |
-| V16 / brief | AI declaration **immediately before References** | **PASS** | It is the last subsection of the declarations block, which immediately precedes `\bibliography{refs}` |
+| V15 | Mandatory declaration sections after "Final Remarks" | **PASS** | `paper/sections/10-declarations.tex`: official `sbc2025.cls` `declarations` block with `acknowledgements`, `contributions`, `interests`, `materials`, `funding`, and `furtherinformation` |
+| V15 | Union of the two lists the journal gives (checklist vs. structure) | **PASS** | Both lists are covered; `furtherinformation` carries Ethical Considerations and the AI disclosure, matching the official template |
+| V16 | AI/LLM use transparently described (tool, purpose, author verification); AI not an author | **PASS** | "Declaration of AI-Assisted Use in Writing" (with Table 5 anchored directly beneath it before References) states purpose, verification, and that AI was **not** used as a rater or to generate research data; AI is not listed as an author |
+| V16 / brief | AI declaration **immediately before References** | **PASS** | It is the last block inside `furtherinformation`, which immediately precedes `\bibliography{refs}` |
 | V22 | Ethical issues explained | **PASS** | Public artefacts only, no human participants, no ethics approval required, isolated working copies |
 
 ## Double-anonymous review (V17) — the highest-risk item
@@ -41,9 +41,9 @@ The abstract is **249 words** (rule V12 permits 150–250) and is a single parag
 | # | Rule | Status | Evidence |
 |---|---|---|---|
 | V17 | No author names, affiliations, emails, ORCIDs in text, references, acknowledgments or file metadata | **PASS (text)** | Author block replaced by "Anonymous submission"; acknowledgments withheld; no ORCID |
-| V17 | No self-identifying references | **PASS** | All 78 references are third-party; no self-citation |
+| V17 | No self-identifying references | **PASS** | All 87 references are third-party; no self-citation |
 | V17 | Omit project names, institutional references, or links identifying authors | **PASS** | The manuscript contains **no** repository URL and no organisation name; the replication package is referenced only via an anonymised mirror (below) |
-| V17 | Remove PDF metadata | **MANUAL** | **A2**: before upload, strip PDF metadata (`pdfTeX` embeds a producer/creator string; check for a username in the document properties). |
+| V17 | Remove PDF metadata | **PASS** | `paper/main.tex` clears `pdfauthor`, `pdfcreator`, `pdfproducer`, and omits PDF dates (`\pdfinfoomitdate=1`, `\pdfsuppressptexinfo=-1`); verified with `pdfinfo`. |
 | V18/Open Science | An anonymised mirror for reviewers | **MANUAL** | **A3**: create an anonymised mirror of the replication package (e.g. an anonymised repository service) and cite that URL in the manuscript's Data Availability statement for the review round; restore the canonical URL in the camera-ready. |
 
 ## Cover letter (V18)

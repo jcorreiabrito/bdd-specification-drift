@@ -5,9 +5,9 @@ An information system is not merely a body of code; it is a system of work in wh
 rules are encoded so that routine decisions can be made consistently. When a lender approves a loan, a retailer prices an order, or an insurer settles a claim, the software enacts a business rule that someone, somewhere, wrote down. The distance between the rule as intended and the rule as enacted is
 an old concern of the Information Systems (IS) field, whose literature has long treated the alignment
 between business strategy and information technology as a continuing managerial problem rather than a
-one-off design decision \cite{henderson1993strategic}, and which distinguishes the quality of the
+one-off design decision \citep{henderson1993strategic}, and which distinguishes the quality of the
 information an artefact carries from the quality of the system that carries it
-\cite{delone2003model}. This paper is about a specific, measurable, and surprisingly neglected way in
+\citep{delone2003model}. This paper is about a specific, measurable, and surprisingly neglected way in
 which that distance grows.
 
 Behaviour-Driven Development (BDD) was proposed precisely to close it. A requirement is written as a
@@ -16,7 +16,7 @@ code; and the scenario is executed as a test. The promise is that the specificat
 test, so the specification cannot silently diverge from the implementation. BDD is now widely used in
 industry, and empirical work has confirmed its adoption in open-source projects: in a study of
 50{,}000 popular repositories, approximately 27\,\% used a BDD framework, rising to 68\,\% among Ruby
-projects \cite{zampetti2020demystifying}.
+projects \citep{zampetti2020demystifying}.
 
 The promise has a structural weakness. A Gherkin scenario is only an oracle if its steps actually
 \emph{check} something that could fail. Scenarios can be tagged \texttt{@wip} and skipped; assertions
@@ -34,22 +34,22 @@ still functions as an oracle --- and whether that ability is decaying?
 
 \subsection{The gap this paper addresses}
 
-The literature tells us a great deal about BDD's adoption \cite{zampetti2020demystifying}, its
-scenario quality \cite{chandorkar2022gherkin,binamungu2020characterising}, the maintainability burden
-of keeping scenarios and code in step \cite{binamungu2018maintaining,oliveira2019howtoevaluate}, and
-its benefits as reported by practitioners \cite{couto2023characterization}. It tells us that mutation
+The literature tells us a great deal about BDD's adoption \citep{zampetti2020demystifying}, its
+scenario quality \citep{chandorkar2022gherkin,binamungu2020characterising}, the maintainability burden
+of keeping scenarios and code in step \citep{binamungu2018maintaining,oliveira2019howtoevaluate}, and
+its benefits as reported by practitioners \citep{couto2023characterization}. It tells us that mutation
 analysis is the standard instrument for measuring a suite's discriminating power, and that mutation
-scores track real fault detection in a way coverage does not \cite{Just2014AreMutants}. It also tells
-us that tests decay: disabled tests are common and often never re-enabled \cite{Kim2021Disabled},
-test cases have a measurable half-life \cite{Feldt2014GrowOld}, and tests can pass while checking
-nothing \cite{Delplanque2019RottenGreen,zhi2013inadequateassertions}.
+scores track real fault detection in a way coverage does not \citep{Just2014AreMutants}. It also tells
+us that tests decay: disabled tests are common and often never re-enabled \citep{Kim2021Disabled},
+test cases have a measurable half-life \citep{Feldt2014GrowOld}, and tests can pass while checking
+nothing \citep{Delplanque2019RottenGreen,zhi2013inadequateassertions}.
 
 What the literature does not provide is the intersection. A recent systematic mapping of 166 BDD
 papers published between 2006 and 2021 found no treatment of mutation analysis, and explicitly named
 an ``acute shortage of metrics for measuring various aspects of BDD specifications''
-\cite{binamungu2023mapping}. The closest existing work applied mutation analysis to a BDD acceptance
+\citep{binamungu2023mapping}. The closest existing work applied mutation analysis to a BDD acceptance
 suite exactly once, in a single industrial robotic-system proof of concept with hand-selected domain
-mutants \cite{santos2024aat4irs}. To our knowledge, no study has measured, across a corpus of public
+mutants \citep{santos2024aat4irs}. To our knowledge, no study has measured, across a corpus of public
 Cucumber-style suites, how much discriminating power the specification layer contributes
 \emph{relative to the rest of the test suite}, nor how that contribution changes over repository
 history. This paper is an attempt to build the instrument for that measurement, and an honest report
@@ -75,8 +75,8 @@ covered domain-layer mutants killed by the specification layer. This is a \emph{
 simply always have been weak. We are careful throughout not to infer drift from a single measurement,
 and the term \emph{specification drift} is used here as a definition we introduce, not as an
 established construct in the literature (Section~\ref{sec:related} explains the established
-relatives: architectural drift and erosion \cite{PerryWolf1992,Rosik2010ArchDrift}, code decay
-\cite{Izurieta2012Decay}).
+relatives: architectural drift and erosion \citep{PerryWolf1992,Rosik2010ArchDrift}, code decay
+\citep{Izurieta2012Decay}).
 
 \subsection{Contributions}
 

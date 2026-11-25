@@ -8,10 +8,10 @@
 #     package is missing, because its installer cannot write to its user data
 #     directories under the file sandbox. We therefore pass --disable-installer
 #     so a missing package becomes a fast, visible error instead of a hang.
-#   * The official iSys class `sbc2025.cls` comments out `\RequirePackage{lmodern}`,
-#     leaving T1-encoded bitmap fonts; microtype then dies with
-#     "pdfTeX error (font expansion): auto expansion is only possible with scalable
-#     fonts". The document MUST load `\usepackage{lmodern}` in its preamble.
+#   * The official iSys class `sbc2025.cls` loads TeX Gyre Termes (`tgtermes`)
+#     and `FiraSans`. On MiKTeX hosts where `pdftex.map` is stale, `main.tex`
+#     registers `qtm.map`, `fira.map`, and `fontawesome.map` via `\pdfmapfile`
+#     so scalable Type 1 fonts are embedded without overriding class typography.
 #   * The iSys bibliography style is `apalike-sol.bst` (APA-based) driven by BIBTEX,
 #     not biber.
 #

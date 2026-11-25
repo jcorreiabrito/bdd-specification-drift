@@ -1,6 +1,10 @@
-\section*{Declarations}
+\begin{declarations}
 
-\subsection*{Authors' Contributions (CRediT)}
+\begin{acknowledgements}
+Withheld for double-anonymous review, in accordance with the journal's policy.
+\end{acknowledgements}
+
+\begin{contributions}
 % Anonymised: iSys double-anonymous review forbids identifying the authors here.
 The author(s) of this submission made the following contributions, stated by role rather than by
 name to preserve anonymity for review, in accordance with the CRediT taxonomy:
@@ -8,16 +12,14 @@ Conceptualization, Methodology, Software, Validation, Formal analysis, Investiga
 Writing -- original draft, Writing -- review and editing, Visualization, Supervision, Project
 administration. A named allocation of these roles will be supplied in the camera-ready version, as
 required by the journal after acceptance.
+\end{contributions}
 
-\subsection*{Competing Interests}
-The authors declare no competing interests. No funding source had any role in the design of the
-study, the collection, analysis or interpretation of data, or the decision to submit.
+\begin{interests}
+The authors declare that they have no competing interests. No funding source had any role in the
+design of the study, the collection, analysis or interpretation of data, or the decision to submit.
+\end{interests}
 
-\subsection*{Funding}
-This research received no specific grant from any funding agency in the public, commercial or
-not-for-profit sectors. This statement will be updated if that changes before publication.
-
-\subsection*{Availability of Data and Materials}
+\begin{materials}
 The replication package --- including the sampling frame with its snapshot hash and seed, the
 screening and attrition tables, the static-indicator and mutation harnesses with pinned tool versions,
 the raw per-mutant statuses, the analysis scripts and the append-only run log --- is prepared for
@@ -27,11 +29,15 @@ supplied in the camera-ready version. All analysed repositories are public and w
 respective permissive licences, which are recorded per repository in the screening table; no
 repository content is redistributed in the package. Third-party papers referenced in the literature
 review are cited, not redistributed.
+\end{materials}
 
-\subsection*{Acknowledgments}
-Withheld for double-anonymous review, in accordance with the journal's policy.
+\begin{funding}
+This research received no specific grant from any funding agency in the public, commercial or
+not-for-profit sectors. This statement will be updated if that changes before publication.
+\end{funding}
 
-\subsection*{Ethical Considerations}
+\begin{furtherinformation}
+\paragraph{Ethical considerations.}
 This study analyses only publicly available software artefacts and involves no human participants, so
 no ethics committee approval was required or sought. Mutation analysis modifies code only in isolated
 working copies; no public repository was altered. No code was injected into any third-party
@@ -40,7 +46,7 @@ this study (Section~\ref{sec:threats}); had it been, it would have been confined
 that no measured artefact was modified. Repositories lacking a detectable permissive licence were
 excluded before any modification.
 
-\subsection*{Further Relevant Information: Declaration of AI-Assisted Use in Writing}
+\paragraph{Declaration of AI-Assisted Use in Writing.}
 In accordance with the journal's policy on AI/LLM use, and in the interest of full transparency, we
 declare the following. Generative AI tools were used in this work as follows: (i) as a coding and
 drafting assistant for software engineering tasks in the replication package (writing and refactoring
@@ -63,23 +69,27 @@ assembling tables. They were not used as \emph{raters}. Where the protocol requi
 (the business-rule relevance of mutants, the mirror-step classification, and inter-rater reliability),
 no AI labelling was substituted, and the absence of those reliability statistics is disclosed as a
 limitation in Section~\ref{sec:threats} rather than filled with an automatically generated number.
+Table~\ref{tab:ai-summary} summarises each use of generative AI and the verification applied.
 
-\subsection*{Use of Generative AI --- summary for reviewers}
-% Full-width float: the class is two-column, so a tblr set to \textwidth inside a
-% column overflows it by ~258pt. table* spans both columns.
-\begin{table*}[t]
+\par\medskip
+\noindent\begin{minipage}{\columnwidth}
 \centering
-\caption{Summary of generative-AI use and the verification applied to each use.}
+\footnotesize
+\captionof{table}{Summary of generative-AI use and the verification applied to each use.}
 \label{tab:ai-summary}
-\begin{tblr}{width=\textwidth,colspec={X[1.1]X[2.2]},rowsep=2pt}
+\begin{tblr}{width=\columnwidth,colspec={X[0.72,l]X[1.68,l]},rowsep=2pt,colsep=4pt}
 \toprule
 \textbf{Purpose} & \textbf{Verification applied} \\
 \midrule
-Code and scripts in the replication package & Executed; outputs checked against tool reports; run log records command, timestamp, commit and versions \\
+Replication-package code and scripts & Executed; outputs checked against tool reports; run log records command, timestamp, commit and versions \\
 Drafting and editing manuscript prose & Human author reviewed and approved all text; claims checked against result files \\
 Tables and figures & Generated programmatically from result files, never typed by hand \\
 Reference verification & Automated Crossref audit of every DOI; unverifiable entries deleted \\
 Research data & \textbf{Not generated by AI.} All measurements come from executed tools; human-judgement items were not automated \\
 \bottomrule
 \end{tblr}
-\end{table*}
+\end{minipage}
+\par\medskip
+\end{furtherinformation}
+
+\end{declarations}

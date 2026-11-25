@@ -8,9 +8,9 @@ participants and technological components jointly perform activities to process 
 support decision-making, and its value emerges from integration into organisational practice rather
 than from technological functionality alone. The alignment between business strategy and information
 technology has been framed as a continuing process of managerial fit rather than a one-off design
-choice \cite{henderson1993strategic}, and the success of an information system has been modelled as a
+choice \citep{henderson1993strategic}, and the success of an information system has been modelled as a
 multi-dimensional construct in which the quality of the information and the quality of the system are
-distinct from their use and their net organisational benefit \cite{delone2003model}. These framings
+distinct from their use and their net organisational benefit \citep{delone2003model}. These framings
 matter here for a direct reason: they insist that a system can be technically sound and
 organisationally wrong at the same time, which is precisely the failure mode this paper measures.
 
@@ -39,13 +39,13 @@ The IS literature on system evaluation is familiar with the difference between \
 \emph{effectiveness}. Test coverage has the same character: it records that code was exercised, not
 that exercising it could have produced a failure. The empirical record is unambiguous. In an
 industrial Ruby project, mutation scores averaged 0.78 while statement coverage averaged 97.2\,\%
-\cite{li2015mutationpracticeruby}. Across 45 Maven projects, the correlation between coverage and
+\citep{li2015mutationpracticeruby}. Across 45 Maven projects, the correlation between coverage and
 mutation score was 0.75 when computed na\"ively but fell to 0.21 once restricted to covered code
-\cite{Jain2023MindTheGap} --- that is, almost all of the apparent association was an artefact of
+\citep{Jain2023MindTheGap} --- that is, almost all of the apparent association was an artefact of
 \emph{which} code was covered, and among code that is covered, coverage says very little about
 discrimination. Mutation score, by contrast, tracks real fault detection independently of coverage
-\cite{Just2014AreMutants}, although it remains a proxy: a substantial minority of real faults have no
-mutant representative \cite{Just2014AreMutants,titcheuchekam2017faultrevelation}.
+\citep{Just2014AreMutants}, although it remains a proxy: a substantial minority of real faults have no
+mutant representative \citep{Just2014AreMutants,titcheuchekam2017faultrevelation}.
 
 For an organisation the practical question is therefore not ``what is our coverage?'' but ``if
 someone changed this business rule, would anything fail?'' That is the question mutation analysis
@@ -55,13 +55,13 @@ answers, and it is the question this paper operationalises for the specification
 
 That test artefacts degrade is well documented. Disabled tests are common --- 3{,}111 disabling changes
 across 122{,}000 commits in 15 Java systems, with 41\,\% of disabled tests never re-enabled and a
-median 39 days to re-enable \cite{Kim2021Disabled}. Test cases have a half-life of five to twelve
-months in a large industrial setting \cite{Feldt2014GrowOld}. A substantial share of ``green'' tests
+median 39 days to re-enable \citep{Kim2021Disabled}. Test cases have a half-life of five to twelve
+months in a large industrial setting \citep{Feldt2014GrowOld}. A substantial share of ``green'' tests
 check less than their authors believe: 294 rotten green tests were found in 19{,}905 test cases
-\cite{Delplanque2019RottenGreen}, and inadequate assertions have been catalogued as a recurring
-defect pattern \cite{zhi2013inadequateassertions,zhang2015assertions}. Test smells are pervasive ---
-86\,\% of JUnit tests in one study exhibited at least one \cite{Bavota2015AreTestSmells} --- and their
-removal is mostly incidental rather than deliberate \cite{Kim2021SecretLife}.
+\citep{Delplanque2019RottenGreen}, and inadequate assertions have been catalogued as a recurring
+defect pattern \citep{zhi2013inadequateassertions,zhang2015assertions}. Test smells are pervasive ---
+86\,\% of JUnit tests in one study exhibited at least one \citep{Bavota2015AreTestSmells} --- and their
+removal is mostly incidental rather than deliberate \citep{Kim2021SecretLife}.
 
 If decay is the normal case for tests in general, there is no reason to expect the specification layer
 of a BDD suite to be exempt. It is, however, a layer with a distinctive failure mode: because the
@@ -74,11 +74,11 @@ instrument necessary, and it is why a practitioner cannot simply read the featur
 
 We therefore treat the problem as a design problem, in the sense of Design Science Research (DSR).
 Design science builds and evaluates artefacts intended to address identified organisational problems,
-with relevance and rigour as twin requirements \cite{hevner2004design}, and it is distinguished from
+with relevance and rigour as twin requirements \citep{hevner2004design}, and it is distinguished from
 natural-science research by the kind of knowledge it produces: the one builds artefacts, the other
-seeks explanations, and the two have different truth criteria \cite{march1995design}. DSR is
+seeks explanations, and the two have different truth criteria \citep{march1995design}. DSR is
 accordingly expected to state the problem class, the artefact's design rationale, its evaluation in a
-relevant context, and the implications for practice \cite{peffers2007dsrm,gregor2013positioning}. The
+relevant context, and the implications for practice \citep{peffers2007dsrm,gregor2013positioning}. The
 response here is to build and evaluate an artefact that makes the divergence detectable.
 
 Framing the contribution this way is not a rhetorical choice. It determines what counts as success. A

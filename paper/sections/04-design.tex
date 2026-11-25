@@ -12,7 +12,7 @@ appearance while losing its function.
 
 The relevance of the problem class is a matter of record in the decay literature: disabled tests,
 rotten green tests and inadequate assertions are normal, not pathological
-\cite{Kim2021Disabled,Delplanque2019RottenGreen,zhi2013inadequateassertions}. The specificity of the
+\citep{Kim2021Disabled,Delplanque2019RottenGreen,zhi2013inadequateassertions}. The specificity of the
 BDD case is the appearance/function asymmetry described in Section~\ref{sec:background}: a
 \texttt{.feature} file reads like a specification to a business stakeholder even when its step
 definitions stopped checking anything. A manager reviewing the artefact sees compliance; the
@@ -21,8 +21,8 @@ instrument we propose tests whether compliance is real.
 \subsection{The artefact}
 
 Following the design-science convention of describing an artefact's rationale and evaluation rather
-than only its implementation \cite{hevner2004design,peffers2007dsrm}, and being explicit about the type
-of knowledge the contribution claims \cite{gregor2013positioning}, we state the artefact as a protocol
+than only its implementation \citep{hevner2004design,peffers2007dsrm}, and being explicit about the type
+of knowledge the contribution claims \citep{gregor2013positioning}, we state the artefact as a protocol
 with five steps:
 
 \begin{enumerate}
@@ -49,7 +49,7 @@ each foreclose a convenient shortcut:
 \begin{description}
 \item[Coverage conditioning is mandatory, not advisory.] Given that the raw coverage--mutation
       correlation largely vanishes once analysis is restricted to covered code
-      \cite{Jain2023MindTheGap}, a study that reports only an overall mutation score is measuring
+      \citep{Jain2023MindTheGap}, a study that reports only an overall mutation score is measuring
       coverage under another name. We therefore require both values side by side in every table.
 \item[Differential attribution is required.] A suite can be strong for reasons unrelated to BDD:
       a mature project with excellent unit tests will have a high overall mutation score whether or
@@ -58,7 +58,7 @@ each foreclose a convenient shortcut:
       this, and the paper states plainly that no causal claim about BDD is available from an
       observational design.
 \item[Stratification by tool is required.] Because mutation tools are not interchangeable
-      \cite{Kintis2018HowEffectiveTools}, pooling scores across ecosystems would manufacture a
+      \citep{Kintis2018HowEffectiveTools}, pooling scores across ecosystems would manufacture a
       common scale that does not exist. The artefact therefore forbids a single pooled correlation as
       the headline statistic.
 \end{description}
@@ -94,7 +94,7 @@ retrospectively promoting an exploratory finding to a confirmatory one.
 each. The third column names what could make each answer fail, which is where the threats in
 Section~\ref{sec:threats} attach.}
 \label{tab:rq-map}
-\begin{tblr}{width=\textwidth,colspec={X[1.0]X[1.6]X[1.6]},rowsep=2pt}
+\begin{tblr}{width=\textwidth,colspec={lX[1.0,l]X[1.0,l]},rowsep=2pt}
 \toprule
 \textbf{RQ} & \textbf{Observation} & \textbf{What the answer depends on} \\
 \midrule

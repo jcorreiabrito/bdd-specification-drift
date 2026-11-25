@@ -25,6 +25,7 @@ Usage:
 from __future__ import annotations
 
 import csv
+import html
 import os
 import re
 import sys
@@ -47,8 +48,8 @@ PUNCT = {
 
 
 def clean_latex(s: str) -> str:
-    """Remove LaTeX accent markup, keeping the base letter."""
-    s = s or ""
+    """Remove HTML entities and LaTeX accent markup, keeping the base letter."""
+    s = html.unescape(s or "")
     s = LETTER_ACCENT_RX.sub(r"\1", s)   # \c{c} -> c, \v{s} -> s
     s = ACCENT_RX.sub(r"\1", s)          # \'A  -> A
     s = s.replace("\\", "").replace("{", "").replace("}", "")
@@ -73,6 +74,14 @@ def esc(s: str) -> str:
     s = translit(clean_latex(s))
     s = s.replace("&", r"\&").replace("%", r"\%").replace("#", r"\#").replace("_", r"\_")
     return re.sub(r"\s+", " ", s).strip()
+
+
+def clean_title(s: str) -> str:
+    """Escape title and strip stray Crossref footnote superscripts like 'Research1'."""
+    s = esc(s)
+    # Strip a single trailing footnote digit directly glued to a word (e.g., MISQ 'Impact1', 'Research1').
+    s = re.sub(r"([A-Za-z]{4,})1$", r"\1", s)
+    return s
 
 
 def bib_author(a: str) -> str:
@@ -113,7 +122,7 @@ def main() -> int:
         seen.add(key)
         etype = entry_type(r.get("venue", ""))
         fields = [("author", bib_author(r.get("authors", ""))),
-                  ("title", esc(r.get("title", ""))),
+                  ("title", clean_title(r.get("title", ""))),
                   ("year", (r.get("year") or "").strip())]
         venue = esc(r.get("venue", ""))
         if etype == "article":
