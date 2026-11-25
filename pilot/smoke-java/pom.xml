@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Harness feasibility probe for the Java stratum: can PIT drive a Cucumber-JVM
+  suite via the JUnit Platform engine and produce a mutation score?
+
+  NOT research data. The mutation operators used here are PIT's DEFAULTS; the
+  study protocol restricts operators to decision logic and will state the exact
+  set. This probe only answers "is the tool chain drivable at all?".
+
+  Pinned versions (queried from Maven Central 2026-11-25):
+    pitest-maven 1.30.2, pitest-junit5-plugin 1.2.3,
+    cucumber 8.1.0, JUnit 6.1.3
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>smoke</groupId>
+  <artifactId>bdd-pit-smoke</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <cucumber.version>8.1.0</cucumber.version>
+    <junit.version>6.1.3</junit.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit-platform-engine</artifactId>
+      <version>${cucumber.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.platform</groupId>
+      <artifactId>junit-platform-suite</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.30.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>1.2.3</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <targetClasses>
+            <param>smoke.pricing.*</param>
+          </targetClasses>
+          <targetTests>
+            <param>smoke.RunCucumberTest</param>
+          </targetTests>
+          <outputFormats>
+            <param>XML</param>
+            <param>HTML</param>
+          </outputFormats>
+          <timestampedReports>false</timestampedReports>
+          <mutationThreshold>0</mutationThreshold>
+          <failWhenNoMutations>true</failWhenNoMutations>
+          <verbose>true</verbose>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -1,0 +1,17 @@
+{
+  "name": "bdd-mutation-smoke-js",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Controlled smoke test: can Stryker drive a Cucumber suite and produce a mutation score? Not research data - a harness feasibility probe.",
+  "type": "module",
+  "scripts": {
+    "test": "cucumber-js"
+  },
+  "dependencies": {
+    "@cucumber/cucumber": "12.2.0"
+  },
+  "devDependencies": {
+    "@stryker-mutator/core": "10.1.1",
+    "@stryker-mutator/cucumber-runner": "10.1.1"
+  }
+}

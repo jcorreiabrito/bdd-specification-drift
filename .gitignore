@@ -95,3 +95,11 @@ data/raw/*
 # here. Kept locally as audit evidence; the authoritative, quotable record is
 # submission/VENUE-RULES.md plus data/raw/INDEX.jsonl hashes.
 data/processed/venue/
+
+.gradle-home/
+.pylibs/
+
+
+# JVM/npm/python tool state (large, re-creatable)
+.m2repo/
+tools/jvm

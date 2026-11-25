@@ -1,0 +1,180 @@
+{
+ "10.1109/SANER53432.2022.00134": {
+  "doi": "10.1109/saner53432.2022.00134",
+  "title": "An Exploratory Study on the Usage of Gherkin Features in Open-Source Projects",
+  "authors": "Chandorkar, A.; Patkar, N.; Di Sorbo, A.; Nierstrasz, O.",
+  "year": 2022,
+  "container": "2022 IEEE International Conference on Software Analysis, Evolution and Reengineering (SANER)",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1109/saner53432.2022.00134"
+ },
+ "10.1109/SANER.2018.8330207": {
+  "doi": "10.1109/saner.2018.8330207",
+  "title": "Maintaining behaviour driven development specifications: Challenges and opportunities",
+  "authors": "Binamungu, L.P.; Embury, S.M.; Konstantinou, N.",
+  "year": 2018,
+  "container": "2018 IEEE 25th International Conference on Software Analysis, Evolution and Reengineering (SANER)",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1109/saner.2018.8330207"
+ },
+ "10.1007/978-3-030-49392-9_6": {
+  "doi": "10.1007/978-3-030-49392-9_6",
+  "title": "Characterising the Quality of Behaviour Driven Development Specifications",
+  "authors": "Binamungu, L.P.; Embury, S.M.; Konstantinou, N.",
+  "year": 2020,
+  "container": "Lecture Notes in Business Information Processing",
+  "type": "book-chapter",
+  "abstract": "",
+  "url": "https://doi.org/10.1007/978-3-030-49392-9_6"
+ },
+ "10.1109/ACCESS.2023.3302356": {
+  "doi": "10.1109/access.2023.3302356",
+  "title": "Behavior Driven Development: A Systematic Literature Review",
+  "authors": "Farooq, M.S.; Omer, U.; Ramzan, A.; Rasheed, M.A.; Atal, Z.",
+  "year": 2023,
+  "container": "IEEE Access",
+  "type": "journal-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1109/access.2023.3302356"
+ },
+ "10.1016/j.jss.2023.111749": {
+  "doi": "10.1016/j.jss.2023.111749",
+  "title": "Behaviour driven development: A systematic mapping study",
+  "authors": "Binamungu, L.P.; Maro, S.",
+  "year": 2023,
+  "container": "Journal of Systems and Software",
+  "type": "journal-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1016/j.jss.2023.111749"
+ },
+ "10.1145/3350768.3351301": {
+  "doi": "10.1145/3350768.3351301",
+  "title": "How to Evaluate BDD Scenarios' Quality?",
+  "authors": "Oliveira, G.; Marczak, S.; Moralles, C.",
+  "year": 2019,
+  "container": "Proceedings of the XXXIII Brazilian Symposium on Software Engineering",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1145/3350768.3351301"
+ },
+ "10.1145/3571473.3571492": {
+  "doi": "10.1145/3571473.3571492",
+  "title": "On the Characterization of Behavior-Driven Development Adoption Benefits: A Multiple Case Study",
+  "authors": "Couto, T.; Marczak, S.; Callegari, D.; Móra, M.; Gomes, F.",
+  "year": 2022,
+  "container": "Proceedings of the XXI Brazilian Symposium on Software Quality",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1145/3571473.3571492"
+ },
+ "10.1109/REW.2017.62": {
+  "doi": "10.1109/rew.2017.62",
+  "title": "On the Empirical Evaluation of BDD Scenarios Quality: Preliminary Findings of an Empirical Study",
+  "authors": "Oliveira, G.; Marczak, S.",
+  "year": 2017,
+  "container": "2017 IEEE 25th International Requirements Engineering Conference Workshops (REW)",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1109/rew.2017.62"
+ },
+ "10.1016/j.infsof.2020.106311": {
+  "doi": "10.1016/j.infsof.2020.106311",
+  "title": "Demystifying the adoption of behavior-driven development in open source projects",
+  "authors": "Zampetti, F.; Di Sorbo, A.; Visaggio, C.A.; Canfora, G.; Di Penta, M.",
+  "year": 2020,
+  "container": "Information and Software Technology",
+  "type": "journal-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1016/j.infsof.2020.106311"
+ },
+ "10.1109/ICST.2011.50": {
+  "doi": "10.1109/icst.2011.50",
+  "title": "An Empirical Evaluation of Assertions as Oracles",
+  "authors": "Shrestha, K.; Rutherford, M.J.",
+  "year": 2011,
+  "container": "2011 Fourth IEEE International Conference on Software Testing, Verification and Validation",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1109/icst.2011.50"
+ },
+ "10.1109/ICSTW.2013.49": {
+  "doi": "10.1109/icstw.2013.49",
+  "title": "On Adequacy of Assertions in Automated Test Suites: An Empirical Investigation",
+  "authors": "Zhi, J.; Garousi, V.",
+  "year": 2013,
+  "container": "2013 IEEE Sixth International Conference on Software Testing, Verification and Validation Workshops",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1109/icstw.2013.49"
+ },
+ "10.1145/2786805.2786858": {
+  "doi": "10.1145/2786805.2786858",
+  "title": "Assertions are strongly correlated with test suite effectiveness",
+  "authors": "Zhang, Y.; Mesbah, A.",
+  "year": 2015,
+  "container": "Proceedings of the 2015 10th Joint Meeting on Foundations of Software Engineering",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1145/2786805.2786858"
+ },
+ "10.1145/3377812.3382176": {
+  "doi": "10.1145/3377812.3382176",
+  "title": "An empirical study on the evolution of test smell",
+  "authors": "Kim, D.J.",
+  "year": 2020,
+  "container": "Proceedings of the ACM/IEEE 42nd International Conference on Software Engineering: Companion Proceedings",
+  "type": "proceedings-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1145/3377812.3382176"
+ },
+ "10.1145/3607183": {
+  "doi": "10.1145/3607183",
+  "title": "Revisiting the Identification of the Co-evolution of Production and Test Code",
+  "authors": "Sun, W.; Yan, M.; Liu, Z.; Xia, X.; Lei, Y.; Lo, D.",
+  "year": 2023,
+  "container": "ACM Transactions on Software Engineering and Methodology",
+  "type": "journal-article",
+  "abstract": "<jats:p>\n            Many software processes advocate that the test code should\n            <jats:italic>co-evolve</jats:italic>\n            with the production code. Prior work usually studies such co-evolution based on\n            <jats:italic>production-test co-evolution samples</jats:italic>\n            mined from software repositories. A production-test co-evolution sample refers to a pair of a test code change and a production code change where the test code change triggers or is triggered by the production code change. The quality of the mined samples is critical to the reliability of research conclusions. Existing studies mined production-test co-evolution samples based on the following assumption:\n            <jats:bold>\n              if a test class and its associated production class change together in one commit, or a test class changes immediately after the changes of the associated production class within a short time interval, this\n              <jats:italic>change pair</jats:italic>\n              should be a\n              <jats:italic>production-test co-evolution sample</jats:italic>\n            </jats:bold>\n            . However, the validity of this assumption has never been investigated.\n          </jats:p>\n          <jats:p>\n            To fill this gap, we present an empirical study, investigating the reasons for test code updates occurring after the associated production code changes, and revealing the pervasive existence of noise in the production-test co-evolution samples identified based on the aforementioned assumption by existing works. We define ",
+  "url": "https://doi.org/10.1145/3607183"
+ },
+ "10.1007/s11219-023-09616-6": {
+  "doi": "10.1007/s11219-023-09616-6",
+  "title": "Mutta: a novel tool for E2E web mutation testing",
+  "authors": "Leotta, M.; Paparella, D.; Ricca, F.",
+  "year": 2024,
+  "container": "Software Quality Journal",
+  "type": "journal-article",
+  "abstract": "<jats:title>Abstract</jats:title><jats:p>Mutation testing is an important technique able to evaluate the bug-detection effectiveness of existing software test suites. Mutation testing tools exist for several languages, e.g., Java and JavaScript, but no solutions are available for managing the mutation testing process for entire web applications, in the context of end-to-end (E2E) web testing. In this paper, we propose <jats:sc>Mutta</jats:sc>, a novel tool able to automate the entire mutation testing process. <jats:sc>Mutta</jats:sc> mutates the various server source files of the target web application, runs the E2E test suite against the mutated web applications, and finally collects the test outcomes. To evaluate <jats:sc>Mutta</jats:sc>, we designed a case study using the mutated versions of the target web application with the aim of comparing the effectiveness of two different approaches to E2E web testing: (1) test cases based on classical assertions and (2) test cases relying on differential testing. In detail, <jats:sc>Mutta</jats:sc> has been executed on two web applications, each equipped with different test suites to compare assertions with differential testing. In this scenario, <jats:sc>Mutta</jats:sc> generated a large number of mutants (more than 15k overall), took into account the coverage information to consider only the mutants actually executed, deployed the mutated web app, ran the entire E2E test suites (about 87k tests runs overall), and finally, it correctly saved the test suite results. Thus, results of the case study show that <jats:sc>Mutta</jats:sc",
+  "url": "https://doi.org/10.1007/s11219-023-09616-6"
+ },
+ "10.1007/s10664-022-10251-1": {
+  "doi": "10.1007/s10664-022-10251-1",
+  "title": "Smells in system user interactive tests",
+  "authors": "Rwemalika, R.; Habchi, S.; Papadakis, M.; Le Traon, Y.; Brasseur, M.C.",
+  "year": 2023,
+  "container": "Empirical Software Engineering",
+  "type": "journal-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1007/s10664-022-10251-1"
+ },
+ "10.1016/j.infsof.2021.106717": {
+  "doi": "10.1016/j.infsof.2021.106717",
+  "title": "Supporting refactoring of BDD specifications—An empirical study",
+  "authors": "Irshad, M.; Börstler, J.; Petersen, K.",
+  "year": 2022,
+  "container": "Information and Software Technology",
+  "type": "journal-article",
+  "abstract": "",
+  "url": "https://doi.org/10.1016/j.infsof.2021.106717"
+ },
+ "10.1016/j.jss.2021.110944": {
+  "doi": "10.1016/j.jss.2021.110944",
+  "error": "HTTP Error 429: Too Many Requests"
+ },
+ "10.1016/j.jss.2020.110840": {
+  "doi": "10.1016/j.jss.2020.110840",
+  "error": "HTTP Error 429: Too Many Requests"
+ }
+}

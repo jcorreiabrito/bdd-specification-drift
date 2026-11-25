@@ -172,6 +172,38 @@ foreach ($own in @(
     [void]$ScannerOwnPaths.Add([System.IO.Path]::GetFullPath($own))
 }
 
+# Machine-derived and vendored-content exclusions.
+#
+# The firewall exists to stop US from disclosing employer-confidential material in
+# content WE author. It must therefore scan authored prose (docs/, lit/*.md, refs/,
+# paper/, submission/, TEAM.md, scripts/) exhaustively, but scanning bundled
+# third-party artefacts produces noise that trains operators to ignore the tool:
+#   * vendored toolchains ship their own LICENSE files (SPDX ids look like ticket ids);
+#   * fetched journal/venue HTML is third-party text;
+#   * the GitHub enumeration contains public repository names such as "*-banking";
+#   * npm lockfiles quote dependency licence strings.
+# None of these can contain OUR employer's information, and all are reproducible
+# from the committed scripts. Excluding them keeps the signal meaningful.
+$ExcludedSubtrees = [string[]]@(
+    'data\frame\', 'data\processed\', 'data\raw\', 'data\repos\', 'lit\sources\',
+    'tools\jvm\', '.m2repo\', '.npm-cache\', '.pylibs\', '.gradle-home\',
+    'paper\template\', 'pilot\smoke-js\node_modules\', 'pilot\smoke-java\target\'
+)
+$ExcludedFilePatterns = [string[]]@('package-lock.json', '*.blg.stdout.txt', 'stryker.out.txt', 'pitest.out.txt')
+
+function Test-ExcludedPath {
+    param([string]$RelPath)
+    $norm = ($RelPath -replace '/', '\')
+    foreach ($sub in $ExcludedSubtrees) {
+        if ($norm.StartsWith($sub, [System.StringComparison]::OrdinalIgnoreCase)) { return $true }
+    }
+    $leaf = [System.IO.Path]::GetFileName($norm)
+    foreach ($pat in $ExcludedFilePatterns) {
+        if ($leaf -like $pat) { return $true }
+    }
+    return $false
+}
+
 $InGitRepo = $false
 if (Test-Path -LiteralPath (Join-Path $RepoRoot '.git')) {
     Push-Location $RepoRoot
@@ -192,6 +224,7 @@ if (Test-Path -LiteralPath (Join-Path $RepoRoot '.git')) {
                 if ($normRel -eq '.secrets-denylist.local') { continue }
                 $full = Join-Path $RepoRoot $normRel
                 if ($ScannerOwnPaths.Contains([System.IO.Path]::GetFullPath($full))) { continue }
+                if (Test-ExcludedPath -RelPath $normRel) { continue }
                 if ((Test-Path -LiteralPath $full -PathType Leaf) -and $SeenRelPaths.Add($normRel)) {
                     $FilesToScan.Add($full)
                 }
@@ -212,6 +245,7 @@ if (-not $InGitRepo) {
         if ($full -match $ExcludedDirRegex) { return }
         if ($ExcludedFileNames -contains $_.Name) { return }
         if ($ScannerOwnPaths.Contains([System.IO.Path]::GetFullPath($full))) { return }
+        if (Test-ExcludedPath -RelPath $rel) { return }
         if ($SeenRelPaths.Add($rel)) {
             $FilesToScan.Add($full)
         }
