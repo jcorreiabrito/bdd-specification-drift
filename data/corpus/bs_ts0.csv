@@ -1,0 +1,6 @@
+repo,language,state,reason,exit_code,duration_s,runner,build_dir,n_tests,bdd_evidence,install_ok,install_log,log_tail,attempted_utc
+LeeShyanYeong/SpecWarden,javascript,build_fails,other,3,1.4,npm.cmd test --silent,src/frontend,,,1,node_modules present,"Node.js version v24.11.0 detected.
+The Angular CLI requires a minimum Node.js version of v22.22.3 or v24.15.0 or v26.0.0.
+
+Please update your Node.js version or visit https://nodejs.org/ for additional instructions.",2026-11-25T13:05:13+00:00
+e2e-test-quest/uuv,java,no_bdd_execution,no_tests_found,0,55.5,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\gradle\gradle-8.10.2\bin\gradle.bat test --no-daemon -q,packages/intellij-plugin,,no,,,,2026-11-25T13:05:15+00:00

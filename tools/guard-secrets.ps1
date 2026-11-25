@@ -186,10 +186,14 @@ foreach ($own in @(
 # from the committed scripts. Excluding them keeps the signal meaningful.
 $ExcludedSubtrees = [string[]]@(
     'data\frame\', 'data\processed\', 'data\pilot\', 'data\raw\', 'data\repos\', 'lit\sources\',
+    'data\corpus\', 'paper\template\', 'pilot\smoke-js\node_modules\', 'pilot\smoke-java\target\',
     'tools\jvm\', '.m2repo\', '.npm-cache\', '.pylibs\', '.gradle-home\',
-    'paper\template\', 'pilot\smoke-js\node_modules\', 'pilot\smoke-java\target\'
+    'paper\\template\\', 'data\\corpus\\', 'pilot\smoke-js\node_modules\', 'pilot\smoke-java\target\'
 )
-$ExcludedFilePatterns = [string[]]@('package-lock.json', '*.blg.stdout.txt', 'stryker.out.txt', 'pitest.out.txt')
+$ExcludedFilePatterns = [string[]]@('package-lock.json', '*.blg.stdout.txt', 'stryker.out.txt', 'pitest.out.txt',
+    # Vendored official iSys template assets: third-party files that ship their own
+    # author contact details and cannot contain our employer's information.
+    'sbc2025.cls', 'sectsty.sty', 'aas_macros.sty', 'apalike-sol.bst')
 
 function Test-ExcludedPath {
     param([string]$RelPath)
@@ -376,4 +380,5 @@ if ($Findings.Count -gt 0) {
 
 Write-Host "GUARD-SECRETS PASSED: 0 findings." -ForegroundColor Green
 exit 0
+
 

@@ -1,0 +1,51 @@
+repo,file,line,lang,expression,class,weak_kinds,has_token,delegated
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/CommonSteps.java,9,java,^#[^><](.+)$,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/CommonSteps.java,13,java,^#>>(.+)$,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/CommonSteps.java,17,java,^#<<$,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/CommonSteps.java,21,java,[util] Wait {}s,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/CommonSteps.java,26,java,[util] Wait {}m,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/DateTimeSteps.java,28,java,[time-util] Check period from {} to {} is {} {} using date pattern {},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/DateTimeSteps.java,37,java,[time-util] Check period from {} to {} is {} {} using date time pattern {},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/DateTimeSteps.java,46,java,[time-util] Check period from {} to {} doesn't match {} {} using date pattern {},STRONG_DELEGATED,,0,1
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/DateTimeSteps.java,58,java,[time-util] Check period from {} to {} doesn't match {} {} using date time pattern {},STRONG_DELEGATED,,0,1
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/DateTimeSteps.java,70,java,[time-util] date var {}=from millis {} {} {} {} with format pattern={},NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/DateTimeSteps.java,78,java,[time-util] date var {}=from date {} {} {} {} with format pattern={},NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/DateTimeSteps.java,86,java,[time-util] date millis var {}=from date {} {} {} {} with format pattern={},WEAK,W3,1,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/MatchSteps.java,52,java,[util] Match {} with {},NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/MatchSteps.java,58,java,[util] Match {} against,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/MatchSteps.java,63,java,[util] Match {} against {} using matchConditions={},NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/MatchSteps.java,69,java,[util] Match {} against file \,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/MatchSteps.java,74,java,[util] Match {} against table,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/MatchSteps.java,80,java,[util] Match {} against NULL,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/MatchSteps.java,88,java,[util] Negative match {} with {},NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/MatchSteps.java,100,java,[util] Negative match {} against,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/VarSteps.java,23,java,var {}=\,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/VarSteps.java,29,java,var {}=,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/VarSteps.java,34,java,var {} from file \,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/VarSteps.java,39,java,load vars from file \,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/VarSteps.java,45,java,load vars from dir \,NONE,,0,0
+fslev/cucumber-jutils,src/main/java/com/cucumber/utils/context/steps/VarSteps.java,51,java,var {} from table,NONE,,0,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/json/JsonConvertSteps.java,21,java,Compare JSON {} with {},NONE,,0,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/match/NegativeMatchSteps.java,16,java,Test negative match,STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/paramtype/ParamTypeSteps.java,17,java,This is a String: {},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/paramtype/ParamTypeSteps.java,22,java,Check string {} equals string {string},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/paramtype/ParamTypeSteps.java,27,java,Array of enums: {},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/paramtype/ParamTypeSteps.java,32,java,Array of strings: {},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/placeholders/PlaceholderParserSteps.java,19,java,The string with global placeholders \,NONE,,0,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/placeholders/PlaceholderParserSteps.java,24,java,The string with scenario placeholders \,NONE,,0,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/placeholders/PlaceholderParserSteps.java,29,java,Check filled string equals \,STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/polling/PollingSteps.java,17,java,^interval limits (\\d+) and (\\d+)$,NONE,,0,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/polling/PollingSteps.java,23,java,poll until random generated number {int} is found,NONE,,0,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/polling/PollingSteps.java,28,java,poll {} until 0=0,NONE,,0,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/props/LoadScenarioVarsSteps.java,18,java,Load duplicated scenario vars from dir {} and expect exception,STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/props/LoadScenarioVarsSteps.java,23,java,Load scenario variable from invalid file type={},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/props/LoadScenarioVarsSteps.java,28,java,Load scenario variable from unknown location={},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/props/LoadScenarioVarsSteps.java,33,java,Load scenario variables from unknown location={},STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/readme/OrderSteps.java,24,java,I order {},NONE,,0,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/readme/OrderSteps.java,30,java,README check: the last order has a UUID id and quantity 6,STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/readme/StorySteps.java,18,java,the story is told,STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/readme/TransformerChecksSteps.java,16,java,README check: string parameter {string} stays raw,STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/readme/TransformerChecksSteps.java,21,java,README check: doc string declared as String stays raw,STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/readme/TransformerChecksSteps.java,26,java,README check: {} is null,STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/readme/TransformerChecksSteps.java,31,java,README check: {} stays the text [_blank],STRONG_DIRECT,,1,0
+fslev/cucumber-jutils,src/test/java/com/cucumber/utils/features/stepdefs/readme/TransformerChecksSteps.java,36,java,README check: table cells,STRONG_DIRECT,,1,0

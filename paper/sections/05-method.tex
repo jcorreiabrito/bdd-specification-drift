@@ -1,0 +1,239 @@
+﻿\section{Method}
+\label{sec:method}
+
+The method was pre-registered in a versioned protocol document before any corpus measurement, and the
+commit timestamp is its evidence. This section reports what was actually executed, including where it
+departs from the pre-registered plan; departures are enumerated in Section~\ref{sec:threats} and in
+the replication package.
+
+\subsection{Sampling frame}
+
+A defensible frame must be reproducible, must not be ranked by popularity, and must not depend on
+credentials the study does not have. The GitHub code-search API was unavailable (no access token;
+the unauthenticated quota is 60 requests per hour) and is in any case capped at approximately 1{,}000
+results and ranked by popularity --- characteristics that would have made ``the top results'' both
+unrepresentative and unstable.
+
+We therefore define the frame as follows:
+
+\begin{quote}
+\textbf{Frame.} All public GitHub repositories that had adopted at least one of twelve declared
+BDD-related topic tags --- \texttt{cucumber}, \texttt{bdd}, \texttt{gherkin}, \texttt{behave},
+\texttt{cucumber-jvm}, \texttt{cucumber-js}, \texttt{pytest-bdd}, \texttt{specflow},
+\texttt{behavior-driven-development}, \texttt{bdd-framework}, \texttt{acceptance-testing},
+\texttt{living-documentation} --- as observed on 25 November 2026, enumerated across the language
+filters \emph{any}, \emph{java}, \emph{javascript}, \emph{typescript} and \emph{python}, six pages per
+combination.
+\end{quote}
+
+Enumeration produced \Nframe{} unique repositories from 252 topic pages, with the SHA-256 of the
+concatenated page payload recorded so that the snapshot is auditable. The sample is a
+\emph{hash-ordered permutation} of the frame with fixed seed \Seed{}: repositories are ordered by
+$\mathrm{SHA256}(\texttt{"<seed>:<repo>"})$, which is reproducible in any language and independent of
+the random-number generator of any particular runtime.
+
+We state the frame's bias explicitly rather than concealing it: repositories that never adopted a BDD
+topic tag are out of frame, and topic tagging correlates with project self-presentation. The frame is
+therefore a sample of \emph{self-identified} BDD projects, not of all projects using Cucumber.
+
+\subsection{Eligibility}
+
+A repository enters the corpus only if all eight criteria hold, each mechanically checkable:
+
+\begin{enumerate}
+\item at least one \texttt{.feature} file;
+\item at least 20 scenarios, counting \texttt{Scenario} and \texttt{Scenario Outline} headings (and
+      their Portuguese equivalents);
+\item at least one step-definition file;
+\item at least one build descriptor (\texttt{pom.xml}, \texttt{build.gradle}, \texttt{package.json},
+      \texttt{pyproject.toml}, \texttt{setup.py}, \ldots);
+\item a language in scope: Java, JavaScript, TypeScript or Python;
+\item a detectable permissive licence;
+\item \emph{application shape}: at least ten non-test source files, because the construct requires a
+      domain layer to mutate;
+\item a BDD runner named in a build manifest or dependency file.
+\end{enumerate}
+
+Criteria 7 and 8 were added after the pilot (P1.5) revealed that the naive rule --- features, steps,
+build, licence --- admitted reporting agents, test utilities and Maven plugins but almost no
+applications with business rules. This is a change to the frame definition made \emph{before} the
+gate closed, with the supporting pilot data, and it is disclosed here and in the replication package.
+
+\subsection{Funnel and attrition}
+
+Every candidate is recorded in exactly one funnel state with a categorised reason, and this log
+\emph{is} the attrition dataset:
+
+\begin{quote}
+\texttt{eligible} $\rightarrow$ \texttt{bdd\_passes} \quad|\quad \texttt{bdd\_fails} \quad|\quad
+\texttt{no\_bdd\_execution} \quad|\quad \texttt{build\_fails} \quad|\quad \texttt{timeout}
+\end{quote}
+
+with exclusion reasons drawn from a fixed vocabulary: \texttt{no\_feature\_files},
+\texttt{too\_few\_scenarios}, \texttt{no\_step\_definitions}, \texttt{no\_build\_config},
+\texttt{language\_out\_of\_scope}, \texttt{licence\_not\_permissive},
+\texttt{no\_bdd\_runner\_dependency}, \texttt{no\_application\_shape}, and, for build attempts,
+\texttt{dependency\_rot}, \texttt{tool\_incompatibility}, \texttt{missing\_service\_dependency},
+\texttt{needs\_browser}, \texttt{needs\_database}, \texttt{compile\_error}, \texttt{timeout},
+\texttt{other}.
+
+One distinction is load-bearing and is enforced in the harness rather than left to the analyst.
+\texttt{no\_bdd\_execution} denotes a repository whose tests pass but where no evidence exists that
+the Gherkin layer ran at all; \texttt{bdd\_fails} denotes a repository whose tests ran and failed.
+Reporting the first as the second would inflate apparent build attrition, and reporting either as
+\texttt{bdd\_passes} would admit a suite that never executed a scenario. Because a green
+\texttt{mvn test} proves nothing about Gherkin, the harness requires positive evidence of Cucumber
+execution in the output before a repository is accepted.
+
+\subsection{Outcome: oracle strength}
+
+For repository $r$, let $M$ be the generated domain-layer mutants, $K$ the killed mutants and
+$\mathit{Cov}$ those executed by the run in question. Statuses are taken from the tool's
+\emph{per-mutant} records, never from its summary line, because the tools disagree about what their
+headline means.
+
+\begin{align}
+\msall(\textit{mode}) &= \frac{|K| + |T|}{|K| + |S| + |T| + |\mathit{NC}|} \label{eq:msall}\\
+\mscov(\textit{mode}) &= \frac{|K| + |T|}{|K| + |S| + |T|} \label{eq:mscov}\\
+\mathit{coverage}(\textit{mode}) &= \frac{|K| + |S| + |T|}{|K| + |S| + |T| + |\mathit{NC}|} \label{eq:cov}
+\end{align}
+
+where $S$ denotes surviving, $T$ timed-out and $\mathit{NC}$ uncovered mutants. Timeouts count as
+detected in the primary formula, on the reasoning that a mutant which prevents termination was
+distinguished from the original; a sensitivity removing them is also reported. Invalid mutants
+(compile errors, non-viable mutations) are excluded from every denominator \emph{and their count is
+reported}. The primary outcome is $\mscov(\bdd)$.
+
+Coverage conditioning is mandatory and the following rule is binding on every table:
+
+\begin{quote}
+\label{quot:coverage}
+A low $\msall$ produced by low coverage says that the BDD suite does not execute that code --- ``not
+covered'' --- and is \emph{not} evidence of drift, nor of a weak oracle over the behaviour the suite
+does exercise. Only $\mscov$ speaks to the discriminating power of the suite over the domain
+behaviour it covers.
+\end{quote}
+
+\textbf{Differential kill.} Let $\mathcal{S}$ be the mutants executed in \emph{both} modes. Formally
+the protocol asserts $\mathit{executed}(\bdd) \subseteq \mathit{executed}(\full)$, so
+$\mathcal{S}$ is the BDD-covered set and every mutant in it is also executed by the full suite. On
+that set we report
+
+\begin{align}
+\dk &= \mscov(\full,\mathcal{S}) - \mscov(\bdd,\mathcal{S}) \label{eq:dk}\\
+\mathit{DK}_{\mathit{count}} &= \frac{|K_{\full}(\mathcal{S}) \setminus K_{\bdd}(\mathcal{S})|}{|\mathcal{S}|}
+\qquad
+\mathit{BDDshare} = \frac{|K_{\bdd}(\mathcal{S})|}{|K_{\full}(\mathcal{S})|} \label{eq:dkshare}
+\end{align}
+
+$\dk$ answers \emph{what the specification layer adds beyond the repository's other tests};
+$\mathit{BDDshare}$ answers \emph{how much of the full suite's oracle is the specification layer}.
+Both are reported, with $\dk$ as the headline because it is a difference of scores on an identical
+mutant set.
+
+\subsection{Drift indicators}
+
+Seven indicators are defined so that higher always means more drift-like. None is sign-flipped after
+measurement. Denominators use \emph{active} scenarios, i.e.\ all scenarios minus those already
+flagged by the skip indicator.
+
+\textbf{D1 --- \texttt{skip\_ratio} (primary).} A scenario is skipped if a whole-tag match for
+\texttt{@skip}, \texttt{@ignored}, \texttt{@wip}, \texttt{@pending}, \texttt{@todo},
+\texttt{@manual} or equivalents appears on the scenario, its \texttt{Examples:} block, or its feature:
+\begin{equation}
+\texttt{skip\_ratio} = \frac{|\{s \in S_r : s \text{ is skipped}\}|}{|S_r|}.
+\end{equation}
+
+\textbf{D2 --- \texttt{assertion\_weakness\_ratio} (primary).} The unit is one step definition. A step
+definition is \texttt{STRONG\_DIRECT} if it carries an assertion token and matches no weakening
+pattern; \texttt{STRONG\_DELEGATED} if it carries no token but calls an intra-repository method that
+is strong, resolved to depth $\le 2$; \texttt{WEAK} if it carries a token and matches a weakening
+pattern; and \texttt{NONE} if it has neither token nor resolvable callee. Weakening patterns are
+tautology (identical operands), constant truth, unreachable assertion (after an unconditional return,
+or in a literal-conditioned branch), swallowed failure (a \texttt{catch} that neither rethrows nor
+fails), and self-comparison:
+\begin{equation}
+\texttt{assertion\_weakness} = \frac{|\texttt{WEAK}| + |\texttt{NONE}|}
+{|\texttt{STRONG\_DIRECT}| + |\texttt{STRONG\_DELEGATED}| + |\texttt{WEAK}| + |\texttt{NONE}|}.
+\end{equation}
+
+\textbf{D3 --- \texttt{stale\_spec\_ratio}.} For an active scenario, let $t_s$ be the date of its
+most recent touching commit (from \texttt{git blame} over its line range) and $n_s$ the number of
+commits since $t_s$ touching the domain layer. Then
+$\texttt{stale} = |\{s : \mathrm{age}_s \ge 180 \wedge n_s \ge 5\}| / |A_r|$, with the thresholds 180
+days and 5 commits fixed before measurement.
+
+\textbf{D4 --- \texttt{redundancy\_cluster\_ratio}.} Active scenarios are fingerprinted by the set of
+their normalised step texts (parameters replaced by placeholders), an edge joins two scenarios at
+Jaccard $\ge 0.8$, and $\texttt{redundancy} = 1 - (\text{connected components})/|A_r|$.
+
+\textbf{D5 --- \texttt{glue\_duplication\_ratio}.} Distinct normalised step invocations divided by
+total step invocations across active scenarios. Scripted one-to-one glue approaches 1; parameterised,
+reused steps fall well below.
+
+\textbf{D6 --- \texttt{literal\_bearing\_stepdef\_ratio}.} The share of resolved step definitions
+containing at least one counted literal: numeric literals other than $0$, $1$ and $-1$, and string
+literals of length $\ge 2$. Excluded, because they are mechanism rather than business constants:
+booleans and nulls, enum constants, the step expression itself, assertion messages, log and format
+strings, and UI constants (selectors, URLs, XPaths).
+
+\textbf{D7 --- \texttt{mirror\_stepdef\_ratio}.} A \emph{mirror} step re-derives the expected value by
+repeating the production computation, so that its oracle moves with the mutant. The rater-defined
+form requires that the asserted expected value be computed (not a literal), that the computation
+reference a domain-layer call in the same body, and that the actual value also come from a
+domain-layer call, with the rater citing the domain method inspected. The \emph{automated census}
+computes the loose conjunction of the first three conditions; its precision is \emph{not} validated
+without human raters and is reported as such.
+
+\subsection{Mutation protocol}
+
+Mutants are restricted to operators touching decision logic: conditionals boundary, negated
+conditionals, arithmetic, increments, negated values, and return-value changes. The exact operator set
+is stated per tool in the replication package, and no operator set was altered after seeing results.
+Mutant sampling, where required by runtime, uses the fixed study seed under a per-repository budget.
+Timeouts, uncovered mutants and equivalent mutants are counted and reported; none is silently dropped.
+The domain layer is delimited by the three-tier rule of protocol step 1, and the tier used is recorded
+per repository.
+
+\subsection{Statistics}
+
+The statistical plan was fixed before measurement:
+
+\begin{itemize}
+\item \textbf{Unit of analysis} is the repository. Mutants, scenarios and steps are never treated as
+      independent observations.
+\item \textbf{Exactly two primary tests}: D1 and D2 against $\mscov(\bdd)$, Holm-corrected across the
+      pair. All other indicators form one exploratory family, Holm-corrected within that family and
+      labelled exploratory in every table.
+\item \textbf{No pooled correlation as the headline.} Associations are computed \emph{within}
+      language/tool strata first, reported as Spearman $\rho$ with bootstrap 95\,\% confidence
+      intervals (2{,}000 resamples, seed \Seed{}). A pooled figure, where given, is the average of
+      within-stratum associations with a cluster bootstrap by stratum, and is described as exactly
+      that.
+\item \textbf{Coverage is a covariate} in every model and appears in every table.
+\item \textbf{Power is reported as a detectable-effect floor.} On the Fisher-$z$ scale with
+      $\mathrm{SE}(z) = 1.030/\sqrt{n-3}$, the smallest detectable $|\rho|$ at two-sided
+      $\alpha = 0.05$ and power $0.80$ is
+      \begin{equation}
+      |\rho|_{\min} = \tanh\!\left((z_{1-\alpha/2} + z_{1-\beta})\cdot\frac{1.030}{\sqrt{n-3}}\right),
+      \end{equation}
+      giving $0.80$ at $n = 10$, $0.60$ at $n = 20$, $0.50$ at $n = 30$ and $0.44$ at $n = 40$; under
+      Holm ($\alpha = 0.025$ for the smaller of two $p$-values) the floor at $n = 30$ rises to $0.54$.
+      An association below the floor at the achieved $n$ is reported as \emph{not detectable at this
+      $n$}, which is not the same statement as \emph{absent}.
+\item \textbf{Longitudinal analysis} uses the Theil--Sen slope of each indicator against commit time,
+      reported with the median slope, the interquartile range, and the proportion of repositories with
+      a positive slope with an exact binomial interval. A two-snapshot change in oracle strength is
+      reported only on the common mutant set and only if that set covers at least half of the HEAD
+      mutants; otherwise the repository is flagged \texttt{low\_overlap}. We call such a change a
+      change between two snapshots, not a trend.
+\end{itemize}
+
+\subsection{Reproducibility}
+
+Every measurement is recorded in an append-only run log with the command, UTC timestamp, the git
+commit of the harness, host, seed and exact tool versions. Raw per-mutant statuses, the screening
+tables and the analysis scripts are part of the replication package. The bibliography is generated
+from a Crossref-verified table, and every DOI is re-resolved by an automated audit before the
+manuscript is built.
+

@@ -1,0 +1,203 @@
+﻿\section{Results}
+\label{sec:results}
+
+Every number in this section is produced by a command recorded in the replication package's run log
+and, in the manuscript, by the generated file \texttt{paper/numbers.tex}. No value is typed by hand.
+
+\subsection{The frame}
+
+The enumeration produced \Nframe{} unique repositories from \Ntopicpages{} topic pages spanning
+\topicslugs{} topic slugs and \langfilters{} language filters, with the SHA-256 of the concatenated
+page payload recorded (\texttt{data/frame/FRAME.md}). The frame is a snapshot: re-running the
+enumeration later would produce a different membership, which is why the snapshot timestamp and hash
+are part of the replication package.
+
+\subsection{Static screening and attrition}
+
+Table~\ref{tab:funnel} reports the screening funnel. Of \Nscreened{} repositories screened,
+\Neligible{} satisfied all eight eligibility criteria, a yield of \YieldPct\,\% (95\,\% Wilson interval
+\YieldLo--\YieldHi\,\%).
+
+\begin{table}[htbp]
+\centering
+\caption{Static screening funnel. Every screened repository is counted exactly once. Reasons are
+ordered so that the recorded reason is the most fundamental blocker.}
+\label{tab:funnel}
+\begin{tblr}{width=\textwidth,colspec={X[2.2]rr},rowsep=1pt}
+\toprule
+\textbf{Stage / reason} & \textbf{n} & \textbf{share} \\
+\midrule
+Repositories screened            & \Nscreened  & 100.0\,\% \\
+\quad Excluded: too few scenarios & \RtooFew   & \PtooFew \\
+\quad Excluded: no feature files  & \RnoFeat   & \PnoFeat \\
+\quad Excluded: no step definitions & \RnoSteps & \PnoSteps \\
+\quad Excluded: no BDD runner dependency & \RnoRunner & \PnoRunner \\
+\quad Excluded: no application shape & \RnoShape & \PnoShape \\
+\quad Excluded: licence not permissive & \Rlicence & \Plicence \\
+\quad Excluded: language out of scope & \Rlang & \Plang \\
+\quad Excluded: no build config & \RnoBuild & \PnoBuild \\
+\quad Excluded: other / fetch failure & \Rother & \Pother \\
+\midrule
+\textbf{Eligible}                 & \Neligible & \YieldPct\,\% \\
+\bottomrule
+\end{tblr}
+\end{table}
+
+The dominant exclusions are substantive rather than technical. ``Too few scenarios'' is the single
+largest category, which indicates that most topic-tagged repositories are small demonstrations or
+single-scenario examples. ``No feature files'' is the second largest: a substantial share of
+repositories carrying a BDD topic tag do not contain a single \texttt{.feature} file, which means
+topic tags are an unreliable indicator of BDD use even at the level of file presence. Together these
+two categories account for the great majority of exclusions.
+
+The application-shape criterion, added after the pilot, excluded a further \RnoShape{}
+repositories that had features, steps, a build and a licence but fewer than ten non-test source files.
+These are the boilerplates, formatters, step libraries and reporting agents that pass a naive
+eligibility test while having no business-rule domain to mutate. Their exclusion is the clearest
+single demonstration of why the naive test is inadequate for this construct.
+
+\subsection{Build and execution screen}
+
+Static eligibility is necessary but not sufficient: a repository must also build and actually execute
+its Gherkin. Table~\ref{tab:build} reports the outcome of the build and execution screen over the
+\Nbuildtested{} eligible repositories that were attempted.
+
+\begin{table}[htbp]
+\centering
+\caption{Build and execution screen. \texttt{no\_bdd\_execution} denotes a repository whose tests pass
+while nothing indicates that the Gherkin layer ran; it is not counted as a build failure, and it is
+critically not counted as a pass.}
+\label{tab:build}
+\begin{tblr}{width=\textwidth,colspec={X[2.4]rX[1.6]},rowsep=1pt}
+\toprule
+\textbf{Outcome} & \textbf{n} & \textbf{Representative reasons} \\
+\midrule
+\texttt{bdd\_passes} (green Gherkin baseline) & \Ngreen & --- \\
+\texttt{bdd\_fails} (tests ran, failed) & \Nbdffails & failing scenarios at HEAD \\
+\texttt{no\_bdd\_execution} & \Nnobddexec & tests pass, no Cucumber evidence \\
+\texttt{build\_fails} & \Nbuildfails & \texttt{dependency\_rot},
+\texttt{needs\_browser}, \texttt{compile\_error}, \texttt{tool\_incompatibility} \\
+\midrule
+\textbf{Attempted} & \Nbuildtested & of \Neligible{} eligible \\
+\bottomrule
+\end{tblr}
+\end{table}
+
+Three observations follow directly from this table and are important for the interpretation of the
+whole study.
+
+First, \textbf{a green \texttt{mvn test} or \texttt{npm test} does not prove that a BDD suite ran}. The
+\texttt{no\_bdd\_execution} category exists because we initially accepted a zero exit code as evidence
+of BDD execution and a spot check showed this to be false: a repository whose Maven build succeeded
+had executed none of its Gherkin. The harness was changed to require positive evidence of Cucumber
+execution in the output before accepting a repository, and \Nnobddexec{} attempted repositories fell
+into this category. Any study that equates ``tests pass'' with ``BDD suite passes'' will overcount its
+corpus.
+
+Second, \textbf{the failures are heterogeneous}, and conflating them would misstate the evidence.
+\texttt{dependency\_rot} is a property of the corpus (old pins no longer install);
+\texttt{needs\_browser} is a property of the harness environment, not of the suite's quality; a
+failing scenario at HEAD is a property of the repository. Only the last is a statement about the
+suite's health, and only the first two are avoidable by a better-equipped environment.
+
+Third, \textbf{the rate of green, executing BDD baselines in this population is low}. We report the
+count rather than a rate, because the build screen did not complete for every eligible repository: of
+\Neligible{} eligible repositories, \Nbuildtested{} were attempted. The remaining repositories were
+not screened for build and execution within the resources of this study, and we therefore do not
+report a green-suite \emph{rate} that would imply full coverage of the eligible set. This is a
+limitation of our execution budget, not a finding.
+
+\subsection{Tool feasibility and instrument validation}
+
+Before any corpus measurement we established, empirically, that mutation analysis can be driven by the
+BDD runner itself. Table~\ref{tab:feasibility} reports the two harness demonstrations.
+
+\begin{table}[htbp]
+\centering
+\caption{Tool-feasibility demonstrations. Both were run on purpose-built suites whose domain logic is
+known, so that the reported score is interpretable; they establish that the harness works, not what
+public suites score.}
+\label{tab:feasibility}
+\begin{tblr}{width=\textwidth,colspec={X[1.0]X[1.8]rrr},rowsep=1pt}
+\toprule
+\textbf{Ecosystem} & \textbf{Pinned toolchain} & \textbf{Mutants} & \textbf{Killed} & \textbf{$\mscov$} \\
+\midrule
+JavaScript/TypeScript & Stryker \StrykerVer{} + \texttt{@stryker-mutator/cucumber-runner} \CukeRunnerVer{}, Cucumber \CucumberJsVer{} & \JsMutants & \JsKilled & \JsScore\,\% \\
+Java & PIT \PitVer{} + \texttt{pitest-junit5-plugin} \PitPluginVer{}, Cucumber-JVM \CucumberJvmVer{} & \JavaMutants & \JavaKilled & \JavaScore\,\% \\
+\bottomrule
+\end{tblr}
+\end{table}
+
+Both runs reported zero mutants in the \texttt{NO\_COVERAGE} category, which is the property the
+construct requires: the tool was able to distinguish \emph{executed but survived} from \emph{never
+executed}, so the coverage-conditioned score of Equation~\eqref{eq:mscov} is computable rather than
+being an alias for coverage. In both ecosystems the tool attributed each mutant to the individual
+Cucumber scenarios that killed it, which is what makes the differential of
+Equation~\eqref{eq:dk} computable.
+
+The most instructive single number from this stage is a negative one. For the same domain logic, PIT
+generated \JavaMutants{} mutants while Stryker generated \JsMutants{} --- a ratio of roughly
+\MutantRatio{}. This is a direct, locally reproducible instance of the cross-tool incomparability
+reported by Kintis et al.\ \cite{Kintis2018HowEffectiveTools}, and it is the empirical justification
+for the method's refusal to pool scores across ecosystems. It also means that any cross-language
+comparison of ``BDD oracle strength'' in the literature should be treated as comparing tools until
+proven otherwise.
+
+\subsection{Oracle strength (RQ2)}
+
+RQ2 asks what share of covered domain mutants the BDD suite alone kills, and how much it adds beyond
+the repository's other tests. The instrument to answer this is demonstrated above. On the corpus, the
+answer is bounded by what could be measured: \Nmeasured{} repositories yielded a complete
+BDD-only measurement, and \Nwithfull{} of those also yielded a full-suite comparison from which
+$\dk$ could be computed on a common mutant set.
+
+\MeasuredTable
+
+We report this plainly rather than substituting a number that the data do not support. The construct
+is operational and the harness computes it; the population did not supply the units of analysis at the
+scale the design anticipated. Section~\ref{sec:discussion} draws out why, and
+Section~\ref{sec:threats} states what a reader should and should not infer.
+
+\subsection{Association and erosion (RQ3)}
+
+RQ3 asks whether pre-specified static drift indicators associate with lower BDD-only kill rates, and
+whether drift accumulates over repository history.
+
+For the association component, the pre-registered detectable-effect floor at the achieved $n$ is
+$|\rho|_{\min} = \FloorRho$ (Equation in Section~\ref{sec:method}). Any association weaker than this
+could not have been detected by the design, so a null result here is uninformative about weak or
+moderate associations, and we report it as \emph{not estimable at this $n$} rather than as evidence
+of absence.
+
+For the erosion component, the static history miner recomputes the indicators at \HistoryK{}
+deterministically sampled commits per repository and reports Theil--Sen slopes. This component runs
+without builds and is therefore available for repositories that could not be executed; its output is
+reported in Table~\ref{tab:history} for the \Nhistory{} repositories with a usable series. As declared,
+a slope is a statement about accumulation over the sampled commits, and the two-snapshot change
+estimate is reported as a change, never as a trend.
+
+\HistoryTable
+
+\subsection{What could not be measured, and why it matters}
+
+We close the results with an explicit inventory of what this study did not establish, because a reader
+is entitled to know where the evidence stops.
+
+\begin{itemize}
+\item \textbf{No inter-rater reliability statistic.} The two judgement-coded indicators (D2's weakening
+      rubric and D7's mirror judgement) require independent human raters. None were available. No
+      $\kappa$ is reported, and no automated labeller was substituted, because agreement between a
+      heuristic and itself is not inter-rater reliability.
+\item \textbf{No validated precision for D7.} D7 is reported only as an automated census of its loose
+      conjunction.
+\item \textbf{No completed build screen.} \Nbuildtested{} of \Neligible{} eligible repositories were
+      attempted; the remainder were not screened for build and execution.
+\item \textbf{No corpus-scale association.} At the achieved $n$ the detectable-effect floor exceeds any
+      plausible association for the weaker indicators.
+\item \textbf{No Python stratum.} The frame yielded \NpyEligible{} Python repositories satisfying the
+      application-shape criterion, and the Python mutation toolchain could not be established
+      reliably in this environment (package index unreliability, and the tooling's coupling to a
+      unit-test runner rather than a BDD runner). The planned three-stratum design was therefore not
+      realised, and language effects could not be separated from tool effects.
+\end{itemize}
+

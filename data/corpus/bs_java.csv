@@ -1,0 +1,57 @@
+repo,language,state,reason,exit_code,duration_s,runner,build_dir,n_tests,bdd_evidence,install_ok,install_log,log_tail,attempted_utc
+znsio/teswiz,java,bdd_fails,other,1,73.7,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\znsio__teswiz\gradlew.bat test --no-daemon -q,.,,,,,"94 tests completed, 3 failed
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':test'.
+> There were failing tests. See the report at: file:///C:/Users/jvtri/OneDrive/Documentos/Projetos/bdd-specification-drift/data/repos/znsio__teswiz/target/nov.-2026/11-25-2026/10-05-51/unit-test-results/index.html
+
+* Try:
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+
+BUILD FAILED in 1m 12s",2026-11-25T13:05:14+00:00
+fslev/cucumber-jutils,java,bdd_fails,other,1,167.9,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,4,,,,"[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+Java HotSpot(TM) 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo\net\bytebuddy\byte-buddy-agent\1.17.7\byte-buddy-agent-1.17.7.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+2026-11-25T13:09:03.814956200Z main WARN No Root logger was configured, creating default ERROR-level Root logger with Console appender
+SLF4J(W): No SLF4J provid",2026-11-25T13:06:28+00:00
+trivago/cucable-plugin,java,no_bdd_execution,no_tests_found,0,15.7,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\trivago__cucable-plugin\plugin-code\mvnw.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,plugin-code,,no,,,"SLF4J(W): No SLF4J providers were found.
+SLF4J(W): Defaulting to no-operation (NOP) logger implementation
+SLF4J(W): See https://www.slf4j.org/codes.html#noProviders for further details.",2026-11-25T13:09:17+00:00
+reportportal/examples-java,java,bdd_fails,other,1,20.4,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,18,,,,"[ERROR] Please refer to C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\reportportal__examples-java\example-cucumber\target\surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :example-cucumber",2026-11-25T13:09:32+00:00
+TheKiddos/faith,java,build_fails,other,1,13.9,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\TheKiddos__faith\code\mvnw.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,code,,,,,"[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile (default-compile) on project faith: Fatal error compiling: java.lang.IllegalAccessError: class lombok.javac.apt.LombokProcessor (in unnamed module @0x79486f38) cannot access class com.sun.tools.javac.processing.JavacProcessingEnvironment (in module jdk.compiler) because module jdk.compiler does not export com.sun.tools.javac.processing to unnamed module @0x79486f38 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException",2026-11-25T13:09:54+00:00
+ctco/cukes,java,bdd_fails,other,1,89.0,C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\tools\jvm\maven\apache-maven-3.9.9\bin\mvn.cmd -B -q -Dmaven.repo.local=C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\.m2repo test,.,4,,,,"[ERROR] Please refer to C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\ctco__cukes\cukes-core\target\surefire-reports for the individual test results.
+[ERROR] Please refer to dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :cukes-core",2026-11-25T13:10:08+00:00

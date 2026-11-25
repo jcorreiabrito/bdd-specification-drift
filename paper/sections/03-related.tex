@@ -1,0 +1,126 @@
+\section{Related work and the novelty claim}
+\label{sec:related}
+
+We organise prior work into four bodies and state, for each, what it establishes and what it leaves
+open. The section closes with the precise claim this paper defends and an explicit list of claims it
+does \emph{not} make.
+
+\subsection{BDD adoption and specification quality}
+
+Empirical work on BDD has concentrated on adoption, scenario structure and maintainability. The
+largest study screened 50{,}000 popular open-source projects across five languages, estimated that
+about 27\,\% use a BDD framework (68\,\% among Ruby projects), examined co-evolution between scenarios
+and production code in 20 Ruby projects using Granger causality --- finding co-evolution in roughly
+37\,\% of cases --- and surveyed 31 developers, most of whom reported writing tests while or after
+coding rather than strictly applying BDD \cite{zampetti2020demystifying}. Scenario-level analyses have
+examined Gherkin structure and smells \cite{chandorkar2022gherkin}, duplicate steps and their
+refactoring \cite{binamungu2018duplicate,irshad2022refactoring}, the effort of keeping step
+definitions consistent with features \cite{binamungu2018maintaining}, and the characterisation of what
+practitioners consider good scenarios \cite{binamungu2020characterising,oliveira2017empirical,
+oliveira2019howtoevaluate,couto2023characterization,farooq2023bdd}. Co-evolution between tests and
+production code has also been studied outside BDD \cite{Zaidman2008CoEvolution,
+Marsavina2014CoEvolution,sun2023coevolution,miranda2025coevolution}.
+
+The limitation, for our purposes, is uniform across this body: quality is assessed by structural
+properties, by developer opinion, or by co-change statistics --- never by asking whether the suite
+would \emph{fail} if the behaviour changed. A 2023 systematic mapping of 166 BDD papers from 2006 to
+2021 makes this concrete: the string ``mutat'' does not occur in the review, and the authors identify
+an ``acute shortage of metrics for measuring various aspects of BDD specifications''
+\cite{binamungu2023mapping}.
+
+\subsection{Mutation analysis as a measure of discriminating power}
+
+Mutation analysis is the accepted instrument for measuring whether a suite can detect change. The
+central validity question --- are mutants a substitute for real faults? --- has been examined
+directly: across 357 real faults and roughly 230{,}000 mutants, mutant detection was positively
+correlated with real fault detection independently of code coverage, while 17\,\% of faults had no
+coupling to any commonly used mutant \cite{Just2014AreMutants}; earlier work questioned whether
+mutation is an appropriate experimental tool at all \cite{Andrews2005IsMutation}. Fault revelation
+has been studied per criterion \cite{titcheuchekam2017faultrevelation}, redundant and equivalent
+mutants are a known measurement hazard \cite{Just2012RedundantMutants,Yao2014EquivalentStubborn,
+Kintis2018DetectingTrivial,Kushigian2024EquivalentWild,Straubinger2024ManualEquivalent}, and mutation
+testing has been examined as a practitioner activity \cite{Petrovic2021DoesMutationTesting,
+Petrovic2022PracticalMutationTesting}. Surveys and threat analyses set out the standards a credible
+mutation-based study must meet \cite{Papadakis2019MutationAdvances,Papadakis2016ThreatsValidity,
+jia2011survey}.
+
+Two results from this body shape our design directly. First, the coverage--mutation gap: raw
+correlations between coverage and mutation score largely disappear once analysis is conditioned on
+covered code \cite{Jain2023MindTheGap}, which is why coverage conditioning is mandatory in our
+protocol rather than optional. Second, tools are not interchangeable: the same subjects analysed with
+four Java tools produced equivalent-mutant counts of 203, 94, 382 and 43, and no tool subsumed the
+others \cite{Kintis2018HowEffectiveTools}. Cross-tool pooling of mutation scores is therefore
+indefensible, which is why our analysis is stratified by language and tool.
+
+Mutation analysis has been applied at levels above the unit test --- to end-to-end web suites
+\cite{leotta2023mutta}, to evolving systems over time \cite{Ojdanic2023MutationEvolving,
+ojdanic2023longstanding,akour2020evolution} --- and to specifications themselves
+\cite{black2000specmutation}. What it has not been used for, systematically, is measuring the
+discriminating power of a \emph{BDD specification layer} across a corpus.
+
+\subsection{The oracle problem and assertion quality}
+
+Whether a test can detect a fault depends on its oracle \cite{barr2015oracleproblem}. Assertion
+quality has been studied as a defect source \cite{zhi2013inadequateassertions,zhang2015assertions},
+as a measurable density \cite{Catolino2019AssertionDensity}, and as a driver of false confidence in
+``pseudo-tested'' methods that are covered but not effectively asserted
+\cite{veraperez2018pseudotested}. Test-suite assessment has looked at whether suites would catch
+injected faults \cite{yandrapally2021maewu,soto2021e2edataset}. Static indicators have been used to
+\emph{predict} mutation scores at the level of an individual test case
+\cite{Grano2021Lightweight}, and removing redundant tests has been shown to change coverage and
+mutation scores \cite{Bhatta2025TestDeletion}.
+
+The nearest miss to our RQ3 is \cite{Grano2021Lightweight}: static indicators estimating a test
+case's mutation score. Our unit is different (the repository's specification layer, not an individual
+test case), our indicators are drift-oriented rather than complexity-oriented, and our outcome is
+BDD-only kill rather than overall mutation score. We cite it as the closest precedent, not as a
+displaced one.
+
+\subsection{Decay, drift and erosion}
+
+The vocabulary of decay is established for architecture and design, not for test suites.
+Architectural drift and erosion were characterised early \cite{PerryWolf1992}, with subsequent work on
+architectural drift detection \cite{Rosik2010ArchDrift} and architectural evolution
+\cite{Wermelinger2011ArchEvolution}; code decay and design-pattern decay have likewise been
+formalised \cite{Izurieta2012Decay}. On the test side, the relevant evidence concerns disabled tests
+\cite{Kim2021Disabled}, test-case survival \cite{Feldt2014GrowOld}, rotten green tests
+\cite{Delplanque2019RottenGreen,Aranega2021RottenGreen}, test-smell prevalence and survival
+\cite{Bavota2015AreTestSmells,Bavota2012Distribution,kim2020testsmell,Kim2021SecretLife,
+Spadini2018Relation,Spadini2020Severity,Pontillo2024ML,Panichella2022TwentyYears,
+Cai2026PairedSmells,Martins2023Diffusion,Fushihara2023Trend,Moonen2008Interplay,
+Athanasiou2014TestCodeQuality,Pinto2012Myths}, and co-change between feature files and code
+\cite{yang2019cochanges}.
+
+Two terminological points must be made plainly, because the literature does not license the terms we
+would otherwise like to use. \emph{Specification drift} is \textbf{not} an established term in
+software engineering: our searches of Crossref and OpenAlex found no peer-reviewed source that
+establishes it. The same holds for \emph{test decay}, \emph{test erosion} and \emph{test rot} as
+applied to test suites. We therefore introduce \emph{specification drift} explicitly as a definition
+--- a specialisation of architectural drift to the executable-specification layer --- and we do not
+present it as a received construct. This is a terminological contribution at best, and we do not
+overstate it.
+
+\subsection{What is new, precisely}
+
+The claim this paper defends is a conjunction of four elements, each individually unclaimed:
+
+\begin{quote}
+No study has measured, on a corpus of public Cucumber-style suites, the mutation-based oracle strength
+of the BDD layer \emph{alone} --- separated from the contribution of the repository's other tests ---
+nor how that strength changes across the repository's history.
+\end{quote}
+
+The closest prior work is a single industrial proof of concept that applied mutation analysis to a BDD
+acceptance suite for a robotic system and reported that 79\,\% of generated mutants were detected, but
+used hand-selected domain mutants, a single system, no public corpus, no separation of the BDD layer's
+contribution from other tests, and no temporal analysis \cite{santos2024aat4irs}. An industrial
+experience report on mutation testing in a Ruby project is sometimes cited as BDD evidence, but its
+published artefacts concern Ruby mutation operators and practitioner adoption; the only openly
+available version does not mention Cucumber or Gherkin at all \cite{li2015mutationpracticeruby}. We
+therefore do not describe it as a BDD study. Model-based generation of Cucumber scenarios
+\cite{li2016skyfire} addresses a different question.
+
+Accordingly, we explicitly do \textbf{not} claim that: BDD quality is unstudied; BDD suites have never
+been analysed at scale; mutation testing has never been applied to a BDD suite; longitudinal mutation
+analysis is new; or that nobody has related static test-quality indicators to mutation scores. Each of
+these would be false, and the corresponding prior work is cited above.

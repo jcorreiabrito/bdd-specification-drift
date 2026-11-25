@@ -1,0 +1,23 @@
+{
+  "total_screened": 2552,
+  "eligible": 94,
+  "yield_pct": 3.68,
+  "reasons": {
+    "too_few_scenarios": 1270,
+    "no_feature_files": 942,
+    "no_step_definitions": 159,
+    "licence_not_permissive": 34,
+    "fetch_failed_413": 23,
+    "no_application_shape": 15,
+    "language_out_of_scope": 14,
+    "no_build_config": 1
+  },
+  "eligible_by_language": {
+    "typescript": 46,
+    "java": 30,
+    "javascript": 13,
+    "python": 5
+  },
+  "seed": 20261125,
+  "updated_utc": "2026-11-25T13:17:12+00:00"
+}

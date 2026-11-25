@@ -1,0 +1,15 @@
+repo,language,state,reason,exit_code,duration_s,runner,build_dir,n_tests,bdd_evidence,install_ok,install_log,log_tail,attempted_utc
+marcoturi/fastify-boilerplate,javascript,build_fails,needs_database,1,29.3,npx.cmd --no-install cucumber-js,.,,,1,"pnpm.cmd install --silent -> exit 0 (114s)
+
+","      params: [Object],
+      message: ""must have required property 'POSTGRES_DB'""
+    },
+    {
+      instancePath: '',
+      schemaPath: '#/required',
+      keyword: 'required',
+      params: [Object],
+      message: ""must have required property 'NODE_ENV'""
+    }
+  ]
+}",2026-11-25T13:06:34+00:00

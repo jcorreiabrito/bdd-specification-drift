@@ -1,0 +1,82 @@
+\section{Background: why this is an Information Systems problem}
+\label{sec:background}
+
+\subsection{The rule, the specification and the code}
+
+In the IS tradition an information system is understood as a system of work in which human
+participants and technological components jointly perform activities to process information and
+support decision-making; its value emerges from integration into organisational practice rather than
+from technological functionality alone. This framing has a direct consequence for how we should judge
+software artefacts: what matters is not whether the code runs, but whether it continues to enact the
+organisational rule it was built to enact.
+
+BDD is an attempt to make that correspondence inspectable. A requirement is expressed as scenarios in
+Gherkin, in domain vocabulary, and those scenarios are bound to executable steps. Three artefacts are
+then in play, and each can move independently:
+
+\begin{itemize}
+\item the \textbf{organisational rule} (what the business intends, possibly recorded only in a policy
+      document or a verbal agreement);
+\item the \textbf{executable specification} (the Gherkin scenarios, which are supposed to state the
+      rule in checkable form);
+\item the \textbf{implementation} (the code that actually decides outcomes).
+\end{itemize}
+
+BDD's premise is that the second artefact binds the first and the third: change the code without
+changing the scenarios and the suite fails. The premise fails quietly when the second artefact loses
+its discriminating power. A scenario whose step definition asserts nothing, or asserts that a value
+equals itself, or compares the actual output with a value recomputed using the same production code,
+will not fail when the implementation changes --- because the oracle moved with the implementation.
+The specification is then \emph{descriptively} present and \emph{normatively} absent.
+
+\subsection{Why coverage cannot detect this}
+
+The IS literature on system evaluation is familiar with the difference between \emph{utilisation} and
+\emph{effectiveness}. Test coverage has the same character: it records that code was exercised, not
+that exercising it could have produced a failure. The empirical record is unambiguous. In an
+industrial Ruby project, mutation scores averaged 0.78 while statement coverage averaged 97.2\,\%
+\cite{li2015mutationpracticeruby}. Across 45 Maven projects, the correlation between coverage and
+mutation score was 0.75 when computed na\"ively but fell to 0.21 once restricted to covered code
+\cite{Jain2023MindTheGap} --- that is, almost all of the apparent association was an artefact of
+\emph{which} code was covered, and among code that is covered, coverage says very little about
+discrimination. Mutation score, by contrast, tracks real fault detection independently of coverage
+\cite{Just2014AreMutants}, although it remains a proxy: a substantial minority of real faults have no
+mutant representative \cite{Just2014AreMutants,titcheuchekam2017faultrevelation}.
+
+For an organisation the practical question is therefore not ``what is our coverage?'' but ``if
+someone changed this business rule, would anything fail?'' That is the question mutation analysis
+answers, and it is the question this paper operationalises for the specification layer specifically.
+
+\subsection{Decay is the normal case, not the exception}
+
+That test artefacts degrade is well documented. Disabled tests are common --- 3{,}111 disabling changes
+across 122{,}000 commits in 15 Java systems, with 41\,\% of disabled tests never re-enabled and a
+median 39 days to re-enable \cite{Kim2021Disabled}. Test cases have a half-life of five to twelve
+months in a large industrial setting \cite{Feldt2014GrowOld}. A substantial share of ``green'' tests
+check less than their authors believe: 294 rotten green tests were found in 19{,}905 test cases
+\cite{Delplanque2019RottenGreen}, and inadequate assertions have been catalogued as a recurring
+defect pattern \cite{zhi2013inadequateassertions,zhang2015assertions}. Test smells are pervasive ---
+86\,\% of JUnit tests in one study exhibited at least one \cite{Bavota2015AreTestSmells} --- and their
+removal is mostly incidental rather than deliberate \cite{Kim2021SecretLife}.
+
+If decay is the normal case for tests in general, there is no reason to expect the specification layer
+of a BDD suite to be exempt. It is, however, a layer with a distinctive failure mode: because the
+scenario text remains readable and business-facing even when the assertions behind it have been
+hollowed out, the artefact continues to \emph{look} like a specification long after it has stopped
+functioning as one. That asymmetry --- legible appearance, degraded function --- is what makes an
+instrument necessary, and it is why a practitioner cannot simply read the feature files and know.
+
+\subsection{The Design Science framing}
+
+We therefore treat the problem as a design problem, in the sense of Design Science Research (DSR):
+there is an organisational problem class (business rules silently diverging from the system that
+enacts them), and the response is to build and evaluate an artefact that makes the divergence
+detectable. The artefact is a measurement protocol, not a tool. Its evaluation has two parts: whether
+the measurement is \emph{feasible} with available tooling (constructed and tested), and what it
+reveals when applied to a defined population (observed, with attrition reported).
+
+Framing the contribution this way is not a rhetorical choice. It determines what counts as success. A
+DSR artefact is evaluated on whether it solves the problem class in a relevant context, and a
+negative finding about the context --- that the population on which the artefact would be validated at
+scale barely exists --- is a finding about the artefact's deployment conditions, not a failure of the
+artefact. Section~\ref{sec:discussion} draws out that distinction.

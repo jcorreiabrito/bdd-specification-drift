@@ -1,0 +1,119 @@
+\section{Research design: a Design Science framing}
+\label{sec:design}
+
+\subsection{Problem class and relevance}
+
+The problem class is organisational rather than computational. Organisations are required, with
+increasing regularity, to demonstrate that a system behaves as a specified rule intends --- for audit,
+for regulatory compliance, for contractual acceptance, or simply for operational consistency. BDD is
+one of the instruments adopted to that end. But an organisation that adopts BDD acquires a
+\emph{representation} of its rules, not a guarantee about them, and the representation can retain its
+appearance while losing its function.
+
+The relevance of the problem class is a matter of record in the decay literature: disabled tests,
+rotten green tests and inadequate assertions are normal, not pathological
+\cite{Kim2021Disabled,Delplanque2019RottenGreen,zhi2013inadequateassertions}. The specificity of the
+BDD case is the appearance/function asymmetry described in Section~\ref{sec:background}: a
+\texttt{.feature} file reads like a specification to a business stakeholder even when its step
+definitions stopped checking anything. A manager reviewing the artefact sees compliance; the
+instrument we propose tests whether compliance is real.
+
+\subsection{The artefact}
+
+Following the design-science convention of describing an artefact's rationale and evaluation rather
+than only its implementation, we state the artefact as a protocol with five steps:
+
+\begin{enumerate}
+\item \textbf{Delimit the domain layer} using a three-tier rule (path convention, framework
+      exclusion, decision-bearing fallback), so that mutation is applied where business decisions
+      live rather than where data is moved (Section~\ref{sec:method}, protocol step 1).
+\item \textbf{Measure oracle strength twice}, in BDD-only and full-suite modes, with coverage
+      conditioning mandatory and with the differential attributed to the specification layer
+      explicitly (protocol step 2).
+\item \textbf{Compute seven drift indicators} with fixed polarity and operational definitions, two of
+      them primary and five exploratory (protocol step 3).
+\item \textbf{Test for accumulation over history} using a deterministic sample of commits and a
+      robust trend statistic, plus a two-snapshot change estimate on a \emph{common} mutant set
+      (protocol step 4).
+\item \textbf{Interpret under rules that forbid the common misreadings} --- most importantly, that
+      ``not covered'' is not ``drifted'', that a snapshot is not a trend, and that no association
+      below the detectable-effect floor should be presented as evidence of absence (protocol step 5).
+\end{enumerate}
+
+The full protocol is a deliverable of this work (\texttt{docs/PROTOCOL.md}) and is written for
+practitioners, not for reviewers. Three design decisions in it deserve explicit defence because they
+each foreclose a convenient shortcut:
+
+\begin{description}
+\item[Coverage conditioning is mandatory, not advisory.] Given that the raw coverage--mutation
+      correlation largely vanishes once analysis is restricted to covered code
+      \cite{Jain2023MindTheGap}, a study that reports only an overall mutation score is measuring
+      coverage under another name. We therefore require both values side by side in every table.
+\item[Differential attribution is required.] A suite can be strong for reasons unrelated to BDD:
+      a mature project with excellent unit tests will have a high overall mutation score whether or
+      not its Gherkin layer checks anything. Reporting only the total would confound BDD with general
+      engineering quality. The differential $\dk$ on a common mutant set is the artefact's answer to
+      this, and the paper states plainly that no causal claim about BDD is available from an
+      observational design.
+\item[Stratification by tool is required.] Because mutation tools are not interchangeable
+      \cite{Kintis2018HowEffectiveTools}, pooling scores across ecosystems would manufacture a
+      common scale that does not exist. The artefact therefore forbids a single pooled correlation as
+      the headline statistic.
+\end{description}
+
+\subsection{Evaluation plan}
+
+The artefact is evaluated on two dimensions, and we are explicit about which succeeded and which did
+not:
+
+\begin{itemize}
+\item \textbf{Constructed and tested (feasibility).} Can the measurement be performed at all with
+      available, pinned tooling, in more than one ecosystem, with the per-mutant coverage and
+      per-scenario attribution the artefact requires? This is answered by construction: we built and
+      ran the harnesses, and we report the observed mutation counts and scores
+      (Section~\ref{sec:results}).
+\item \textbf{Applied to a population (attrition and observed values).} What happens when the
+      instrument is pointed at a defined frame of public repositories under pre-registered
+      eligibility rules? This is answered by observation, and the answer includes how many candidate
+      repositories could not be measured and why. Section~\ref{sec:results} reports the funnel; the
+      interpretation of an instrument whose population is thin is taken up in
+      Section~\ref{sec:discussion}.
+\end{itemize}
+
+\subsection{Relation between questions and observations}
+
+Table~\ref{tab:rq-map} makes explicit which observation answers which question, and what the answer
+rests on. This mapping was fixed before measurement; making it explicit is what prevents a paper from
+retrospectively promoting an exploratory finding to a confirmatory one.
+
+\begin{table}[htbp]
+\centering
+\caption{Research questions, the observations intended to answer them, and the evidentiary basis of
+each. The third column names what could make each answer fail, which is where the threats in
+Section~\ref{sec:threats} attach.}
+\label{tab:rq-map}
+\begin{tblr}{width=\textwidth,colspec={X[1.0]X[1.6]X[1.6]},rowsep=2pt}
+\toprule
+\textbf{RQ} & \textbf{Observation} & \textbf{What the answer depends on} \\
+\midrule
+RQ1 & Two-rater agreement on the judgement-coded indicators; seeded-drift detection rate;
+feasibility of the mutation harness in each ecosystem & Whether independent human raters are
+available; whether injected drift is detectable in the direction the indicator claims \\
+RQ2 & $\mscov$ over domain mutants in BDD-only mode; $\dk$ against the full suite on a common
+mutant set & Whether a green baseline and an identifiable domain layer exist in the repository; tool
+comparability within a stratum \\
+RQ3 & Association between pre-specified indicators and $\mscov$ within strata, with bootstrap CIs;
+Theil--Sen slopes across sampled commits & Statistical power at the achieved $n$; whether the history
+contains enough relevant commits to support a slope \\
+\bottomrule
+\end{tblr}
+\end{table}
+
+\subsection{Ethics and governance}
+
+All analysis is confined to public repositories under permissive licences, with the licence recorded
+per repository and repositories without a detectable permissive licence excluded before any
+modification. Mutation analysis necessarily modifies code; it is performed only in isolated working
+copies, never against a repository in place, and seeded-drift experiments are confined to separate
+copies so that no measured artefact is altered. No human participants are involved, so no ethics
+committee approval applies; the research uses only publicly available artefacts.

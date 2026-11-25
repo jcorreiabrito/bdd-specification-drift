@@ -1,0 +1,65 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We set out to measure whether public Behaviour-Driven Development suites still function as oracles,
+and whether that capability erodes. We built the instrument, proved that it can be driven end to end
+in two ecosystems, pointed it at a pre-registered frame of public repositories --- and found that the
+binding constraint is not statistical but infrastructural.
+
+\subsection{Findings}
+
+\begin{enumerate}
+\item \textbf{The instrument works.} Mutation-based oracle measurement driven by the BDD runner itself
+      is feasible in both Java (PIT with the Cucumber-JVM JUnit-Platform engine) and
+      JavaScript/TypeScript (Stryker with the official Cucumber runner), with per-mutant coverage
+      status and per-scenario attribution, which is what the differential-kill construct requires.
+\item \textbf{The population is thin and skewed.} Of \Nframe{} repositories in the frame,
+      \Nscreened{} were screened, \Neligible{} passed static eligibility, and \Ngreen{} produced a
+      green, genuinely executing Gherkin baseline. The eligible set is dominated by BDD tooling ---
+      reporting agents, step libraries, plugins and templates --- rather than by applications with a
+      domain layer. Python is effectively absent from the eligible set, so the planned three-stratum
+      design could not be realised.
+\item \textbf{The boundary between metrics was confirmed as load-bearing.} Our own harness produced a
+      direct local instance of cross-tool incomparability: the same domain logic yielded 19 mutants
+      under PIT and 43 under Stryker. Any study that pools such numbers is measuring its tools, not
+      its subject.
+\item \textbf{Where an association could not be estimated, we say so.} At the achieved $n$, the
+      detectable-effect floor for a Spearman association is well above any effect the design could
+      plausibly have detected for the weaker indicators. We report that as \emph{not estimable at this
+      $n$}, which is a different statement from \emph{no association}.
+\end{enumerate}
+
+\subsection{Contributions revisited}
+
+The artefact is a five-step protocol that an organisation can apply to its own suite, with mandatory
+coverage conditioning, mandatory differential attribution, and explicit interpretation rules that
+forbid the most common misreadings. Its practical value does not depend on the corpus-scale study
+having succeeded: inside an organisation, the preconditions it needs --- a controllable build, a
+domain layer, a green baseline --- are achievable, and the differential kill is then a routine
+management metric rather than a research instrument.
+
+The empirical contribution is a quantified account of why the obvious research design does not work on
+the obvious population. We consider this worth publishing precisely because the naive design is
+attractive and appears in the literature as an aspiration: a systematic mapping of 166 BDD papers
+named the shortage of specification-quality metrics as a gap, and the natural response to that gap is
+to measure quality on public repositories. Our attrition analysis shows what that response actually
+encounters.
+
+\subsection{Limitations we could not remove}
+
+Three limitations are structural rather than incidental, and we restate them so they are not lost in
+the detail above. No independent human raters were available, so the judgement-coded indicators carry
+no inter-rater reliability statistic and the mutant-relevance proxy is argued on design grounds rather
+than measured. No build isolation was available, so the corpus is environment-dependent and a
+different host would likely yield a different $n$. And the longitudinal component cannot establish
+erosion from two snapshots; our strongest available statement is a change between snapshots on a
+common mutant set.
+
+\subsection{Future work}
+
+The study we could not run is the one worth running: a corpus of BDD suites drawn from organisations
+that can control their build, services and data, measured longitudinally against business-rule change
+events, with two independent raters coding the judgement-based indicators so that reliability can be
+reported. Our instrument is designed to be reused there, our attrition analysis tells that study what
+to budget, and the replication package contains the harnesses, the screening pipeline and the analysis
+code needed to start from where this paper stopped rather than from the beginning.

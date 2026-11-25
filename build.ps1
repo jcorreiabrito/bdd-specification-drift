@@ -28,16 +28,31 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$paperDir = Join-Path $PSScriptRoot 'paper'
-if (-not (Test-Path (Join-Path $paperDir $Main))) {
-    if (Test-Path (Join-Path $PSScriptRoot $Main)) { $paperDir = $PSScriptRoot }
-    else { throw "Cannot find '$Main' under '$paperDir' or '$PSScriptRoot'." }
+
+# Resolve the manuscript robustly. Accept either "-Main main.tex" (the file lives in
+# .\paper\) or an explicit relative path such as "paper\main.tex", and always run
+# pdflatex from the directory that contains the .tex so that \input, \bibliography and
+# the .aux files resolve consistently.
+$candidates = @(
+    (Join-Path $PSScriptRoot $Main),
+    (Join-Path (Join-Path $PSScriptRoot 'paper') $Main),
+    (Join-Path (Join-Path $PSScriptRoot 'paper') (Split-Path $Main -Leaf))
+)
+$texPath = $candidates | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
+if (-not $texPath) {
+    throw "Cannot find manuscript '$Main'. Looked in:`n  $($candidates -join "`n  ")"
 }
+$texPath  = (Resolve-Path -LiteralPath $texPath).Path
+$paperDir = Split-Path -Parent $texPath
+$Main     = Split-Path -Leaf $texPath
+Write-Host "build: manuscript = $texPath" -ForegroundColor DarkGray
 
 Push-Location $paperDir
 try {
     $job = [System.IO.Path]::GetFileNameWithoutExtension($Main)
-    $installerFlag = if ($AllowInstall) { @('--enable-installer') } else { @('--disable-installer') }
+    # NOTE: a one-element array produced by an if-expression is UNROLLED to a string by
+    # PowerShell, and `@var` splatting a string throws. Keep this a plain string.
+    $installerFlag = if ($AllowInstall) { '--enable-installer' } else { '--disable-installer' }
 
     if ($Clean) {
         Get-ChildItem -File | Where-Object {
@@ -51,9 +66,21 @@ try {
     function Invoke-Pass {
         param([string]$Label)
         Write-Host "build: $Label" -ForegroundColor Cyan
-        $log = & pdflatex @installerFlag -interaction=batchmode -halt-on-error -file-line-error $Main 2>&1
-        if ($LASTEXITCODE -ne 0) {
-            Write-Host "build: pdflatex FAILED ($Label), exit $LASTEXITCODE" -ForegroundColor Red
+        # MiKTeX writes log4cxx "access denied" notices about its own log file to
+        # stderr. With $ErrorActionPreference='Stop' and 2>&1 redirection, PowerShell
+        # promotes those notices to terminating errors and the pass aborts even
+        # though pdflatex succeeded. Relax the policy for the duration of the call and
+        # judge success only by the exit code.
+        $prevEap = $ErrorActionPreference
+        $ErrorActionPreference = 'Continue'
+        try {
+            $log = & pdflatex $installerFlag -interaction=batchmode -halt-on-error -file-line-error $Main 2>&1
+            $code = $LASTEXITCODE
+        } finally {
+            $ErrorActionPreference = $prevEap
+        }
+        if ($code -ne 0) {
+            Write-Host "build: pdflatex FAILED ($Label), exit $code" -ForegroundColor Red
             if (Test-Path "$job.log") {
                 Get-Content "$job.log" | Select-String -Pattern '^\./.*:\d+:|^!' | Select-Object -First 40 |
                     ForEach-Object { Write-Host ("  " + $_.Line) -ForegroundColor Red }

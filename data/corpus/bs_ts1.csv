@@ -1,0 +1,33 @@
+repo,language,state,reason,exit_code,duration_s,runner,build_dir,n_tests,bdd_evidence,install_ok,install_log,log_tail,attempted_utc
+cdeust/architect-os,javascript,build_fails,other,1,39.5,npx.cmd --no-install cucumber-js,.,,,1,node_modules present,"    at async Object.run [as default] (C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\cdeust__architect-os\node_modules\@cucumber\cucumber\lib\cli\run.js:30:18) {
+  [cause]: Error: Cannot resolve tsconfig at path: C:\C:\Users\jvtri\OneDrive\Documentos\Projetos\bdd-specification-drift\data\repos\cdeust__architect-os\features\tsconfig.json
+      at collect (file:///C:/Users/jvtri/OneDrive/Documentos/Projetos/bdd-specification-drift/data/repos/cdeust__architect-os/node_modules/tsx/dist/require-CBjy4Foe.mjs:7:14714)
+      at getExtendsChain (file:///C:/Users/jvtri/OneDrive/Documentos/Projetos/bdd-specification-drift/data/repos/cdeust__architect-os/node_modules/tsx/dist/require-CBjy4Foe.mjs:7:15296)
+      at readTsconfig (file:///C:/Users/jvtri/OneDrive/Documentos/Projetos/bdd-specification-drift/data/repos/cdeust__architect-os/node_modules/tsx/dist/require-CBjy4Foe.mjs:7:15401)
+      at loadTsconfig (file:///C:/Users/jvtri/OneDrive/Documentos/Projetos/bdd-specification-drift/data/repos/cdeust__architect-os/node_modules/tsx/dist/require-CBjy4Foe.mjs:7:20593)
+      at createData (file:///C:/Users/jvtri/OneDrive/Documentos/Projetos/bdd-specification-drift/da",2026-11-25T13:05:14+00:00
+meganemura/nukadoko,javascript,no_bdd_execution,no_tests_found,0,3.7,npm.cmd test --silent,site,,no,1,node_modules present,"✔ the number of blank lines between the two halves of a pair does not matter (2.1283ms)
+✔ a ts block before a ruby block is not a pair, and neither is a pair split by text (0.4585ms)
+✔ a fence inside a longer fence is content, not a block (0.3223ms)
+✔ wrapping adds only wrapper lines and blank lines, one .engine-pair per pair (36.1027ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2413.4034",2026-11-25T13:05:53+00:00
+superstar1205/Remodel-ReactNative,javascript,build_fails,dependency_rot,,,npm.cmd test --silent,.,,,0,"yarn.cmd install --silent -> exit 1 (14s)
+
+(node:9016) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+'.\bin\build' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+","yarn.cmd install --silent -> exit 1 (14s)
+
+(node:9016) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+'.\bin\build' não é reconhecido como um comando interno
+ou externo, um programa operável ou um arquivo em lotes.
+",2026-11-25T13:05:58+00:00

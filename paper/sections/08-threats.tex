@@ -1,0 +1,144 @@
+﻿\section{Threats to validity}
+\label{sec:threats}
+
+We argue each threat explicitly and quantify it where the data allow. Where a threat could not be
+quantified, we say so rather than asserting that it is negligible.
+
+\subsection{Survivorship and build attrition}
+
+\textbf{Mechanism.} Repositories that build and run are not a random subset of the frame. Buildable
+projects plausibly have simpler dependency graphs, fewer external services and smaller domains, and
+these properties may correlate with both engineering care and oracle quality. The direction of the
+resulting bias is not obvious: simpler domains are easier to test well (upward bias on score), while
+projects with sophisticated suites are likelier to require services, browsers or databases and thus to
+drop out (downward bias, because the strongest suites become unmeasurable).
+
+\textbf{Quantification.} The attrition log records every candidate with a categorised reason, and the
+funnel is reported in full (Section~\ref{sec:results}). The share of failures attributable to
+\texttt{needs\_browser} and \texttt{missing\_service\_dependency} is the measurable footprint of the
+downward mechanism. We report counts of \texttt{build\_fails}, \texttt{bdd\_fails} and
+\texttt{no\_bdd\_execution} separately, precisely so that a reader can reconstruct which mechanism
+dominates.
+
+\textbf{Residual.} We cannot correct for an unmeasured common cause such as ``engineering care'' that
+may drive both buildability and oracle quality. Bounds, not corrections, are available from
+observational attrition data, and we do not claim otherwise.
+
+\subsection{Mutant representativeness for business rules}
+
+\textbf{Mechanism.} Generic code mutants are a \emph{proxy} for changes in business-rule behaviour, not
+the same thing. A boundary mutant on a discount threshold plausibly models a rule change; a mutant in
+a DTO getter does not. If the proxy is poor, the outcome measures something other than business-rule
+sensitivity.
+
+\textbf{Mitigation built into the design.} Three things limit the damage. Mutation is restricted to
+the domain layer, so infrastructure and glue are excluded by construction. The operator set is
+restricted to decision-logic operators. And ``business-rule relevance'' is treated as a separate,
+explicitly labelled judgement rather than assumed.
+
+\textbf{What we could not do.} The pre-registered plan called for two independent human raters to
+label a random sample of mutants as business-rule-relevant or not, and to report Cohen's $\kappa$.
+\textbf{No independent human raters were available for this study, so no $\kappa$ is reported.} We
+regard this as a genuine limitation rather than a formality: it means the strength of the proxy
+assumption is asserted on design grounds (domain restriction plus operator restriction) rather than
+measured. A study that reports a $\kappa$ for this construct would materially strengthen the
+evidence, and we recommend it to anyone replicating this work. We did not substitute an automated
+labeller for a human rater, because an automated agreement statistic would measure the consistency of
+a heuristic with itself and would misrepresent it as inter-rater reliability.
+
+\subsection{Reliability of the judgement-coded indicators}
+
+\textbf{Mechanism.} D2 (assertion weakness) and D7 (mirror steps) contain judgement. D2's weakening
+patterns are implemented as explicit syntactic rules, but deciding whether a rule such as ``swallowed
+failure'' applies is a coding decision; D7's full definition requires a rater to inspect the cited
+domain method.
+
+\textbf{What is reported.} D2 is implemented as an explicit decision procedure with published rules,
+and its confidence is flagged per repository: where more than a quarter of step definitions cannot be
+resolved, D2 is marked \texttt{low\_confidence} and excluded from the confirmatory test. D7 is
+reported only as an \emph{automated census} of its loose conjunction, with no claim of validated
+precision.
+
+\textbf{Residual.} Without a second rater we cannot separate indicator noise from true variation. Any
+association involving D2 or D7 should be read as provisional. This is stated in the results tables
+themselves, not only here.
+
+\subsection{Coverage confounding}
+
+\textbf{Mechanism.} A suite that executes little of the domain has few opportunities to kill mutants,
+so a low overall score can reflect reach rather than discrimination. The literature is explicit that
+raw coverage--mutation association largely dissolves once restricted to covered code
+\cite{Jain2023MindTheGap}.
+
+\textbf{Mitigation.} Coverage conditioning is mandatory: $\msall$, $\mscov$ and coverage are reported
+together in every table, and coverage is a covariate in every model. The primary outcome is the
+covered-only score. We go further and state the interpretation rule verbatim in the method so that it
+cannot be quietly abandoned when results are inconvenient.
+
+\subsection{BDD attribution}
+
+\textbf{Mechanism.} A suite may be strong for reasons unrelated to BDD: mature projects have good unit
+tests, review culture and stable domains. Attributing a high mutation score to the Gherkin layer would
+be a category error.
+
+\textbf{Mitigation.} The differential $\dk$ is computed on a common mutant set and reported alongside
+the absolute score; $\mathit{BDDshare}$ quantifies how much of the full suite's kill the specification
+layer accounts for. The design is observational and \textbf{does not establish that BDD causes better
+or worse oracles}. We state this in the introduction, here, and in the conclusion, because it is the
+single easiest claim for a reader to over-infer.
+
+\subsection{Two-snapshot measurement of drift}
+
+\textbf{Mechanism.} Drift is a change over time. Measuring at HEAD and at one ancestor yields a
+\emph{change between two snapshots}, which is not a trend and cannot distinguish erosion from a single
+reorganisation or a bulk edit.
+
+\textbf{Mitigation.} Where mutation is compared across commits, mutants are matched by file, operator
+class and original-line content hash, and the change is reported only on the common set, and only when
+that set covers at least half of the HEAD mutants; otherwise the repository is flagged
+\texttt{low\_overlap}. We use the phrase ``change between two snapshots'' throughout and never
+``trend'' or ``rate''.
+
+\subsection{Public repositories versus industrial practice}
+
+\textbf{Mechanism.} Public repositories differ from industrial practice in ways that matter: they have
+no organisation-specific business rules, no auditors, often no sustained maintenance, and they are
+self-selected for public visibility. Conclusions about organisational practice drawn from them are
+correspondingly weak.
+
+\textbf{Position.} This is why the paper frames its contribution as an instrument plus a population
+finding rather than as a verdict on BDD. The population finding is itself bounded: it describes public
+topic-tagged repositories, not all BDD practice.
+
+\subsection{Toolchain heterogeneity}
+
+\textbf{Mechanism.} PIT, Stryker and mutmut define, name and count mutants differently, so their scores
+are not on a common axis. Kintis et al.\ found equivalent-mutant counts of 203, 94, 382 and 43 for the
+same subjects across four Java tools, with no tool subsuming the others
+\cite{Kintis2018HowEffectiveTools}. Our own harness produced a direct local instance: for the same
+domain logic, PIT generated 19 mutants while Stryker generated 43.
+
+\textbf{Mitigation.} Analysis is stratified by language and tool; no raw pooled correlation is
+reported as a headline; where a pooled figure appears it is an average of within-stratum associations
+with a cluster bootstrap, and is labelled as such. Operator sets are stated per tool.
+
+\subsection{Construct terminology}
+
+\textbf{Mechanism.} ``Specification drift'' is not an established term, and if a reader interprets it
+as a received construct the paper will appear to claim more prior consensus than exists.
+
+\textbf{Mitigation.} The term is introduced explicitly as a definition, its established relatives are
+cited, and Section~\ref{sec:related} states that the terminological contribution is minor.
+
+\subsection{Environment and reproducibility}
+
+\textbf{Mechanism.} Measurements were taken on a single host without container isolation, in which the
+Java toolchain is a single JDK version and mutation tools must be invoked outside the process sandbox.
+A different environment could produce a different corpus because different repositories would build.
+
+\textbf{Mitigation.} All tool versions are pinned and recorded, every measurement carries a UTC
+timestamp, harness commit and seed in an append-only run log, and the screening and analysis scripts
+are published. The vulnerability is not hidden: because the corpus is environment-dependent, we
+report the full funnel so that a replication can compare its yield against ours rather than only its
+final $n$.
+

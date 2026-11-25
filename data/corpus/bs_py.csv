@@ -1,0 +1,18 @@
+repo,language,state,reason,exit_code,duration_s,runner,build_dir,n_tests,bdd_evidence,install_ok,install_log,log_tail,attempted_utc
+lemonlion/Kronikol,javascript,build_fails,other,1,2.1,npm.cmd test --silent,plans/HTML_COMPRESSION_PLAN.harness,,,1,"npm.cmd install --no-audit --no-fund --silent -> exit 0 (4s)
+
+",,2026-11-25T13:20:51+00:00
+iadr-dev/greenlight,javascript,no_bdd_execution,no_tests_found,0,1.3,npm.cmd test --silent,evals/apps/shop-web,,no,1,"pnpm.cmd install --silent -> exit 0 (46s)
+
+","✔ a cart adds up its lines and keeps one cart per user (1.4899ms)
+✔ an unknown product is refused (0.2682ms)
+✔ checkout refuses an empty cart and a declined card, and keeps the cart in both cases (0.334ms)
+✔ checkout places an order and empties the cart (0.264ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 291.6952",2026-11-25T13:20:59+00:00

@@ -1,0 +1,100 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{What the instrument buys an organisation}
+
+The protocol converts an unfalsifiable assurance (``our scenarios describe the business rules'') into
+two checkable quantities: the share of covered domain mutants the specification layer kills on its
+own, and the share of the full suite's kill that the layer is responsible for. The second is the one
+that most organisations have never computed, and it is the one that answers the question a manager
+actually asks --- \emph{is the Gherkin layer earning its maintenance cost, or are the unit tests
+carrying the suite while the scenarios provide documentation?} A high overall mutation score with a
+near-zero differential is a common and previously invisible configuration: the suite is strong, and
+the specification layer is decorative.
+
+The coverage-conditioning rule matters here for a reason that is managerial as much as statistical. A
+team told that its mutation score is 45\,\% will reasonably conclude that its tests are weak. If in
+fact 40\,\% of the mutants were never executed by the spec layer --- because the scenarios exercise a
+thin slice of the domain --- then the correct conclusion is that the scenarios do not cover the
+decision logic, which is a coverage problem with a different and much cheaper remedy than
+``write better assertions''. Conflating the two produces the wrong intervention.
+
+\subsection{The finding that dominates: the population is thin}
+
+The most consequential result of this work is not a correlation. It is that the population on which
+such a correlation could be estimated at scale does not readily exist in public repositories. Of
+\Nscreened{} screened repositories, \Neligible{} passed a static eligibility test that requires only
+features, steps, a build, a licence, an application shape and a BDD runner. Of those, \Ngreen{}
+produced a green, genuinely executing Gherkin baseline.
+
+Three mechanisms explain this, and they are distinguishable in the attrition log. First, topic-tagged
+BDD repositories are overwhelmingly \emph{tooling}: reporting agents, step libraries, formatters,
+generators, boilerplates and demonstration projects. These are legitimate software, but they have no
+business-rule domain to mutate --- a reporting agent has no pricing policy. Second, a large share of
+application-shaped repositories are \emph{UI-driven}: their scenarios drive a browser, so a green
+baseline requires a browser, a running application and often seeded data, none of which a
+reproducible headless harness can assume. Third, ordinary \emph{dependency rot} removes a further
+share: pinned dependency trees from two or three years ago no longer install.
+
+For the research literature this has a sharp implication. A claim of the form ``we studied $N$ public
+BDD suites'' should be read sceptically unless the authors report their funnel, because the naive
+population --- repositories carrying a BDD topic tag --- is mostly not composed of the thing being
+studied. Our contribution here is to make that funnel visible and categorised, so that future work can
+either widen the frame deliberately or state its own selection more honestly.
+
+\subsection{For Design Science: a negative result about deployment conditions}
+
+In DSR terms, the artefact survived its feasibility evaluation and its population evaluation returned
+a constraint rather than a correlation. This is not a failure of the artefact; it is a finding about
+the context in which the artefact would be deployed at scale. Two readings are available and we do not
+choose between them on the evidence we have.
+
+The first reading is that the artefact is best deployed \emph{inside} organisations, on suites whose
+build, services and data the team controls. There, the preconditions of Section~2 of the protocol can
+actually be met, and the differential kill becomes a routine metric rather than a research instrument.
+The public-ecosystem study then serves as a warning: suites that look like specifications from the
+outside may not be executable at all, let alone oracular.
+
+The second reading is that the public BDD ecosystem is genuinely dominated by scaffolding rather than
+by specification-bearing applications, and that claims about ``BDD in practice'' drawn from public
+repositories are therefore systematically skewed towards the scaffolding. Zampetti et al.\ already
+observed that many projects use BDD frameworks without strictly applying BDD
+\cite{zampetti2020demystifying}; our attrition data is consistent with that observation and adds a
+mechanical explanation for why large-scale effectiveness studies are hard to run on the same
+population.
+
+\subsection{Implications for practice}
+
+\begin{enumerate}
+\item \textbf{Measure the differential, not the total.} A suite-level mutation score cannot tell you
+      whether the specification layer is doing any work. Compute the BDD-only score and the full-suite
+      score on the same mutant set; the difference is the number worth reporting to a steering
+      committee.
+\item \textbf{Treat ``not covered'' and ``not checked'' as different defects.} They have different
+      remedies and different owners. The protocol's mandatory coverage conditioning exists to keep them
+      apart.
+\item \textbf{Track skip tags as a first-class metric.} The disabled-test literature shows that
+      disabling is common and frequently permanent \cite{Kim2021Disabled}. A rising skip ratio is
+      cheap to measure, needs no tooling, and is the earliest available signal that the specification
+      layer is being withdrawn from service.
+\item \textbf{Do not assume a scenario checks what its text says.} The appearance/function asymmetry is
+      the whole problem. A scenario that reads well and asserts nothing is indistinguishable from a
+      good one in review; it is distinguishable by mutation.
+\end{enumerate}
+
+\subsection{Implications for research}
+
+The obvious next study is the one this paper could not run: a corpus of BDD suites drawn from
+organisations rather than from public topic tags, where builds, services and data are controllable,
+measured longitudinally against business-rule change events. Our instrument is designed to be reused
+there, and the attrition analysis tells that study what to budget for. A second, cheaper direction is
+to treat the differential kill as an outcome in mining studies that already have build access, and to
+ask whether it declines before, after, or independently of the skip ratio --- a question about
+precedence that requires more than two snapshots.
+
+Finally, we would put the terminological point on record. ``Specification drift'' is not an
+established construct; we define it here as a specialisation of architectural drift
+\cite{PerryWolf1992,Rosik2010ArchDrift} to the executable-specification layer. If the term is useful,
+it should acquire its own empirical grounding; if it is not, the underlying phenomenon --- a
+specification artefact retaining its appearance while losing its discriminating power --- is still
+real and still measurable, and the name matters less than the measurement.

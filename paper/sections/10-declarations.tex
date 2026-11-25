@@ -1,0 +1,78 @@
+\section*{Declarations}
+
+\subsection*{Authors' Contributions (CRediT)}
+% Anonymised: iSys double-anonymous review forbids identifying the authors here.
+The author(s) of this submission made the following contributions, stated by role rather than by
+name to preserve anonymity for review, in accordance with the CRediT taxonomy:
+Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation,
+Writing -- original draft, Writing -- review and editing, Visualization, Supervision, Project
+administration. A named allocation of these roles will be supplied in the camera-ready version, as
+required by the journal after acceptance.
+
+\subsection*{Competing Interests}
+The authors declare no competing interests. No funding source had any role in the design of the
+study, the collection, analysis or interpretation of data, or the decision to submit.
+
+\subsection*{Funding}
+This research received no specific grant from any funding agency in the public, commercial or
+not-for-profit sectors. This statement will be updated if that changes before publication.
+
+\subsection*{Availability of Data and Materials}
+The replication package --- including the sampling frame with its snapshot hash and seed, the
+screening and attrition tables, the static-indicator and mutation harnesses with pinned tool versions,
+the raw per-mutant statuses, the analysis scripts and the append-only run log --- is prepared for
+public release in a trusted repository. Because iSys uses double-anonymous review, the package is
+made available to reviewers through an anonymised mirror, and the canonical public repository URL is
+supplied in the camera-ready version. All analysed repositories are public and were used under their
+respective permissive licences, which are recorded per repository in the screening table; no
+repository content is redistributed in the package. Third-party papers referenced in the literature
+review are cited, not redistributed.
+
+\subsection*{Acknowledgments}
+Withheld for double-anonymous review, in accordance with the journal's policy.
+
+\subsection*{Ethical Considerations}
+This study analyses only publicly available software artefacts and involves no human participants, so
+no ethics committee approval was required or sought. Mutation analysis modifies code only in isolated
+working copies; no public repository was altered, and seeded-drift experiments were confined to
+separate copies so that no measured artefact was modified. Repositories lacking a detectable
+permissive licence were excluded before any modification.
+
+\subsection*{Further Relevant Information: Declaration of AI-Assisted Use in Writing}
+In accordance with the journal's policy on AI/LLM use, and in the interest of full transparency, we
+declare the following. Generative AI tools were used in this work as follows: (i) as a coding and
+drafting assistant for software engineering tasks in the replication package (writing and refactoring
+harness scripts, documenting code, and generating tables and figures from result files); and (ii) for
+drafting and editing prose in this manuscript, including restructuring sections and improving clarity
+and language.
+
+In every case the tools used were large language model assistants, and the following verification
+applies. No AI tool is listed as an author, and none is credited with intellectual contribution. No
+AI tool was used to generate research data, to invent measurements, or to fabricate citations. Every
+quantitative value reported in this paper is produced by a command recorded in the replication
+package's append-only run log, and every reference was verified against Crossref by an automated
+audit before the manuscript was built; references that could not be verified were removed rather than
+retained. The human author(s) reviewed, verified and take full responsibility for all content,
+including all AI-assisted text.
+
+We state one further, material use because it affects the interpretation of our results. AI tools
+assisted in executing the measurement pipeline --- running screens, parsing tool output, and
+assembling tables. They were not used as \emph{raters}. Where the protocol required human judgement
+(the business-rule relevance of mutants, the mirror-step classification, and inter-rater reliability),
+no AI labelling was substituted, and the absence of those reliability statistics is disclosed as a
+limitation in Section~\ref{sec:threats} rather than filled with an automatically generated number.
+
+\subsection*{Use of Generative AI --- summary for reviewers}
+\begin{center}
+\begin{tblr}{width=\textwidth,colspec={X[1.1]X[2.2]},rowsep=2pt}
+\toprule
+\textbf{Purpose} & \textbf{Verification applied} \\
+\midrule
+Code and scripts in the replication package & Executed; outputs checked against tool reports; run log records command, timestamp, commit and versions \\
+Drafting and editing manuscript prose & Human author reviewed and approved all text; claims checked against result files \\
+Tables and figures & Generated programmatically from result files, never typed by hand \\
+Reference verification & Automated Crossref audit of every DOI; unverifiable entries deleted \\
+Research data & \textbf{Not generated by AI.} All measurements come from executed tools; human-judgement items were not automated \\
+\bottomrule
+\end{tblr}
+\end{center}
